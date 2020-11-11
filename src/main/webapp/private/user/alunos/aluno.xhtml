@@ -1,0 +1,331 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'
+	xmlns:ui='http://xmlns.jcp.org/jsf/facelets'
+	xmlns:h='http://xmlns.jcp.org/jsf/html'
+	xmlns:f='http://java.sun.com/jsf/core'
+	xmlns:c='http://java.sun.com/jsp/jstl/core'
+	xmlns:p='http://primefaces.org/ui'
+	xmlns:pe='http://primefaces.org/ui/extensions'
+	xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+	xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
+
+<ui:composition template='/private/template/layout.xhtml'>
+	<ui:define name='content'>
+		<p:growl id='growl' autoUpdate='true' globalOnly='false'
+			showDetail='false' />
+		<h:panelGroup id='wrapper' layout='block' styleClass='wrapper'>
+			<h:form id='form' prependId='false'>
+				<h:panelGroup id='viewPanelGroup' layout='block'
+					rendered="#{alunoBean.state eq 'READ'}">
+					<p:panel id='searchPanel' header="#{i18n['operations.search']}">
+						<h:inputHidden id='componente1' value='#{alunoBean.itemFilter.id}' />
+
+						<h:panelGrid columns="11">
+
+							<h:outputLabel value='Matricula:' for="componente2" />
+							<p:spacer width="10" />
+							<p:inputText id='componente2'
+								value='#{alunoBean.itemFilter.matricula}' maxlength="8" size="8">
+							</p:inputText>
+							<p:spacer width="50" />
+
+							<h:outputLabel value='Nome:' />
+							<p:spacer width="10" />
+							<p:selectOneMenu id='componente5'
+								value='#{alunoBean.itemFilter.pessoa}' label='Nome:'
+								converter='#{pessoaConverter}' maxlength="60" size="60">
+								<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+								<f:selectItems value='#{alunoBean.listaPessoa}' var='item'
+									itemValue='#{item}' itemLabel='#{item.nome}' />
+							</p:selectOneMenu>
+						</h:panelGrid>
+
+						<div align="right">
+							<p:commandButton value='Pesquisar' id='buttonPesquisa'
+								update='viewPanel' actionListener='#{alunoBean.pesquisa()}'
+								styleClass='ui-priority-primary' />
+						</div>
+					</p:panel>
+					<br style='clear: left;' />
+					<p:panel id='viewPanel' header="#{i18n['aluno']}">
+
+						<h:panelGroup layout='block' style='margin: 0 0 0.5em 0;'>
+							<p:commandButton id="buttonNew" value="#{i18n['button.new']}"
+								action="#{alunoBean.clearItem}" icon="ui-icon-plus"
+								update="@form" resetValues="true">
+								<f:setPropertyActionListener target="#{alunoBean.state}"
+									value="CREATE" />
+							</p:commandButton>
+						</h:panelGroup>
+
+						<p:dataTable id='mainDataTable' value='#{alunoBean.items}'
+							var='itemView' emptyMessage="#{i18n['operations.search.noRecordsFound']}">
+							
+							<p:column headerText='Código' width='10'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.id}' />
+							</p:column>
+							
+
+							<p:column headerText='Nome' width='60'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.pessoa.nome}' />
+							</p:column>
+
+							<p:column headerText='Cpf' width='14' style='text-align: center;'>
+								<h:outputLabel value='#{itemView.pessoa.cpf}' />
+							</p:column>
+
+							<p:column headerText='Matricula' width='30'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.matricula}' />
+							</p:column>
+
+							<p:column headerText='Situacao' width='10'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.situacao}' />
+							</p:column>
+
+
+							<p:column headerText="#{i18n['operations']}" width='15'
+								style='text-align: center;'>
+								<p:commandButton id='buttonOperationEdit' icon='ui-icon-pencil'
+									process='@this' update='@form' resetValues='true'
+									immediate='true'>
+									<f:setPropertyActionListener target='#{alunoBean.item}'
+										value='#{itemView}' />
+									<f:setPropertyActionListener target='#{alunoBean.state}'
+										value='UPDATE' />
+								</p:commandButton>
+								<p:commandButton id='buttonOperationRemove' icon='ui-icon-trash'
+									process='@this' update='@form' immediate='true'>
+									<f:setPropertyActionListener target='#{alunoBean.item}'
+										value='#{itemView}' />
+									<f:setPropertyActionListener target='#{alunoBean.state}'
+										value='DELETE' />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</h:panelGroup>
+				<h:panelGroup id='editPanelGroup' layout='block'
+					rendered="#{alunoBean.state eq 'CREATE' or alunoBean.state eq 'UPDATE'}"
+					styleClass='ui-grid ui-grid-responsive'>
+					<div class='ui-grid-row'>
+						<div class='ui-grid-col-12'>
+							<p:panel id='editPanel'>
+								<f:facet name='header'>
+									<h:outputLabel
+										value="#{i18n['operations.create']} #{i18n['aluno']}"
+										rendered="#{alunoBean.state eq 'CREATE'}" />
+									<h:outputLabel
+										value="#{i18n['operations.update']} #{i18n['aluno']}"
+										rendered="#{alunoBean.state eq 'UPDATE'}" />
+								</f:facet>
+
+
+
+								<div class='ui-grid-col-6'>
+									<h:inputHidden id='componente6' value='#{alunoBean.item.id}' />
+								</div>
+
+
+								<!--  dados de pessoa -->
+								<h:panelGrid columns="1">
+
+									<p:panel id='editPanel2'>
+
+										<h:panelGrid columns="9">
+
+											<h:form enctype="multipart/form-data">
+												<h:outputLabel value="Foto" />
+												<p:graphicImage value="#{alunoBean.imagem}" id="imagem"
+													width="150" height="130" />
+												<p:fileUpload sizeLimit="900000" auto="true"
+													id="fileUploadId" widgetVar="uploader" label="Procurar..."
+													fileUploadListener="#{alunoBean.handleFileUpload}"
+													allowTypes="/(\.|\/)(gif|jpe?g|png)$/" description="Images"
+													update="imagem" multiple="false" />
+											</h:form>
+
+											<p:spacer width="50" />
+
+											<h:outputLabel value='Cpf:' styleClass="cssLabel" />
+											<p:spacer width="10" />
+											<p:inputMask id='cpf' required="true"
+												value='#{alunoBean.item.pessoa.cpf}' mask="999.999.999-99">
+											</p:inputMask>
+
+											<p:spacer width="50" />
+											<h:outputLabel value='Nome:' />
+											<p:spacer width="10" />
+											<p:inputText id='nome' required="true"
+												value='#{alunoBean.item.pessoa.nome}' size="80">
+											</p:inputText>
+
+										</h:panelGrid>
+
+										<p:panelGrid columns="5">
+
+											<h:outputLabel value='Nome Mae:'  required="true"/>
+											<p:inputText id='mae'
+												value='#{alunoBean.item.pessoa.nomeMae}' size="80">
+											</p:inputText>
+											<p:spacer width="10" />
+											<h:outputLabel value='Nome Pai:' />
+											<p:inputText id='pai'
+												value='#{alunoBean.item.pessoa.nomePai}' size="80">
+											</p:inputText>
+
+											<h:outputLabel value='Data Nascimento:'  />
+											<p:calendar id='Nascimento' required="true"
+												value='#{alunoBean.item.pessoa.dataNascimento}'
+												style="width: 20% important!" pattern="dd-MM-yyyy"
+												mask="true">
+											</p:calendar>
+											<p:spacer width="10" />
+											<h:outputLabel value='Cep:' />
+											<p:inputMask id='Cep' required="true"
+												value='#{alunoBean.item.pessoa.cep}' size="10"
+												mask="99999-999">
+											</p:inputMask>
+											
+											<h:outputLabel value='Rua/Av:' />
+											<p:inputText id='Endereço' required="true"
+												value='#{alunoBean.item.pessoa.endereco}' size="80">
+											</p:inputText>
+											<p:spacer width="10" />
+											<h:outputLabel value='Numero:' />
+											<p:inputText id='componente33'
+												value='#{alunoBean.item.pessoa.numero}' style="width: 20%">
+											</p:inputText>
+											<h:outputLabel value='Complemento:' />
+											<p:inputText id='componente26'
+												value='#{alunoBean.item.pessoa.complemento}'
+												style="width: 20%">
+											</p:inputText>
+											<p:spacer width="10" />
+											<h:outputLabel value='Bairro:' />
+											<p:inputText id='componente22'
+												value='#{alunoBean.item.pessoa.bairro}' size="40">
+											</p:inputText>
+
+
+											<h:outputLabel value='Uf:' />
+											<h:selectOneMenu required="true"
+												value="#{alunoBean.item.pessoa.uf}" id="uf" converter='#{ufConverter}'>
+												<f:selectItems value="#{alunoBean.ufs}"
+													var="uf" itemLabel="#{uf.descricao}"
+													itemValue="#{uf}" />
+												<p:ajax listener="#{alunoBean.refreshUf}"
+													event="change" update="cidade" process="uf" />
+											</h:selectOneMenu>
+											<p:spacer width="10" />
+											<h:outputLabel value='Cidade:'  required="true"/>
+											<h:selectOneMenu required="true"
+												value="#{alunoBean.item.pessoa.cidade}" id="cidade" converter='#{cidadeConverter}'>
+												<f:selectItems value="#{alunoBean.cidades}"
+													var="cidade" itemLabel="#{cidade.municipio}"
+													itemValue="#{cidade}" />
+											</h:selectOneMenu>
+
+											
+
+											<h:outputLabel value='Celular:' />
+											<p:inputMask id='componente23' mask="(99)99999-9999"
+												value='#{alunoBean.item.pessoa.celular}' size="12">
+											</p:inputMask>
+											<p:spacer width="10" />
+											<h:outputLabel value='Telefone Fixo:' />
+											<p:inputMask id='componente35' mask="(99)9999-9999"
+												value='#{alunoBean.item.pessoa.telefoneFixo}' size="12">
+											</p:inputMask>
+
+											<h:outputLabel value='Email:' />
+											<p:inputText id='componente28'
+												value='#{alunoBean.item.pessoa.email}' size="80">
+											</p:inputText>
+
+
+										</p:panelGrid>
+									</p:panel>
+								</h:panelGrid>
+
+
+
+								<f:facet name='footer'>
+									<p:commandButton value="#{i18n['button.cancel']}"
+										icon='ui-icon-close' process='@this' update='@form'
+										immediate='true' styleClass='buttonCancel'
+										style='float: left;'>
+										<f:setPropertyActionListener target='#{alunoBean.state}'
+											value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonCreate'
+										value="#{i18n['button.save']}" action='#{alunoBean.create}'
+										icon='ui-icon-check' rendered="#{alunoBean.state eq 'CREATE'}"
+										process='@form' update='@form' style='float: right;'>
+										<f:setPropertyActionListener target='#{alunoBean.state}'
+											value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonUpdate'
+										value="#{i18n['button.edit']}" action='#{alunoBean.update}'
+										icon='ui-icon-check' rendered="#{alunoBean.state eq 'UPDATE'}"
+										process='@form' update='@form' style='float: right;'>
+										<f:setPropertyActionListener target='#{alunoBean.state}'
+											value='READ' />
+									</p:commandButton>
+									<p:defaultCommand
+										target="#{(alunoBean.item.id eq null) ? 'buttonCreate' : 'buttonUpdate'}" />
+									<div style='clear: both;'></div>
+								</f:facet>
+							</p:panel>
+						</div>
+					</div>
+				</h:panelGroup>
+				<h:panelGroup id='removePanelGroup' layout='block'
+					rendered="#{alunoBean.state eq 'DELETE'}"
+					styleClass='ui-grid ui-grid-responsive'>
+					<div class='ui-grid-row'>
+						<div class='ui-grid-col-12'>
+							<p:panel id='removePanel'
+								header="#{i18n['operations.delete']} #{i18n['aluno']}">
+								<div class='ui-grid-form ui-grid ui-grid-responsive'>
+									<div class='ui-grid-row'>
+										<div class='ui-grid-col-12'>
+											<h3>
+												<h:outputFormat
+													value="#{i18n['operations.delete.areYouSure']}">
+													<f:param value='#{alunoBean.item.id}' />
+												</h:outputFormat>
+											</h3>
+										</div>
+									</div>
+								</div>
+								<f:facet name='footer'>
+									<p:commandButton value="#{i18n['button.cancel']}"
+										icon='ui-icon-close' process='@this' update='@form'
+										immediate='true' styleClass='buttonCancel'
+										style='float: left;'>
+										<f:setPropertyActionListener target="#{alunoBean.state}"
+											value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonRemove'
+										value="#{i18n['button.remove']}" action='#{alunoBean.delete}'
+										icon='ui-icon-trash' process='@this' update='@form'
+										style='float: right;'>
+										<f:setPropertyActionListener target="#{alunoBean.state}"
+											value='READ' />
+									</p:commandButton>
+									<div style='clear: both;'></div>
+								</f:facet>
+							</p:panel>
+						</div>
+					</div>
+				</h:panelGroup>
+			</h:form>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>

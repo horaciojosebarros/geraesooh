@@ -1,0 +1,422 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'
+xmlns:ui='http://xmlns.jcp.org/jsf/facelets'
+xmlns:h='http://xmlns.jcp.org/jsf/html'
+xmlns:f='http://java.sun.com/jsf/core'
+xmlns:c='http://java.sun.com/jsp/jstl/core'
+xmlns:p='http://primefaces.org/ui'
+xmlns:pe='http://primefaces.org/ui/extensions'
+xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
+
+<ui:composition template='/private/template/layout.xhtml'>
+	<ui:define name='content'>
+	<p:growl id='growl' autoUpdate='true' globalOnly='false' showDetail='false' />
+	<h:panelGroup id='wrapper' layout='block' styleClass='wrapper'>
+		<h:form id='form' prependId='false'>
+		<h:panelGroup id='viewPanelGroup' layout='block'
+		rendered="#{pessoaBean.state eq 'READ'}"
+		styleClass='ui-grid ui-grid-responsive'>
+		<div class='ui-grid-row'>
+		<div class='ui-grid-col-12'>
+			<p:panel id='searchPanel' header="#{i18n['operations.search']}">
+		
+				<h:outputText value='Id:' />
+				<p:inputText id='componente1'
+					value='#{pessoaBean.itemFilter.id}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Data Nascimento:' />
+				<p:calendar id='componente2'
+					value='#{pessoaBean.itemFilter.dataNascimento}' showOn="button">
+ 				</p:calendar>
+		
+				<h:outputText value='Ativo:' />
+				<p:inputText id='componente3'
+					value='#{pessoaBean.itemFilter.ativo}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Bairro:' />
+				<p:inputText id='componente4'
+					value='#{pessoaBean.itemFilter.bairro}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Celular:' />
+				<p:inputText id='componente5'
+					value='#{pessoaBean.itemFilter.celular}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Cep:' />
+				<p:inputText id='componente6'
+					value='#{pessoaBean.itemFilter.cep}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Cidade:' />
+				<p:inputText id='componente7'
+					value='#{pessoaBean.itemFilter.cidade}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Complemento:' />
+				<p:inputText id='componente8'
+					value='#{pessoaBean.itemFilter.complemento}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Cpf:' />
+				<p:inputText id='componente9'
+					value='#{pessoaBean.itemFilter.cpf}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Email:' />
+				<p:inputText id='componente10'
+					value='#{pessoaBean.itemFilter.email}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Endereco:' />
+				<p:inputText id='componente11'
+					value='#{pessoaBean.itemFilter.endereco}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Nome:' />
+				<p:inputText id='componente12'
+					value='#{pessoaBean.itemFilter.nome}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Nome Mae:' />
+				<p:inputText id='componente13'
+					value='#{pessoaBean.itemFilter.nomeMae}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Nome Pai:' />
+				<p:inputText id='componente14'
+					value='#{pessoaBean.itemFilter.nomePai}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Numero:' />
+				<p:inputText id='componente15'
+					value='#{pessoaBean.itemFilter.numero}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Status:' />
+				<p:inputText id='componente16'
+					value='#{pessoaBean.itemFilter.status}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Telefone Fixo:' />
+				<p:inputText id='componente17'
+					value='#{pessoaBean.itemFilter.telefoneFixo}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Uf:' />
+				<p:inputText id='componente18'
+					value='#{pessoaBean.itemFilter.uf}'>
+ 				</p:inputText>
+	<div align="right">
+		<p:commandButton value='Pesquisar' id='buttonPesquisa'
+		update='viewPanel' actionListener='#{pessoaBean.pesquisa()}'
+		styleClass='ui-priority-primary' />
+	</div>
+			</p:panel>
+		<br style='clear: left;' />
+			<p:panel id='viewPanel' header="#{i18n['pessoa']}">
+			
+			<h:panelGroup layout='block' style='margin: 0 0 0.5em 0;'>
+				<p:commandButton id="buttonNew" value="#{i18n['button.new']}"
+					 action="#{pessoaBean.clearItem}" icon="ui-icon-plus"
+					 update="@form" resetValues="true">
+					<f:setPropertyActionListener target="#{pessoaBean.state}"
+						 value="CREATE" />
+				</p:commandButton>
+			</h:panelGroup>
+			
+			<p:dataTable id='mainDataTable' value='#{pessoaBean.items}'			var='itemView'>
+				<p:column headerText='Id' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.id}' />
+				</p:column>
+		
+				<p:column headerText='Data Nascimento' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.dataNascimento}' />
+				</p:column>
+		
+				<p:column headerText='Ativo' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.ativo}' />
+				</p:column>
+		
+				<p:column headerText='Bairro' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.bairro}' />
+				</p:column>
+		
+				<p:column headerText='Celular' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.celular}' />
+				</p:column>
+		
+				<p:column headerText='Cep' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.cep}' />
+				</p:column>
+		
+				<p:column headerText='Cidade' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.cidade}' />
+				</p:column>
+		
+				<p:column headerText='Complemento' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.complemento}' />
+				</p:column>
+		
+				<p:column headerText='Cpf' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.cpf}' />
+				</p:column>
+		
+				<p:column headerText='Email' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.email}' />
+				</p:column>
+		
+				<p:column headerText='Endereco' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.endereco}' />
+				</p:column>
+		
+				<p:column headerText='Nome' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.nome}' />
+				</p:column>
+		
+				<p:column headerText='Nome Mae' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.nomeMae}' />
+				</p:column>
+		
+				<p:column headerText='Nome Pai' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.nomePai}' />
+				</p:column>
+		
+				<p:column headerText='Numero' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.numero}' />
+				</p:column>
+		
+				<p:column headerText='Status' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.status}' />
+				</p:column>
+		
+				<p:column headerText='Telefone Fixo' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.telefoneFixo}' />
+				</p:column>
+		
+				<p:column headerText='Uf' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.uf}' />
+				</p:column>
+		
+				<p:column headerText="#{i18n['operations']}" width='70'
+						style='text-align: center;'>
+						<p:commandButton id='buttonOperationEdit'
+							icon='ui-icon-pencil' process='@this' update='@form'
+							resetValues='true' immediate='true'>
+							<f:setPropertyActionListener target='#{pessoaBean.item}'
+							value='#{itemView}' />
+							<f:setPropertyActionListener target='#{pessoaBean.state}'
+							value='UPDATE' />
+						</p:commandButton>
+						<p:commandButton id='buttonOperationRemove'
+							icon='ui-icon-trash' process='@this' update='@form'
+							immediate='true'>
+							<f:setPropertyActionListener target='#{pessoaBean.item}'
+							value='#{itemView}' />
+							<f:setPropertyActionListener target='#{pessoaBean.state}'
+							value='DELETE' />
+						</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			</p:panel>
+		</div>
+		</div>
+			</h:panelGroup>
+		<h:panelGroup id='editPanelGroup' layout='block'
+		rendered="#{pessoaBean.state eq 'CREATE' or pessoaBean.state eq 'UPDATE'}"
+		styleClass='ui-grid ui-grid-responsive'>
+		<div class='ui-grid-row'>
+		<div class='ui-grid-col-12'>
+		<p:panel id='editPanel'>
+		<f:facet name='header'>
+		<h:outputText
+		value="#{i18n['operations.create']} #{i18n['pessoa']}"		rendered="#{pessoaBean.state eq 'CREATE'}" />
+		<h:outputText
+		value="#{i18n['operations.update']} #{i18n['pessoa']}"
+		rendered="#{pessoaBean.state eq 'UPDATE'}" />
+		</f:facet>
+		<div class='ui-grid-form ui-grid ui-grid-responsive'>		<div class='ui-grid-row'>		<div class='ui-grid-col-6'>		
+				<h:outputText value='Id:' />
+				<p:inputText id='componente19'
+					value='#{pessoaBean.item.id}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Data Nascimento:' />
+				<p:calendar id='componente20'
+					value='#{pessoaBean.item.dataNascimento}' showOn="button">
+ 				</p:calendar>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Ativo:' />
+				<p:inputText id='componente21'
+					value='#{pessoaBean.item.ativo}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Bairro:' />
+				<p:inputText id='componente22'
+					value='#{pessoaBean.item.bairro}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Celular:' />
+				<p:inputText id='componente23'
+					value='#{pessoaBean.item.celular}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Cep:' />
+				<p:inputText id='componente24'
+					value='#{pessoaBean.item.cep}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Cidade:' />
+				<p:inputText id='componente25'
+					value='#{pessoaBean.item.cidade}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Complemento:' />
+				<p:inputText id='componente26'
+					value='#{pessoaBean.item.complemento}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Cpf:' />
+				<p:inputText id='componente27'
+					value='#{pessoaBean.item.cpf}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Email:' />
+				<p:inputText id='componente28'
+					value='#{pessoaBean.item.email}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Endereco:' />
+				<p:inputText id='componente29'
+					value='#{pessoaBean.item.endereco}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Nome:' />
+				<p:inputText id='componente30'
+					value='#{pessoaBean.item.nome}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Nome Mae:' />
+				<p:inputText id='componente31'
+					value='#{pessoaBean.item.nomeMae}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Nome Pai:' />
+				<p:inputText id='componente32'
+					value='#{pessoaBean.item.nomePai}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Numero:' />
+				<p:inputText id='componente33'
+					value='#{pessoaBean.item.numero}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Status:' />
+				<p:inputText id='componente34'
+					value='#{pessoaBean.item.status}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Telefone Fixo:' />
+				<p:inputText id='componente35'
+					value='#{pessoaBean.item.telefoneFixo}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Uf:' />
+				<p:inputText id='componente36'
+					value='#{pessoaBean.item.uf}'>
+ 				</p:inputText>
+		</div>
+		</div>
+		</div>
+		<f:facet name='footer'>
+			<p:commandButton value="#{i18n['button.cancel']}"
+				icon='ui-icon-close' process='@this' update='@form'
+				immediate='true' styleClass='buttonCancel'
+				style='float: left;'>
+				<f:setPropertyActionListener target='#{pessoaBean.state}'
+				value='READ' />
+			</p:commandButton>
+			<p:commandButton id='buttonCreate'
+				value="#{i18n['button.save']}" action='#{pessoaBean.create}'
+				icon='ui-icon-check'
+				rendered="#{pessoaBean.state eq 'CREATE'}" process='@form'
+				update='@form' style='float: right;'>
+				<f:setPropertyActionListener target='#{pessoaBean.state}'
+				value='READ' />
+			</p:commandButton>
+			<p:commandButton id='buttonUpdate'
+				value="#{i18n['button.edit']}" action='#{pessoaBean.update}'
+				icon='ui-icon-check'
+				rendered="#{pessoaBean.state eq 'UPDATE'}" process='@form'
+				update='@form' style='float: right;'>
+				<f:setPropertyActionListener target='#{pessoaBean.state}'
+				value='READ' />
+			</p:commandButton>
+			<p:defaultCommand
+				target="#{(pessoaBean.item.id eq null) ? 'buttonCreate' : 'buttonUpdate'}" />
+			<div style='clear: both;'></div>
+		</f:facet>
+		</p:panel>
+		</div>
+		</div>
+		</h:panelGroup>
+		<h:panelGroup id='removePanelGroup' layout='block'
+		rendered="#{pessoaBean.state eq 'DELETE'}"
+		styleClass='ui-grid ui-grid-responsive'>
+		<div class='ui-grid-row'>
+		<div class='ui-grid-col-12'>
+		<p:panel id='removePanel'
+		 header="#{i18n['operations.delete']} #{i18n['pessoa']}">
+  <div class='ui-grid-form ui-grid ui-grid-responsive'>
+ 	<div class='ui-grid-row'>
+ 	<div class='ui-grid-col-12'> 
+			<h3>				<h:outputFormat					value="#{i18n['operations.delete.areYouSure']}">
+					<f:param value='#{pessoaBean.item.id}' />
+					</h:outputFormat>
+			</h3>
+		</div>
+	</div>
+	</div>
+	<f:facet name='footer'>	<p:commandButton value="#{i18n['button.cancel']}"
+		icon='ui-icon-close' process='@this' update='@form'		immediate='true' styleClass='buttonCancel'
+		style='float: left;'>
+		<f:setPropertyActionListener target="#{pessoaBean.state}"
+			value='READ' />
+	</p:commandButton>	<p:commandButton id='buttonRemove'
+		value="#{i18n['button.remove']}"
+		action='#{pessoaBean.delete}' icon='ui-icon-trash'
+		process='@this' update='@form' style='float: right;'>
+		<f:setPropertyActionListener target="#{pessoaBean.state}"			value='READ' />
+	</p:commandButton>	<div style='clear: both;'>
+</div>
+	</f:facet>
+	</p:panel>
+	</div>
+	</div>
+		</h:panelGroup>
+		</h:form>
+	</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>

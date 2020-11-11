@@ -1,0 +1,169 @@
+html, body {
+	height: 100%;
+}
+
+.ui-widget {
+	font-size: small;
+}
+
+.geral {
+	min-height: 100%;
+	position: relative;
+	width: 800px;
+}
+
+.ui-layout-unit {
+	padding: 0.2em 0em;
+	border: 0px none;
+	overflow: hidden !important;
+}
+
+.ui-layout-unit .ui-layout-unit-content {
+	padding: 0.2em 0em;
+	border: 0px none;
+	overflow: hidden !important;
+}
+
+.wrapper {
+	margin: 0 auto !important;
+}
+
+.ui-grid
+.ui-grid-form
+ 
+.ui-grid-row
+:not
+ 
+(
+:last-child
+ 
+)
+{
+padding
+:
+ 
+0
+0
+0
+.5em
+ 
+0;
+}
+.ui-grid
+.ui-grid-form
+ 
+.ui-grid-row
+ 
+[
+class
+^=
+'ui-grid-col-'
+]
+:not
+ 
+(
+:last-child
+
+	
+)
+{
+padding
+:
+ 
+0
+0
+.5em
+ 
+0
+0;
+}
+@media ( max-width : 35em) {
+	.ui-grid
+	.ui-grid-form
+	 
+	.ui-grid-row
+	:not
+	 
+	(
+	:last-child
+	 
+	)
+	{
+	padding
+	:
+	 
+	0
+	0
+	0
+	.5em
+	 
+	0;
+}
+
+.ui-grid
+.ui-grid-form
+ 
+.ui-grid-row
+ 
+[
+class
+^=
+'ui-grid-col-'
+]
+:not
+ 
+(
+:last-child
+
+		
+)
+{
+padding
+:
+ 
+0
+0
+0
+.5em
+ 
+0;
+}
+}
+.ui-grid.ui-grid-form input, .ui-grid.ui-grid-form label {
+	box-sizing: border-box;
+	display: block;
+}
+
+.ui-grid.ui-grid-form input {
+	width: 100%;
+}
+
+p {
+	text-align: center
+}
+
+.footer {
+	position: relative;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.cssNome {
+	width: 150px;
+}
+
+.col1Pesquisa {
+	width: 100px;
+}
+
+.col2Pesquisa {
+	width: 400px;
+}
+.my-panel-grid tr td {
+    padding: 50px;
+}
+
+

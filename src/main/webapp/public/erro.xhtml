@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Geraes OOH</title>
+
+	<h:outputStylesheet library="css" name="index.css" />
+</h:head>
+
+<h:body>
+	<h1>Erro 403</h1>
+	<h:outputText value="Erro!!!" styleClass="header" />
+	<h:outputText
+		value="Ops!!!! Ocorreu uma inconsistência com o sistema, entre em contato com o suporte. Pedimos desculpas pelo inconveniente." />
+	<br />
+	<h:outputText value="Error Code: #{errorHandler.statusCode}"></h:outputText>
+	<br />
+	<h:outputText value="Error Desscription: #{errorHandler.message}"></h:outputText>
+	<br />
+	<h:outputText value="Exception Type: #{errorHandler.exceptionType}"></h:outputText>
+	<br />
+	<h:outputText value="Exception Calss: #{errorHandler.exception}"></h:outputText>
+	<br />
+	<h:outputText value="Request URI : #{errorHandler.requestURI}"></h:outputText>
+	<h:messages />
+	<h:form>
+		<h:commandLink value="Voltar."
+			onclick="javascript:window.history.go(-1)" />
+	</h:form>
+
+</h:body>
+</html>

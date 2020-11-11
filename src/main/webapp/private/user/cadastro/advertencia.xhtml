@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'
+xmlns:ui='http://xmlns.jcp.org/jsf/facelets'
+xmlns:h='http://xmlns.jcp.org/jsf/html'
+xmlns:f='http://java.sun.com/jsf/core'
+xmlns:c='http://java.sun.com/jsp/jstl/core'
+xmlns:p='http://primefaces.org/ui'
+xmlns:pe='http://primefaces.org/ui/extensions'
+xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
+
+<ui:composition template='/private/template/layout.xhtml'>
+	<ui:define name='content'>
+	<p:growl id='growl' autoUpdate='true' globalOnly='false' showDetail='false' />
+	<h:panelGroup id='wrapper' layout='block' styleClass='wrapper'>
+		<h:form id='form' prependId='false'>
+		<h:panelGroup id='viewPanelGroup' layout='block'
+		rendered="#{advertenciaBean.state eq 'READ'}"
+		styleClass='ui-grid ui-grid-responsive'>
+		<div class='ui-grid-row'>
+		<div class='ui-grid-col-12'>
+			<p:panel id='searchPanel' header="#{i18n['operations.search']}">
+		
+				<h:outputText value='Id:' />
+				<p:inputText id='componente1'
+					value='#{advertenciaBean.itemFilter.id}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Descricao:' />
+				<p:inputText id='componente2'
+					value='#{advertenciaBean.itemFilter.descricao}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Codigo:' />
+				<p:inputText id='componente3'
+					value='#{advertenciaBean.itemFilter.codigo}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Turma Disciplina Aluno:' />
+				<p:selectOneMenu id='componente4'
+					value='#{advertenciaBean.itemFilter.turmaDisciplinaAluno}' label='Turma Disciplina Aluno'
+					 converter='#{turmaDisciplinaAlunoConverter}'>
+					<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+					<f:selectItems value='#{advertenciaBean.listaTurmaDisciplinaAluno}'
+					var='item' itemValue='#{item}' itemLabel='#{item.id}' />
+				</p:selectOneMenu>
+		
+				<h:outputText value='Disciplina:' />
+				<p:selectOneMenu id='componente5'
+					value='#{advertenciaBean.itemFilter.disciplina}' label='Disciplina'
+					 converter='#{disciplinaConverter}'>
+					<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+					<f:selectItems value='#{advertenciaBean.listaDisciplina}'
+					var='item' itemValue='#{item}' itemLabel='#{item.id}' />
+				</p:selectOneMenu>
+	<div align="right">
+		<p:commandButton value='Pesquisar' id='buttonPesquisa'
+		update='viewPanel' actionListener='#{advertenciaBean.pesquisa()}'
+		styleClass='ui-priority-primary' />
+	</div>
+			</p:panel>
+		<br style='clear: left;' />
+			<p:panel id='viewPanel' header="#{i18n['advertencia']}">
+			
+			<h:panelGroup layout='block' style='margin: 0 0 0.5em 0;'>
+				<p:commandButton id="buttonNew" value="#{i18n['button.new']}"
+					 action="#{advertenciaBean.clearItem}" icon="ui-icon-plus"
+					 update="@form" resetValues="true">
+					<f:setPropertyActionListener target="#{advertenciaBean.state}"
+						 value="CREATE" />
+				</p:commandButton>
+			</h:panelGroup>
+			
+			<p:dataTable id='mainDataTable' value='#{advertenciaBean.items}'			var='itemView'>
+				<p:column headerText='Id' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.id}' />
+				</p:column>
+		
+				<p:column headerText='Descricao' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.descricao}' />
+				</p:column>
+		
+				<p:column headerText='Codigo' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.codigo}' />
+				</p:column>
+		
+				<p:column headerText="#{i18n['operations']}" width='70'
+						style='text-align: center;'>
+						<p:commandButton id='buttonOperationEdit'
+							icon='ui-icon-pencil' process='@this' update='@form'
+							resetValues='true' immediate='true'>
+							<f:setPropertyActionListener target='#{advertenciaBean.item}'
+							value='#{itemView}' />
+							<f:setPropertyActionListener target='#{advertenciaBean.state}'
+							value='UPDATE' />
+						</p:commandButton>
+						<p:commandButton id='buttonOperationRemove'
+							icon='ui-icon-trash' process='@this' update='@form'
+							immediate='true'>
+							<f:setPropertyActionListener target='#{advertenciaBean.item}'
+							value='#{itemView}' />
+							<f:setPropertyActionListener target='#{advertenciaBean.state}'
+							value='DELETE' />
+						</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			</p:panel>
+		</div>
+		</div>
+			</h:panelGroup>
+		<h:panelGroup id='editPanelGroup' layout='block'
+		rendered="#{advertenciaBean.state eq 'CREATE' or advertenciaBean.state eq 'UPDATE'}"
+		styleClass='ui-grid ui-grid-responsive'>
+		<div class='ui-grid-row'>
+		<div class='ui-grid-col-12'>
+		<p:panel id='editPanel'>
+		<f:facet name='header'>
+		<h:outputText
+		value="#{i18n['operations.create']} #{i18n['advertencia']}"		rendered="#{advertenciaBean.state eq 'CREATE'}" />
+		<h:outputText
+		value="#{i18n['operations.update']} #{i18n['advertencia']}"
+		rendered="#{advertenciaBean.state eq 'UPDATE'}" />
+		</f:facet>
+		<div class='ui-grid-form ui-grid ui-grid-responsive'>		<div class='ui-grid-row'>		<div class='ui-grid-col-6'>		
+				<h:outputText value='Id:' />
+				<p:inputText id='componente6'
+					value='#{advertenciaBean.item.id}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Descricao:' />
+				<p:inputText id='componente7'
+					value='#{advertenciaBean.item.descricao}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Codigo:' />
+				<p:inputText id='componente8'
+					value='#{advertenciaBean.item.codigo}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Turma Disciplina Aluno:' />
+				<p:selectOneMenu id='componente9'
+					value='#{advertenciaBean.item.turmaDisciplinaAluno}' label='Turma Disciplina Aluno'
+					 converter='#{turmaDisciplinaAlunoConverter}'>
+					<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+					<f:selectItems value='#{advertenciaBean.listaTurmaDisciplinaAluno}'
+					var='item' itemValue='#{item}' itemLabel='#{item.id}' />
+				</p:selectOneMenu>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Disciplina:' />
+				<p:selectOneMenu id='componente10'
+					value='#{advertenciaBean.item.disciplina}' label='Disciplina'
+					 converter='#{disciplinaConverter}'>
+					<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+					<f:selectItems value='#{advertenciaBean.listaDisciplina}'
+					var='item' itemValue='#{item}' itemLabel='#{item.id}' />
+				</p:selectOneMenu>
+		</div>
+		</div>
+		</div>
+		<f:facet name='footer'>
+			<p:commandButton value="#{i18n['button.cancel']}"
+				icon='ui-icon-close' process='@this' update='@form'
+				immediate='true' styleClass='buttonCancel'
+				style='float: left;'>
+				<f:setPropertyActionListener target='#{advertenciaBean.state}'
+				value='READ' />
+			</p:commandButton>
+			<p:commandButton id='buttonCreate'
+				value="#{i18n['button.save']}" action='#{advertenciaBean.create}'
+				icon='ui-icon-check'
+				rendered="#{advertenciaBean.state eq 'CREATE'}" process='@form'
+				update='@form' style='float: right;'>
+				<f:setPropertyActionListener target='#{advertenciaBean.state}'
+				value='READ' />
+			</p:commandButton>
+			<p:commandButton id='buttonUpdate'
+				value="#{i18n['button.edit']}" action='#{advertenciaBean.update}'
+				icon='ui-icon-check'
+				rendered="#{advertenciaBean.state eq 'UPDATE'}" process='@form'
+				update='@form' style='float: right;'>
+				<f:setPropertyActionListener target='#{advertenciaBean.state}'
+				value='READ' />
+			</p:commandButton>
+			<p:defaultCommand
+				target="#{(advertenciaBean.item.id eq null) ? 'buttonCreate' : 'buttonUpdate'}" />
+			<div style='clear: both;'></div>
+		</f:facet>
+		</p:panel>
+		</div>
+		</div>
+		</h:panelGroup>
+		<h:panelGroup id='removePanelGroup' layout='block'
+		rendered="#{advertenciaBean.state eq 'DELETE'}"
+		styleClass='ui-grid ui-grid-responsive'>
+		<div class='ui-grid-row'>
+		<div class='ui-grid-col-12'>
+		<p:panel id='removePanel'
+		 header="#{i18n['operations.delete']} #{i18n['advertencia']}">
+  <div class='ui-grid-form ui-grid ui-grid-responsive'>
+ 	<div class='ui-grid-row'>
+ 	<div class='ui-grid-col-12'> 
+			<h3>				<h:outputFormat					value="#{i18n['operations.delete.areYouSure']}">
+					<f:param value='#{advertenciaBean.item.id}' />
+					</h:outputFormat>
+			</h3>
+		</div>
+	</div>
+	</div>
+	<f:facet name='footer'>	<p:commandButton value="#{i18n['button.cancel']}"
+		icon='ui-icon-close' process='@this' update='@form'		immediate='true' styleClass='buttonCancel'
+		style='float: left;'>
+		<f:setPropertyActionListener target="#{advertenciaBean.state}"
+			value='READ' />
+	</p:commandButton>	<p:commandButton id='buttonRemove'
+		value="#{i18n['button.remove']}"
+		action='#{advertenciaBean.delete}' icon='ui-icon-trash'
+		process='@this' update='@form' style='float: right;'>
+		<f:setPropertyActionListener target="#{advertenciaBean.state}"			value='READ' />
+	</p:commandButton>	<div style='clear: both;'>
+</div>
+	</f:facet>
+	</p:panel>
+	</div>
+	</div>
+		</h:panelGroup>
+		</h:form>
+	</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>

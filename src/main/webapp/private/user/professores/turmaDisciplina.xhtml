@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'
+	xmlns:ui='http://xmlns.jcp.org/jsf/facelets'
+	xmlns:h='http://xmlns.jcp.org/jsf/html'
+	xmlns:f='http://java.sun.com/jsf/core'
+	xmlns:c='http://java.sun.com/jsp/jstl/core'
+	xmlns:p='http://primefaces.org/ui'
+	xmlns:pe='http://primefaces.org/ui/extensions'
+	xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+	xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
+
+<ui:composition template='/private/template/layout.xhtml'>
+	<ui:define name='content'>
+		<p:growl id='growl' autoUpdate='true' globalOnly='false'
+			showDetail='false' />
+		<h:panelGroup id='wrapper' layout='block' styleClass='wrapper'>
+			<h:form id='form' prependId='false'>
+				<h:panelGroup id='viewPanelGroup' layout='block'
+					rendered="#{turmaDisciplinaBean.state eq 'READ'}"
+					styleClass='ui-grid ui-grid-responsive'>
+					<div class='ui-grid-row'>
+						<div class='ui-grid-col-12'>
+							<p:panel id='searchPanel' header="#{i18n['operations.search']}">
+								<h:panelGrid columns="5">
+
+
+									<h:outputText value='Turma:' />
+									<p:selectOneMenu id='componente3'
+										value='#{turmaDisciplinaBean.itemFilter.turma}' label='Turma'
+										converter='#{turmaConverter}'>
+										<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+										<f:selectItems value='#{turmaDisciplinaBean.listaTurma}'
+											var='item' itemValue='#{item}' itemLabel='#{item.descricao}' />
+									</p:selectOneMenu>
+									<p:spacer width="10" />
+
+									<h:outputText value='Disciplina:' />
+									<p:selectOneMenu id='componente2'
+										value='#{turmaDisciplinaBean.itemFilter.disciplina}'
+										label='Disciplina' converter='#{disciplinaConverter}'>
+										<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+										<f:selectItems value='#{turmaDisciplinaBean.listaDisciplina}'
+											var='item' itemValue='#{item}' itemLabel='#{item.descricao}' />
+									</p:selectOneMenu>
+
+								</h:panelGrid>
+
+
+								<div align="right">
+									<p:commandButton value='Pesquisar' id='buttonPesquisa'
+										update='viewPanel'
+										actionListener='#{turmaDisciplinaBean.pesquisa()}'
+										styleClass='ui-priority-primary' />
+								</div>
+							</p:panel>
+							<br style='clear: left;' />
+							<p:panel id='viewPanel' header="#{i18n['turmaDisciplina']}">
+
+								<h:panelGroup layout='block' style='margin: 0 0 0.5em 0;'>
+									<p:commandButton id="buttonNew" value="#{i18n['button.new']}"
+										action="#{turmaDisciplinaBean.clearItem}" icon="ui-icon-plus"
+										update="@form" resetValues="true">
+										<f:setPropertyActionListener
+											target="#{turmaDisciplinaBean.state}" value="CREATE" />
+									</p:commandButton>
+								</h:panelGroup>
+
+								<p:dataTable id='mainDataTable'
+									value='#{turmaDisciplinaBean.items}' var='itemView'>
+									<p:column headerText='Turma' width='40'
+										style='text-align: center;'>
+										<h:outputText value='#{itemView.turma.descricao}' />
+									</p:column>
+
+									<p:column headerText='Disciplina' width='40'
+										style='text-align: center;'>
+										<h:outputText value='#{itemView.disciplina.descricao}' />
+									</p:column>
+
+									<p:column headerText='Professor' width='40'
+										style='text-align: center;'>
+										<h:outputText value='#{itemView.professor.pessoa.nome}' />
+									</p:column>
+
+
+									<p:column headerText="#{i18n['operations']}" width='10'
+										style='text-align: center;'>
+										<p:commandButton id='buttonOperationEdit'
+											icon='ui-icon-pencil' process='@this' update='@form'
+											resetValues='true' immediate='true'>
+											<f:setPropertyActionListener
+												target='#{turmaDisciplinaBean.item}' value='#{itemView}' />
+											<f:setPropertyActionListener
+												target='#{turmaDisciplinaBean.state}' value='UPDATE' />
+										</p:commandButton>
+										<p:commandButton id='buttonOperationRemove'
+											icon='ui-icon-trash' process='@this' update='@form'
+											immediate='true'>
+											<f:setPropertyActionListener
+												target='#{turmaDisciplinaBean.item}' value='#{itemView}' />
+											<f:setPropertyActionListener
+												target='#{turmaDisciplinaBean.state}' value='DELETE' />
+										</p:commandButton>
+									</p:column>
+								</p:dataTable>
+							</p:panel>
+						</div>
+					</div>
+				</h:panelGroup>
+				<h:panelGroup id='editPanelGroup' layout='block'
+					rendered="#{turmaDisciplinaBean.state eq 'CREATE' or turmaDisciplinaBean.state eq 'UPDATE'}"
+					styleClass='ui-grid ui-grid-responsive'>
+					<div class='ui-grid-row'>
+						<div class='ui-grid-col-12'>
+							<p:panel id='editPanel'>
+								<f:facet name='header'>
+									<h:outputText
+										value="#{i18n['operations.create']} #{i18n['turmaDisciplina']}"
+										rendered="#{turmaDisciplinaBean.state eq 'CREATE'}" />
+									<h:outputText
+										value="#{i18n['operations.update']} #{i18n['turmaDisciplina']}"
+										rendered="#{turmaDisciplinaBean.state eq 'UPDATE'}" />
+								</f:facet>
+								<div class='ui-grid-form ui-grid ui-grid-responsive'>
+									<div class='ui-grid-row'>
+										<h:inputHidden id='id' value='#{turmaDisciplinaBean.item.id}' />
+										<p:panelGrid columns="2">
+											<h:outputText value='Turma:' />
+											<p:selectOneMenu id='turna'
+												value='#{turmaDisciplinaBean.item.turma}' label='Turma'
+												converter='#{turmaConverter}' required="true">
+												<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+												<f:selectItems value='#{turmaDisciplinaBean.listaTurma}'
+													var='item' itemValue='#{item}'
+													itemLabel='#{item.descricao}' />
+											</p:selectOneMenu>
+											<h:outputText value='Disciplina:' />
+											<p:selectOneMenu id='disciplina' required="true"
+												value='#{turmaDisciplinaBean.item.disciplina}'
+												label='Disciplina' converter='#{disciplinaConverter}'>
+												<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+												<f:selectItems
+													value='#{turmaDisciplinaBean.listaDisciplina}' var='item'
+													itemValue='#{item}' itemLabel='#{item.descricao}' />
+											</p:selectOneMenu>
+
+											<h:outputText value='Professor:' />
+											<p:selectOneMenu id='professor' required="true"
+												value='#{turmaDisciplinaBean.item.professor}'
+												label='Professor' converter='#{professorConverter}'>
+												<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+												<f:selectItems value='#{turmaDisciplinaBean.listaProfessor}'
+													var='item' itemValue='#{item}'
+													itemLabel='#{item.pessoa.nome}' />
+											</p:selectOneMenu>
+										</p:panelGrid>
+									</div>
+								</div>
+								<f:facet name='footer'>
+									<p:commandButton value="#{i18n['button.cancel']}"
+										icon='ui-icon-close' process='@this' update='@form'
+										immediate='true' styleClass='buttonCancel'
+										style='float: left;'>
+										<f:setPropertyActionListener
+											target='#{turmaDisciplinaBean.state}' value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonCreate'
+										value="#{i18n['button.save']}"
+										action='#{turmaDisciplinaBean.create}' icon='ui-icon-check'
+										rendered="#{turmaDisciplinaBean.state eq 'CREATE'}"
+										process='@form' update='@form' style='float: right;'>
+										<f:setPropertyActionListener
+											target='#{turmaDisciplinaBean.state}' value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonUpdate'
+										value="#{i18n['button.edit']}"
+										action='#{turmaDisciplinaBean.update}' icon='ui-icon-check'
+										rendered="#{turmaDisciplinaBean.state eq 'UPDATE'}"
+										process='@form' update='@form' style='float: right;'>
+										<f:setPropertyActionListener
+											target='#{turmaDisciplinaBean.state}' value='READ' />
+									</p:commandButton>
+									<p:defaultCommand
+										target="#{(turmaDisciplinaBean.item.id eq null) ? 'buttonCreate' : 'buttonUpdate'}" />
+									<div style='clear: both;'></div>
+								</f:facet>
+							</p:panel>
+						</div>
+					</div>
+				</h:panelGroup>
+				<h:panelGroup id='removePanelGroup' layout='block'
+					rendered="#{turmaDisciplinaBean.state eq 'DELETE'}"
+					styleClass='ui-grid ui-grid-responsive'>
+					<div class='ui-grid-row'>
+						<div class='ui-grid-col-12'>
+							<p:panel id='removePanel'
+								header="#{i18n['operations.delete']} #{i18n['turmaDisciplina']}">
+								<div class='ui-grid-form ui-grid ui-grid-responsive'>
+									<div class='ui-grid-row'>
+										<div class='ui-grid-col-12'>
+											<h3>
+												<h:outputFormat
+													value="#{i18n['operations.delete.areYouSure']}">
+													<f:param value='#{turmaDisciplinaBean.item.id}' />
+												</h:outputFormat>
+											</h3>
+										</div>
+									</div>
+								</div>
+								<f:facet name='footer'>
+									<p:commandButton value="#{i18n['button.cancel']}"
+										icon='ui-icon-close' process='@this' update='@form'
+										immediate='true' styleClass='buttonCancel'
+										style='float: left;'>
+										<f:setPropertyActionListener
+											target="#{turmaDisciplinaBean.state}" value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonRemove'
+										value="#{i18n['button.remove']}"
+										action='#{turmaDisciplinaBean.delete}' icon='ui-icon-trash'
+										process='@this' update='@form' style='float: right;'>
+										<f:setPropertyActionListener
+											target="#{turmaDisciplinaBean.state}" value='READ' />
+									</p:commandButton>
+									<div style='clear: both;'></div>
+								</f:facet>
+							</p:panel>
+						</div>
+					</div>
+				</h:panelGroup>
+			</h:form>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>

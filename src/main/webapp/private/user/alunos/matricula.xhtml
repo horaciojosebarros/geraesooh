@@ -1,0 +1,341 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'
+	xmlns:ui='http://xmlns.jcp.org/jsf/facelets'
+	xmlns:h='http://xmlns.jcp.org/jsf/html'
+	xmlns:f='http://java.sun.com/jsf/core'
+	xmlns:c='http://java.sun.com/jsp/jstl/core'
+	xmlns:p='http://primefaces.org/ui'
+	xmlns:pe='http://primefaces.org/ui/extensions'
+	xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+	xmlns:b='http://bootsfaces.net/ui'
+	xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
+
+<ui:composition template='/private/template/layout.xhtml'>
+	<ui:define name='content'>
+		<p:growl id='growl' autoUpdate='true' globalOnly='false'
+			showDetail='false' />
+		<h:panelGroup id='wrapper' layout='block' styleClass='wrapper'>
+			<h:form id='form' prependId='false'>
+				<h:panelGroup id='viewPanelGroup' layout='block'
+					rendered="#{matriculaBean.state eq 'READ'}">
+					<p:panel id='searchPanel' >
+						<h:inputHidden id='componente1'
+							value='#{matriculaBean.itemFilter.id}' />
+
+						<h:panelGrid columns="2">
+
+							<h:outputLabel value='Aluno:' />
+							<p:selectOneMenu id='componente5'
+								value='#{matriculaBean.itemFilter.aluno}' label='Aluno:'
+								converter='#{alunoConverter}' maxlength="60" size="60">
+								<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+								<f:selectItems value='#{matriculaBean.listaAluno}' var='item'
+									itemValue='#{item}' itemLabel='#{item.pessoa.nome}' />
+							</p:selectOneMenu>
+						</h:panelGrid>
+
+						<div align="right">
+							<p:commandButton value='Pesquisar' id='buttonPesquisa'
+								update='viewPanel' actionListener='#{matriculaBean.pesquisa()}'
+								styleClass='ui-priority-primary' />
+						</div>
+					</p:panel>
+					<br style='clear: left;' />
+					<p:panel id='viewPanel' header="#{i18n['matriculas']}">
+
+						<h:panelGroup layout='block' style='margin: 0 0 0.5em 0;'>
+							<p:commandButton id="buttonNew" value="#{i18n['button.new']}"
+								action="#{matriculaBean.clearItem}" icon="ui-icon-plus"
+								update="@form" resetValues="true">
+								<f:setPropertyActionListener target="#{matriculaBean.state}"
+									value="CREATE" />
+							</p:commandButton>
+						</h:panelGroup>
+
+						<p:dataTable id='mainDataTable' value='#{matriculaBean.items}'
+							var='itemView' emptyMessage="#{i18n['operations.search.noRecordsFound']}">
+							
+							<p:column headerText='Código' width='10'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.id}' />
+							</p:column>
+
+							<p:column headerText='Aluno' width='40'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.aluno.pessoa.nome}' />
+							</p:column>
+
+							<p:column headerText='Cpf' width='14' style='text-align: center;'>
+								<h:outputLabel value='#{itemView.aluno.pessoa.cpf}' />
+							</p:column>
+
+							<p:column headerText='Turma' width='60'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.turma.descricao}' />
+							</p:column>
+
+							<p:column headerText='Situacao' width='5'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.situacao}' />
+							</p:column>
+
+
+							<p:column headerText="#{i18n['operations']}" width='15'
+								style='text-align: center;'>
+								<p:commandButton id='buttonOperationEdit' icon='ui-icon-pencil'
+									process='@this' update='@form' resetValues='true'
+									immediate='true'>
+									<f:setPropertyActionListener target='#{matriculaBean.item}'
+										value='#{itemView}' />
+									<f:setPropertyActionListener target='#{matriculaBean.state}'
+										value='UPDATE' />
+								</p:commandButton>
+								<p:commandButton id='buttonOperationRemove' icon='ui-icon-trash'
+									process='@this' update='@form' immediate='true'>
+									<f:setPropertyActionListener target='#{matriculaBean.item}'
+										value='#{itemView}' />
+									<f:setPropertyActionListener target='#{matriculaBean.state}'
+										value='DELETE' />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</h:panelGroup>
+				<h:panelGroup id='editPanelGroup' layout='block'
+					rendered="#{matriculaBean.state eq 'CREATE' or matriculaBean.state eq 'UPDATE'}"
+					styleClass='ui-grid ui-grid-responsive'>
+					<div class='ui-grid-row'>
+						<div class='ui-grid-col-12'>
+							<p:panel id='editPanel'>
+								<f:facet name='header'>
+									<h:outputLabel
+										value="#{i18n['operations.create']} #{i18n['matriculas']}"
+										rendered="#{matriculaBean.state eq 'CREATE'}" />
+									<h:outputLabel
+										value="#{i18n['operations.update']} #{i18n['matriculas']}"
+										rendered="#{matriculaBean.state eq 'UPDATE'}" />
+								</f:facet>
+
+
+
+								<div class='ui-grid-col-6'>
+									<h:inputHidden id='componente6'
+										value='#{matriculaBean.item.id}' />
+								</div>
+
+
+								<p:panel id='editPanel2'>
+
+									<p:panelGrid columns="5">
+
+										<h:outputLabel value='Aluno:' />
+										<p:selectOneMenu id='aluno' required="true"
+											value='#{matriculaBean.item.aluno}' label='Nome:'
+											converter='#{alunoConverter}' maxlength="100" size="100">
+											<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+											<f:selectItems value='#{matriculaBean.listaAluno}' var='item'
+												itemValue='#{item}' itemLabel='#{item.pessoa.nome}' />
+										</p:selectOneMenu>
+
+										<p:spacer width="10" />
+										<h:outputLabel value='Turma:' />
+										<h:selectOneMenu required="true"
+											value="#{matriculaBean.item.turma}" id="turma"
+											converter='#{turmaConverter}'>
+											<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+											<f:selectItems value="#{matriculaBean.listaTurma}"
+												var="turma" itemLabel="#{turma.descricao}"
+												itemValue="#{turma}" />
+										</h:selectOneMenu>
+
+										<h:outputLabel value='Data Início:' />
+										<p:calendar id='data' required="true"
+											value='#{matriculaBean.item.dataInicio}'
+											style="width: 20% important!" pattern="dd-MM-yyyy"
+											mask="true">
+										</p:calendar>
+										<p:spacer width="10" />
+
+										<h:outputLabel value='Ano letivo:' />
+										<p:selectOneMenu id='ano' required="true"
+											value='#{matriculaBean.item.anoLetivo}' maxlength="60"
+											size="60">
+											<f:selectItems value='#{matriculaBean.listaAnoLetivo}'
+												var='item' itemValue='#{item}' itemLabel='#{item}' />
+										</p:selectOneMenu>
+
+
+										<h:outputLabel value='Situação:' />
+										<h:selectOneMenu required="true"
+											value="#{matriculaBean.item.situacao}" id="situacao">
+											<f:selectItem itemValue="A" itemLabel="Ativa" />
+											<f:selectItem itemValue="S" itemLabel="Suspensa" />
+											<f:selectItem itemValue="C" itemLabel="Cancelada" />
+										</h:selectOneMenu>
+
+									</p:panelGrid>
+
+									<p:panel id='editPanelServicos'>
+										<f:facet name='header'>
+											<p:outputLabel value="Serviços contratados" />
+										</f:facet>
+
+										<h:panelGrid columns="6">
+											<p:selectOneMenu id='servico'
+												value='#{matriculaBean.servico}' maxlength="100" size="100"
+												converter='#{servicoConverter}'>
+												<f:selectItem itemValue="#{null}" itemLabel="Escolha..." />
+												<f:selectItems value='#{matriculaBean.listaServico}'
+													var='item' itemValue='#{item}'
+													itemLabel='#{item.descricaoValor}' />
+											</p:selectOneMenu>
+
+											<p:spacer width="10" />
+											<h:outputLabel value='Perc.Desconto:' />
+											<p:inputText maxlength="3" size="3" id="valor"
+												value='#{matriculaBean.percentualDesconto}'
+												converterMessage="Campo desconto é Numérico.">
+												<f:convertNumber integerOnly="true" />
+												<f:convertNumber pattern="#######" maxFractionDigits="0" />
+											</p:inputText>
+
+											<p:spacer width="10" />
+											<p:commandButton id='buttonOperationIncluirServico'
+												icon='ui-icon-check' update="editPanelServicos"
+												action="#{matriculaBean.incluirServico}">
+											</p:commandButton>
+										</h:panelGrid>
+
+										<p:dataTable id='mainDataTableServico'
+											value='#{matriculaBean.item.servicoMatriculaList}'
+											var='itemView'>
+
+											<p:column headerText='Descrição' width='40'>
+												<h:outputLabel rendered="#{itemView.servico.id ne null}"
+													value="#{itemView.servico.descricao}" />
+											</p:column>
+
+											<p:column headerText='Valor' width='14'
+												style='text-align: center;'>
+												<h:outputLabel value='#{itemView.servico.valor}'>
+													<f:convertNumber maxFractionDigits="2"
+														minFractionDigits="2" />
+												</h:outputLabel>
+											</p:column>
+
+											<p:column headerText='Desconto %' width='5'
+												style='text-align: center;'>
+												<h:outputLabel value='#{itemView.percDesconto}' />
+											</p:column>
+
+											<p:column headerText='Líquido' width='5'
+												style='text-align: center;'>
+												<h:outputLabel value='#{itemView.valorLiquido}'>
+													<f:convertNumber maxFractionDigits="2"
+														minFractionDigits="2" />
+												</h:outputLabel>
+											</p:column>
+
+											<p:column headerText="#{i18n['operations']}" width='5'
+												style='text-align: center;'>
+												<p:commandButton id='buttonOperationRemoveServico'
+													icon='ui-icon-trash' process='@this' update='@form'
+													immediate='true'
+													action="#{matriculaBean.removeServicoMatricula}">
+													<f:setPropertyActionListener
+														target='#{matriculaBean.servicoMatriculaRemove}'
+														value='#{itemView}' />
+												</p:commandButton>
+											</p:column>
+										</p:dataTable>
+										<f:facet name='footer'>
+											<p:outputLabel value="Valor líquido da mensalidade: R$ " />
+											<p:spacer width="10" />
+											<p:outputLabel value="#{matriculaBean.valorMatricula}">
+												<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+											</p:outputLabel>
+
+										</f:facet>
+
+									</p:panel>
+
+								</p:panel>
+
+								<f:facet name='footer'>
+									<p:commandButton value="#{i18n['button.cancel']}"
+										icon='ui-icon-close' process='@this' update='@form'
+										immediate='true' styleClass='buttonCancel'
+										style='float: left;'>
+										<f:setPropertyActionListener target='#{matriculaBean.state}'
+											value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonCreate'
+										value="#{i18n['button.save']}"
+										action='#{matriculaBean.create}' icon='ui-icon-check'
+										rendered="#{matriculaBean.state eq 'CREATE'}" process='@form'
+										update='@form' style='float: right;'>
+										<f:setPropertyActionListener target='#{matriculaBean.state}'
+											value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonUpdate'
+										value="#{i18n['button.edit']}"
+										action='#{matriculaBean.update}' icon='ui-icon-check'
+										rendered="#{matriculaBean.state eq 'UPDATE'}" process='@form'
+										update='@form' style='float: right;'>
+										<f:setPropertyActionListener target='#{matriculaBean.state}'
+											value='READ' />
+									</p:commandButton>
+									<p:defaultCommand
+										target="#{(matriculaBean.item.id eq null) ? 'buttonCreate' : 'buttonUpdate'}" />
+									<div style='clear: both;'></div>
+								</f:facet>
+							</p:panel>
+						</div>
+					</div>
+				</h:panelGroup>
+				<h:panelGroup id='removePanelGroup' layout='block'
+					rendered="#{matriculaBean.state eq 'DELETE'}"
+					styleClass='ui-grid ui-grid-responsive'>
+					<div class='ui-grid-row'>
+						<div class='ui-grid-col-12'>
+							<p:panel id='removePanel'
+								header="#{i18n['operations.delete']} #{i18n['aluno']}">
+								<div class='ui-grid-form ui-grid ui-grid-responsive'>
+									<div class='ui-grid-row'>
+										<div class='ui-grid-col-12'>
+											<h3>
+												<h:outputFormat
+													value="#{i18n['operations.delete.areYouSure']}">
+													<f:param value='#{matriculaBean.item.id}' />
+												</h:outputFormat>
+											</h3>
+										</div>
+									</div>
+								</div>
+								<f:facet name='footer'>
+									<p:commandButton value="#{i18n['button.cancel']}"
+										icon='ui-icon-close' process='@this' update='@form'
+										immediate='true' styleClass='buttonCancel'
+										style='float: left;'>
+										<f:setPropertyActionListener target="#{matriculaBean.state}"
+											value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonRemove'
+										value="#{i18n['button.remove']}"
+										action='#{matriculaBean.delete}' icon='ui-icon-trash'
+										process='@this' update='@form' style='float: right;'>
+										<f:setPropertyActionListener target="#{matriculaBean.state}"
+											value='READ' />
+									</p:commandButton>
+									<div style='clear: both;'></div>
+								</f:facet>
+							</p:panel>
+						</div>
+					</div>
+				</h:panelGroup>
+			</h:form>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>

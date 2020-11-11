@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'
+xmlns:ui='http://xmlns.jcp.org/jsf/facelets'
+xmlns:h='http://xmlns.jcp.org/jsf/html'
+xmlns:f='http://java.sun.com/jsf/core'
+xmlns:c='http://java.sun.com/jsp/jstl/core'
+xmlns:p='http://primefaces.org/ui'
+xmlns:pe='http://primefaces.org/ui/extensions'
+xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
+
+<ui:composition template='/private/template/layout.xhtml'>
+	<ui:define name='content'>
+	<p:growl id='growl' autoUpdate='true' globalOnly='false' showDetail='false' />
+	<h:panelGroup id='wrapper' layout='block' styleClass='wrapper'>
+		<h:form id='form' prependId='false'>
+		<h:panelGroup id='viewPanelGroup' layout='block'
+		rendered="#{usuarioBean.state eq 'READ'}"
+		styleClass='ui-grid ui-grid-responsive'>
+		<div class='ui-grid-row'>
+		<div class='ui-grid-col-12'>
+			<p:panel id='searchPanel' header="#{i18n['operations.search']}">
+		
+				<h:outputText value='Id:' />
+				<p:inputText id='componente1'
+					value='#{usuarioBean.itemFilter.id}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Login:' />
+				<p:inputText id='componente2'
+					value='#{usuarioBean.itemFilter.login}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Nivel:' />
+				<p:inputText id='componente3'
+					value='#{usuarioBean.itemFilter.nivel}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Password:' />
+				<p:inputText id='componente4'
+					value='#{usuarioBean.itemFilter.password}'>
+ 				</p:inputText>
+	<div align="right">
+		<p:commandButton value='Pesquisar' id='buttonPesquisa'
+		update='viewPanel' actionListener='#{usuarioBean.pesquisa()}'
+		styleClass='ui-priority-primary' />
+	</div>
+			</p:panel>
+		<br style='clear: left;' />
+			<p:panel id='viewPanel' header="#{i18n['usuario']}">
+			
+			<h:panelGroup layout='block' style='margin: 0 0 0.5em 0;'>
+				<p:commandButton id="buttonNew" value="#{i18n['button.new']}"
+					 action="#{usuarioBean.clearItem}" icon="ui-icon-plus"
+					 update="@form" resetValues="true">
+					<f:setPropertyActionListener target="#{usuarioBean.state}"
+						 value="CREATE" />
+				</p:commandButton>
+			</h:panelGroup>
+			
+			<p:dataTable id='mainDataTable' value='#{usuarioBean.items}'			var='itemView'>
+				<p:column headerText='Id' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.id}' />
+				</p:column>
+		
+				<p:column headerText='Login' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.login}' />
+				</p:column>
+		
+				<p:column headerText='Nivel' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.nivel}' />
+				</p:column>
+		
+				<p:column headerText='Password' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.password}' />
+				</p:column>
+		
+				<p:column headerText="#{i18n['operations']}" width='70'
+						style='text-align: center;'>
+						<p:commandButton id='buttonOperationEdit'
+							icon='ui-icon-pencil' process='@this' update='@form'
+							resetValues='true' immediate='true'>
+							<f:setPropertyActionListener target='#{usuarioBean.item}'
+							value='#{itemView}' />
+							<f:setPropertyActionListener target='#{usuarioBean.state}'
+							value='UPDATE' />
+						</p:commandButton>
+						<p:commandButton id='buttonOperationRemove'
+							icon='ui-icon-trash' process='@this' update='@form'
+							immediate='true'>
+							<f:setPropertyActionListener target='#{usuarioBean.item}'
+							value='#{itemView}' />
+							<f:setPropertyActionListener target='#{usuarioBean.state}'
+							value='DELETE' />
+						</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			</p:panel>
+		</div>
+		</div>
+			</h:panelGroup>
+		<h:panelGroup id='editPanelGroup' layout='block'
+		rendered="#{usuarioBean.state eq 'CREATE' or usuarioBean.state eq 'UPDATE'}"
+		styleClass='ui-grid ui-grid-responsive'>
+		<div class='ui-grid-row'>
+		<div class='ui-grid-col-12'>
+		<p:panel id='editPanel'>
+		<f:facet name='header'>
+		<h:outputText
+		value="#{i18n['operations.create']} #{i18n['usuario']}"		rendered="#{usuarioBean.state eq 'CREATE'}" />
+		<h:outputText
+		value="#{i18n['operations.update']} #{i18n['usuario']}"
+		rendered="#{usuarioBean.state eq 'UPDATE'}" />
+		</f:facet>
+		<div class='ui-grid-form ui-grid ui-grid-responsive'>		<div class='ui-grid-row'>		<div class='ui-grid-col-6'>		
+				<h:outputText value='Id:' />
+				<p:inputText id='componente5'
+					value='#{usuarioBean.item.id}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Login:' />
+				<p:inputText id='componente6'
+					value='#{usuarioBean.item.login}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Nivel:' />
+				<p:inputText id='componente7'
+					value='#{usuarioBean.item.nivel}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Password:' />
+				<p:inputText id='componente8'
+					value='#{usuarioBean.item.password}'>
+ 				</p:inputText>
+		</div>
+		</div>
+		</div>
+		<f:facet name='footer'>
+			<p:commandButton value="#{i18n['button.cancel']}"
+				icon='ui-icon-close' process='@this' update='@form'
+				immediate='true' styleClass='buttonCancel'
+				style='float: left;'>
+				<f:setPropertyActionListener target='#{usuarioBean.state}'
+				value='READ' />
+			</p:commandButton>
+			<p:commandButton id='buttonCreate'
+				value="#{i18n['button.save']}" action='#{usuarioBean.create}'
+				icon='ui-icon-check'
+				rendered="#{usuarioBean.state eq 'CREATE'}" process='@form'
+				update='@form' style='float: right;'>
+				<f:setPropertyActionListener target='#{usuarioBean.state}'
+				value='READ' />
+			</p:commandButton>
+			<p:commandButton id='buttonUpdate'
+				value="#{i18n['button.edit']}" action='#{usuarioBean.update}'
+				icon='ui-icon-check'
+				rendered="#{usuarioBean.state eq 'UPDATE'}" process='@form'
+				update='@form' style='float: right;'>
+				<f:setPropertyActionListener target='#{usuarioBean.state}'
+				value='READ' />
+			</p:commandButton>
+			<p:defaultCommand
+				target="#{(usuarioBean.item.id eq null) ? 'buttonCreate' : 'buttonUpdate'}" />
+			<div style='clear: both;'></div>
+		</f:facet>
+		</p:panel>
+		</div>
+		</div>
+		</h:panelGroup>
+		<h:panelGroup id='removePanelGroup' layout='block'
+		rendered="#{usuarioBean.state eq 'DELETE'}"
+		styleClass='ui-grid ui-grid-responsive'>
+		<div class='ui-grid-row'>
+		<div class='ui-grid-col-12'>
+		<p:panel id='removePanel'
+		 header="#{i18n['operations.delete']} #{i18n['usuario']}">
+  <div class='ui-grid-form ui-grid ui-grid-responsive'>
+ 	<div class='ui-grid-row'>
+ 	<div class='ui-grid-col-12'> 
+			<h3>				<h:outputFormat					value="#{i18n['operations.delete.areYouSure']}">
+					<f:param value='#{usuarioBean.item.id}' />
+					</h:outputFormat>
+			</h3>
+		</div>
+	</div>
+	</div>
+	<f:facet name='footer'>	<p:commandButton value="#{i18n['button.cancel']}"
+		icon='ui-icon-close' process='@this' update='@form'		immediate='true' styleClass='buttonCancel'
+		style='float: left;'>
+		<f:setPropertyActionListener target="#{usuarioBean.state}"
+			value='READ' />
+	</p:commandButton>	<p:commandButton id='buttonRemove'
+		value="#{i18n['button.remove']}"
+		action='#{usuarioBean.delete}' icon='ui-icon-trash'
+		process='@this' update='@form' style='float: right;'>
+		<f:setPropertyActionListener target="#{usuarioBean.state}"			value='READ' />
+	</p:commandButton>	<div style='clear: both;'>
+</div>
+	</f:facet>
+	</p:panel>
+	</div>
+	</div>
+		</h:panelGroup>
+		</h:form>
+	</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>

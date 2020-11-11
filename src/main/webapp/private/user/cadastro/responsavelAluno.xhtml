@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'
+xmlns:ui='http://xmlns.jcp.org/jsf/facelets'
+xmlns:h='http://xmlns.jcp.org/jsf/html'
+xmlns:f='http://java.sun.com/jsf/core'
+xmlns:c='http://java.sun.com/jsp/jstl/core'
+xmlns:p='http://primefaces.org/ui'
+xmlns:pe='http://primefaces.org/ui/extensions'
+xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
+
+<ui:composition template='/private/template/layout.xhtml'>
+	<ui:define name='content'>
+	<p:growl id='growl' autoUpdate='true' globalOnly='false' showDetail='false' />
+	<h:panelGroup id='wrapper' layout='block' styleClass='wrapper'>
+		<h:form id='form' prependId='false'>
+		<h:panelGroup id='viewPanelGroup' layout='block'
+		rendered="#{responsavelAlunoBean.state eq 'READ'}"
+		styleClass='ui-grid ui-grid-responsive'>
+		<div class='ui-grid-row'>
+		<div class='ui-grid-col-12'>
+			<p:panel id='searchPanel' header="#{i18n['operations.search']}">
+		
+				<h:outputText value='Id:' />
+				<p:inputText id='componente1'
+					value='#{responsavelAlunoBean.itemFilter.id}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Responsavel Financeiro:' />
+				<p:inputText id='componente2'
+					value='#{responsavelAlunoBean.itemFilter.responsavelFinanceiro}'>
+ 				</p:inputText>
+		
+				<h:outputText value='Aluno:' />
+				<p:selectOneMenu id='componente3'
+					value='#{responsavelAlunoBean.itemFilter.aluno}' label='Aluno'
+					 converter='#{alunoConverter}'>
+					<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+					<f:selectItems value='#{responsavelAlunoBean.listaAluno}'
+					var='item' itemValue='#{item}' itemLabel='#{item.id}' />
+				</p:selectOneMenu>
+		
+				<h:outputText value='Responsavel:' />
+				<p:selectOneMenu id='componente4'
+					value='#{responsavelAlunoBean.itemFilter.responsavel}' label='Responsavel'
+					 converter='#{responsavelConverter}'>
+					<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+					<f:selectItems value='#{responsavelAlunoBean.listaResponsavel}'
+					var='item' itemValue='#{item}' itemLabel='#{item.id}' />
+				</p:selectOneMenu>
+	<div align="right">
+		<p:commandButton value='Pesquisar' id='buttonPesquisa'
+		update='viewPanel' actionListener='#{responsavelAlunoBean.pesquisa()}'
+		styleClass='ui-priority-primary' />
+	</div>
+			</p:panel>
+		<br style='clear: left;' />
+			<p:panel id='viewPanel' header="#{i18n['responsavelAluno']}">
+			
+			<h:panelGroup layout='block' style='margin: 0 0 0.5em 0;'>
+				<p:commandButton id="buttonNew" value="#{i18n['button.new']}"
+					 action="#{responsavelAlunoBean.clearItem}" icon="ui-icon-plus"
+					 update="@form" resetValues="true">
+					<f:setPropertyActionListener target="#{responsavelAlunoBean.state}"
+						 value="CREATE" />
+				</p:commandButton>
+			</h:panelGroup>
+			
+			<p:dataTable id='mainDataTable' value='#{responsavelAlunoBean.items}'			var='itemView'>
+				<p:column headerText='Id' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.id}' />
+				</p:column>
+		
+				<p:column headerText='Responsavel Financeiro' width='30' style='text-align: center;'>
+						<h:outputText value='#{itemView.responsavelFinanceiro}' />
+				</p:column>
+		
+				<p:column headerText="#{i18n['operations']}" width='70'
+						style='text-align: center;'>
+						<p:commandButton id='buttonOperationEdit'
+							icon='ui-icon-pencil' process='@this' update='@form'
+							resetValues='true' immediate='true'>
+							<f:setPropertyActionListener target='#{responsavelAlunoBean.item}'
+							value='#{itemView}' />
+							<f:setPropertyActionListener target='#{responsavelAlunoBean.state}'
+							value='UPDATE' />
+						</p:commandButton>
+						<p:commandButton id='buttonOperationRemove'
+							icon='ui-icon-trash' process='@this' update='@form'
+							immediate='true'>
+							<f:setPropertyActionListener target='#{responsavelAlunoBean.item}'
+							value='#{itemView}' />
+							<f:setPropertyActionListener target='#{responsavelAlunoBean.state}'
+							value='DELETE' />
+						</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			</p:panel>
+		</div>
+		</div>
+			</h:panelGroup>
+		<h:panelGroup id='editPanelGroup' layout='block'
+		rendered="#{responsavelAlunoBean.state eq 'CREATE' or responsavelAlunoBean.state eq 'UPDATE'}"
+		styleClass='ui-grid ui-grid-responsive'>
+		<div class='ui-grid-row'>
+		<div class='ui-grid-col-12'>
+		<p:panel id='editPanel'>
+		<f:facet name='header'>
+		<h:outputText
+		value="#{i18n['operations.create']} #{i18n['responsavelAluno']}"		rendered="#{responsavelAlunoBean.state eq 'CREATE'}" />
+		<h:outputText
+		value="#{i18n['operations.update']} #{i18n['responsavelAluno']}"
+		rendered="#{responsavelAlunoBean.state eq 'UPDATE'}" />
+		</f:facet>
+		<div class='ui-grid-form ui-grid ui-grid-responsive'>		<div class='ui-grid-row'>		<div class='ui-grid-col-6'>		
+				<h:outputText value='Id:' />
+				<p:inputText id='componente5'
+					value='#{responsavelAlunoBean.item.id}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Responsavel Financeiro:' />
+				<p:inputText id='componente6'
+					value='#{responsavelAlunoBean.item.responsavelFinanceiro}'>
+ 				</p:inputText>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Aluno:' />
+				<p:selectOneMenu id='componente7'
+					value='#{responsavelAlunoBean.item.aluno}' label='Aluno'
+					 converter='#{alunoConverter}'>
+					<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+					<f:selectItems value='#{responsavelAlunoBean.listaAluno}'
+					var='item' itemValue='#{item}' itemLabel='#{item.id}' />
+				</p:selectOneMenu>
+		</div>
+		<div class='ui-grid-col-6'>		
+				<h:outputText value='Responsavel:' />
+				<p:selectOneMenu id='componente8'
+					value='#{responsavelAlunoBean.item.responsavel}' label='Responsavel'
+					 converter='#{responsavelConverter}'>
+					<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+					<f:selectItems value='#{responsavelAlunoBean.listaResponsavel}'
+					var='item' itemValue='#{item}' itemLabel='#{item.id}' />
+				</p:selectOneMenu>
+		</div>
+		</div>
+		</div>
+		<f:facet name='footer'>
+			<p:commandButton value="#{i18n['button.cancel']}"
+				icon='ui-icon-close' process='@this' update='@form'
+				immediate='true' styleClass='buttonCancel'
+				style='float: left;'>
+				<f:setPropertyActionListener target='#{responsavelAlunoBean.state}'
+				value='READ' />
+			</p:commandButton>
+			<p:commandButton id='buttonCreate'
+				value="#{i18n['button.save']}" action='#{responsavelAlunoBean.create}'
+				icon='ui-icon-check'
+				rendered="#{responsavelAlunoBean.state eq 'CREATE'}" process='@form'
+				update='@form' style='float: right;'>
+				<f:setPropertyActionListener target='#{responsavelAlunoBean.state}'
+				value='READ' />
+			</p:commandButton>
+			<p:commandButton id='buttonUpdate'
+				value="#{i18n['button.edit']}" action='#{responsavelAlunoBean.update}'
+				icon='ui-icon-check'
+				rendered="#{responsavelAlunoBean.state eq 'UPDATE'}" process='@form'
+				update='@form' style='float: right;'>
+				<f:setPropertyActionListener target='#{responsavelAlunoBean.state}'
+				value='READ' />
+			</p:commandButton>
+			<p:defaultCommand
+				target="#{(responsavelAlunoBean.item.id eq null) ? 'buttonCreate' : 'buttonUpdate'}" />
+			<div style='clear: both;'></div>
+		</f:facet>
+		</p:panel>
+		</div>
+		</div>
+		</h:panelGroup>
+		<h:panelGroup id='removePanelGroup' layout='block'
+		rendered="#{responsavelAlunoBean.state eq 'DELETE'}"
+		styleClass='ui-grid ui-grid-responsive'>
+		<div class='ui-grid-row'>
+		<div class='ui-grid-col-12'>
+		<p:panel id='removePanel'
+		 header="#{i18n['operations.delete']} #{i18n['responsavelAluno']}">
+  <div class='ui-grid-form ui-grid ui-grid-responsive'>
+ 	<div class='ui-grid-row'>
+ 	<div class='ui-grid-col-12'> 
+			<h3>				<h:outputFormat					value="#{i18n['operations.delete.areYouSure']}">
+					<f:param value='#{responsavelAlunoBean.item.id}' />
+					</h:outputFormat>
+			</h3>
+		</div>
+	</div>
+	</div>
+	<f:facet name='footer'>	<p:commandButton value="#{i18n['button.cancel']}"
+		icon='ui-icon-close' process='@this' update='@form'		immediate='true' styleClass='buttonCancel'
+		style='float: left;'>
+		<f:setPropertyActionListener target="#{responsavelAlunoBean.state}"
+			value='READ' />
+	</p:commandButton>	<p:commandButton id='buttonRemove'
+		value="#{i18n['button.remove']}"
+		action='#{responsavelAlunoBean.delete}' icon='ui-icon-trash'
+		process='@this' update='@form' style='float: right;'>
+		<f:setPropertyActionListener target="#{responsavelAlunoBean.state}"			value='READ' />
+	</p:commandButton>	<div style='clear: both;'>
+</div>
+	</f:facet>
+	</p:panel>
+	</div>
+	</div>
+		</h:panelGroup>
+		</h:form>
+	</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>
