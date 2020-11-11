@@ -1,12 +1,15 @@
 package br.com.jway.bean;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.apache.commons.logging.Log;
@@ -134,12 +137,8 @@ public class LoginBean extends SpringBeanAutowiringSupport implements Serializab
 	}
 
 	public StreamedContent getImagem() {
-		/*if (tenancy!=null&&tenancy.getEscola()!=null&&tenancy.getEscola().getLogo() != null) {
-			return new DefaultStreamedContent(new ByteArrayInputStream(tenancy.getEscola().getLogo()), "image/png");
-		} else {
-			return new DefaultStreamedContent();
-		}*/
 		return null;
+		
 	}
 
 }

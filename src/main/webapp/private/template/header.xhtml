@@ -18,67 +18,39 @@
 		<h:panelGrid columns="2">
 			<p:column style="align:left;">
 				<h:form enctype="multipart/form-data">
-					<p:graphicImage value="#{loginBean.imagem}" id="imagem" width="100"
+					<p:graphicImage name="images/geraes.png" id="imagem" width="100"
 						height="70" />
 				</h:form>
 			</p:column>
 			<p:column>
-				<b:navBar brand="Geraes Soluções em Mída Exterior" brandHref="/geraesooh/private/index.xhtml">
+				<b:navBar brand="Geraes Soluções em Mída Exterior"
+					brandHref="/geraesooh/private/index.xhtml">
 
 					<b:navbarLinks>
 						<b:dropMenu value="Cadastros básicos">
-							<b:navLink value="#{i18n['escola']}"
-								href="/atena/private/user/cadastro/escola.xhtml"></b:navLink>
-							<b:navLink value="#{i18n['curso']}"
+							<b:navLink value="Agência"
+								href="/atena/private/user/cadastro/agencia.xhtml"></b:navLink>
+							<b:navLink value="Cliente"
 								href="/atena/private/user/cadastro/curso.xhtml"></b:navLink>
-							<b:navLink value="#{i18n['disciplina']}"
+							<b:navLink value="Exibidor"
 								href="/atena/private/user/cadastro/disciplina.xhtml"></b:navLink>
-							<b:navLink value="#{i18n['local']}"
+							<b:navLink value="Pontos de exibição"
 								href="/atena/private/user/cadastro/local.xhtml"></b:navLink>
-							<b:navLink value="#{i18n['turno']}"
-								href="/atena/private/user/cadastro/turno.xhtml"></b:navLink>
 
-							<b:navLink value="#{i18n['turma']}"
+						</b:dropMenu>
+						<b:dropMenu value="Operacional">
+							<b:navLink value="Agendamento"
 								href="/atena/private/user/cadastro/turma.xhtml"></b:navLink>
-
-							<b:navLink value="#{i18n['horario']}"
-								href="/atena/private/user/cadastro/horario.xhtml"></b:navLink>
-
-							<b:navLink value="#{i18n['servico']}"
-								href="/atena/private/user/cadastro/servico.xhtml"></b:navLink>
+								<b:navLink value="Gerar P.I"
+								href="/atena/private/user/cadastro/turma.xhtml"></b:navLink>
 						</b:dropMenu>
-						<b:dropMenu value="Alunos">
-							<b:navLink value="#{i18n['cadastroAluno']}"
-								href="/atena/private/user/alunos/aluno.xhtml"></b:navLink>
-						</b:dropMenu>
-						<b:dropMenu value="Professores">
-							<b:navLink value="#{i18n['cadastroProfessor']}"
-								href="/atena/private/user/professores/professor.xhtml"></b:navLink>
-							<b:navLink value="#{i18n['alocacao']}"
+						<b:dropMenu value="Relatórios">
+							<b:navLink value="Locais e Pontos de EXibição"
 								href="/atena/private/user/professores/turmaDisciplina.xhtml"></b:navLink>
-						</b:dropMenu>
-						<b:dropMenu value="Matrículas">
-							<b:navLink value="#{i18n['cadastroMatricula']}"
+							<b:navLink value="Mapa Explicativo com Locais"
 								href="/atena/private/user/alunos/matricula.xhtml"></b:navLink>
 						</b:dropMenu>
-						
-						<b:dropMenu value="Financeiro">
-							<b:dropMenu value="Cobrança">
-								<b:navLink value="#{i18n['boleto']}"
-									href="/atena/private/user/financeiro/lancamentoCobranca.xhtml"></b:navLink>
-								<b:navLink value="#{i18n['baixa']}"
-									href="/atena/private/user/financeiro/baixaCobranca.xhtml"></b:navLink>
-							</b:dropMenu>
-						</b:dropMenu>
 
-						<!-- Alinhados a direita) -->
-						<b:navbarLinks pull="right">
-							<b:navLink value="    " href="#"></b:navLink>
-						</b:navbarLinks>
-						<b:navbarLinks pull="right" styleClass="hidden-xs">
-
-							<b:navLink value="Sair" href="/geraesooh/public/login.xhtml"></b:navLink>
-						</b:navbarLinks>
 					</b:navbarLinks>
 
 
