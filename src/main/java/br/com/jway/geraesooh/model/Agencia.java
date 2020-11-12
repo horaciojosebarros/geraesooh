@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity 
@@ -41,11 +43,13 @@ public class Agencia implements Serializable {
 		@Column(name="complemento")
 		private String complemento;
 		
-		@Column(name="cidade")
-		private String cidade;
+		@ManyToOne
+		@JoinColumn(name="cidade")
+		private Cidade cidade;
 		
-		@Column(name="uf")
-		private String uf;
+		@ManyToOne
+		@JoinColumn(name="uf")
+		private Uf uf;
 		
 		@Column(name="cep")
 		private String cep;
@@ -61,6 +65,15 @@ public class Agencia implements Serializable {
 		
 		@Column(name="contato")
 		private String contato;
+		
+		@Column(name="numero")
+		private String numero;
+		
+		@Column(name="email")
+		private String email;
+		
+		@Column(name="site")
+		private String site;
 
 		public Long getId() {
 			return id;
@@ -126,19 +139,20 @@ public class Agencia implements Serializable {
 			this.complemento = complemento;
 		}
 
-		public String getCidade() {
+
+		public Cidade getCidade() {
 			return cidade;
 		}
 
-		public void setCidade(String cidade) {
+		public void setCidade(Cidade cidade) {
 			this.cidade = cidade;
 		}
 
-		public String getUf() {
+		public Uf getUf() {
 			return uf;
 		}
 
-		public void setUf(String uf) {
+		public void setUf(Uf uf) {
 			this.uf = uf;
 		}
 
@@ -184,6 +198,30 @@ public class Agencia implements Serializable {
 
 		public static long getSerialversionuid() {
 			return serialVersionUID;
+		}
+
+		public String getNumero() {
+			return numero;
+		}
+
+		public void setNumero(String numero) {
+			this.numero = numero;
+		}
+
+		public String getEmail() {
+			return email;
+		}
+
+		public void setEmail(String email) {
+			this.email = email;
+		}
+
+		public String getSite() {
+			return site;
+		}
+
+		public void setSite(String site) {
+			this.site = site;
 		}
 		
 		

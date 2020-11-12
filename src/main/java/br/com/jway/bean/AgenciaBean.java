@@ -14,7 +14,11 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import br.com.jway.geraesooh.model.Agencia;
+import br.com.jway.geraesooh.model.Cidade;
+import br.com.jway.geraesooh.model.Uf;
 import br.com.jway.geraesooh.service.AgenciaService;
+import br.com.jway.geraesooh.service.CidadeService;
+import br.com.jway.geraesooh.service.UfService;
 import br.com.jway.util.FacesUtils;
 
 @ManagedBean
@@ -28,10 +32,18 @@ public class AgenciaBean extends SpringBeanAutowiringSupport implements Serializ
 	@Inject
 	private AgenciaService service;
 	
+	@Inject
+	private UfService ufService;
+	
+	@Inject
+	private CidadeService cidadeService;
+	
 	private String state;
 	private List<Agencia> items;
 	private Agencia item;
 	private Agencia itemFilter;
+	
+	private List<Cidade> cidades;
 	
 	
 	public AgenciaBean() {
@@ -129,4 +141,19 @@ public class AgenciaBean extends SpringBeanAutowiringSupport implements Serializ
 	}
 
 
+	public List<Uf> getUfs() {
+		return ufService.list();
+		
+	}
+	
+	public List<Cidade> getCidades() {
+		return cidades;
+	}
+	
+	public void refreshUf() {
+		cidades = cidadeService.findByUf(item.getUf());
+		
+	}
+	
+	
 }

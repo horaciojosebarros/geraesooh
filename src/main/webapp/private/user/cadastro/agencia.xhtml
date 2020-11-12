@@ -23,22 +23,22 @@
 
 						<h:panelGrid columns="11">
 
-							<h:outputLabel value='Matricula:' for="componente2" />
+							<h:outputLabel value='Cnpj:' for="componente2" />
 							<p:spacer width="10" />
 							<p:inputText id='componente2'
-								value='#{agenciaBean.itemFilter.matricula}' maxlength="8" size="8">
+								value='#{agenciaBean.itemFilter.cnpj}' maxlength="8" size="8">
 							</p:inputText>
 							<p:spacer width="50" />
 
-							<h:outputLabel value='Nome:' />
+							<!--  <h:outputLabel value='Razão Social:' />
 							<p:spacer width="10" />
 							<p:selectOneMenu id='componente5'
-								value='#{agenciaBean.itemFilter.pessoa}' label='Nome:'
-								converter='#{pessoaConverter}' maxlength="60" size="60">
+								value='#{agenciaBean.itemFilter.agencia}' label='Nome:'
+								converter='#{agenciaConverter}' maxlength="60" size="60">
 								<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
-								<f:selectItems value='#{agenciaBean.listaPessoa}' var='item'
+								<f:selectItems value='#{agenciaBean.listaAgencia}' var='item'
 									itemValue='#{item}' itemLabel='#{item.nome}' />
-							</p:selectOneMenu>
+							</p:selectOneMenu>-->
 						</h:panelGrid>
 
 						<div align="right">
@@ -70,21 +70,21 @@
 
 							<p:column headerText='Nome' width='60'
 								style='text-align: center;'>
-								<h:outputLabel value='#{itemView.pessoa.nome}' />
+								<h:outputLabel value='#{itemView.agencia.razaoSocial}' />
 							</p:column>
 
-							<p:column headerText='Cpf' width='14' style='text-align: center;'>
-								<h:outputLabel value='#{itemView.pessoa.cpf}' />
+							<p:column headerText='Cnpj' width='14' style='text-align: center;'>
+								<h:outputLabel value='#{itemView.pessoa.cnpj}' />
 							</p:column>
 
-							<p:column headerText='Matricula' width='30'
+							<p:column headerText='Nome fantasia' width='30'
 								style='text-align: center;'>
-								<h:outputLabel value='#{itemView.matricula}' />
+								<h:outputLabel value='#{itemView.nomeFantasia}' />
 							</p:column>
 
-							<p:column headerText='Situacao' width='10'
+							<p:column headerText='Cidade' width='10'
 								style='text-align: center;'>
-								<h:outputLabel value='#{itemView.situacao}' />
+								<h:outputLabel value='#{itemView.cidade}' />
 							</p:column>
 
 
@@ -131,101 +131,83 @@
 								</div>
 
 
-								<!--  dados de pessoa -->
 								<h:panelGrid columns="1">
 
 									<p:panel id='editPanel2'>
 
 										<h:panelGrid columns="9">
 
-											<h:form enctype="multipart/form-data">
-												<h:outputLabel value="Foto" />
-												<p:graphicImage value="#{agenciaBean.imagem}" id="imagem"
-													width="150" height="130" />
-												<p:fileUpload sizeLimit="900000" auto="true"
-													id="fileUploadId" widgetVar="uploader" label="Procurar..."
-													fileUploadListener="#{agenciaBean.handleFileUpload}"
-													allowTypes="/(\.|\/)(gif|jpe?g|png)$/" description="Images"
-													update="imagem" multiple="false" />
-											</h:form>
-
-											<p:spacer width="50" />
-
-											<h:outputLabel value='Cpf:' styleClass="cssLabel" />
-											<p:spacer width="10" />
-											<p:inputMask id='cpf' required="true"
-												value='#{agenciaBean.item.pessoa.cpf}' mask="999.999.999-99">
+											<h:outputLabel value='Cnpj:' styleClass="cssLabel" />
+											<p:spacer width="15" />
+											<p:inputMask id='cnpj' required="true"
+												value='#{agenciaBean.item.cnpj}' mask="99.999.999/9999-99">
 											</p:inputMask>
 
 											<p:spacer width="50" />
-											<h:outputLabel value='Nome:' />
-											<p:spacer width="10" />
+											<h:outputLabel value='Razao Social:' />
+											<p:spacer width="20" />
 											<p:inputText id='nome' required="true"
-												value='#{agenciaBean.item.pessoa.nome}' size="80">
+												value='#{agenciaBean.item.razaoSocial}' size="80">
 											</p:inputText>
 
 										</h:panelGrid>
 
 										<p:panelGrid columns="5">
 
-											<h:outputLabel value='Nome Mae:'  required="true"/>
+											<h:outputLabel value='Nome Fantasia:'  required="true"/>
 											<p:inputText id='mae'
-												value='#{agenciaBean.item.pessoa.nomeMae}' size="80">
+												value='#{agenciaBean.item.nomeFantasia}' size="80">
 											</p:inputText>
 											<p:spacer width="10" />
 											<h:outputLabel value='Nome Pai:' />
 											<p:inputText id='pai'
-												value='#{agenciaBean.item.pessoa.nomePai}' size="80">
+												value='#{agenciaBean.item.nomeFantasia}' size="80">
 											</p:inputText>
 
-											<h:outputLabel value='Data Nascimento:'  />
-											<p:calendar id='Nascimento' required="true"
-												value='#{agenciaBean.item.pessoa.dataNascimento}'
-												style="width: 20% important!" pattern="dd-MM-yyyy"
-												mask="true">
-											</p:calendar>
 											<p:spacer width="10" />
 											<h:outputLabel value='Cep:' />
 											<p:inputMask id='Cep' required="true"
-												value='#{agenciaBean.item.pessoa.cep}' size="10"
+												value='#{agenciaBean.item.cep}' size="10"
 												mask="99999-999">
 											</p:inputMask>
 											
 											<h:outputLabel value='Rua/Av:' />
 											<p:inputText id='Endereço' required="true"
-												value='#{agenciaBean.item.pessoa.endereco}' size="80">
+												value='#{agenciaBean.item.endereco}' size="80">
 											</p:inputText>
 											<p:spacer width="10" />
 											<h:outputLabel value='Numero:' />
 											<p:inputText id='componente33'
-												value='#{agenciaBean.item.pessoa.numero}' style="width: 20%">
+												value='#{agenciaBean.item.numero}' style="width: 20%">
 											</p:inputText>
 											<h:outputLabel value='Complemento:' />
 											<p:inputText id='componente26'
-												value='#{agenciaBean.item.pessoa.complemento}'
+												value='#{agenciaBean.item.complemento}'
 												style="width: 20%">
 											</p:inputText>
 											<p:spacer width="10" />
 											<h:outputLabel value='Bairro:' />
 											<p:inputText id='componente22'
-												value='#{agenciaBean.item.pessoa.bairro}' size="40">
+												value='#{agenciaBean.item.bairro}' size="40">
 											</p:inputText>
 
 
 											<h:outputLabel value='Uf:' />
 											<h:selectOneMenu required="true"
-												value="#{agenciaBean.item.pessoa.uf}" id="uf" converter='#{ufConverter}'>
+												value="#{agenciaBean.item.uf}" id="uf" converter='#{ufConverter}'>
 												<f:selectItems value="#{agenciaBean.ufs}"
 													var="uf" itemLabel="#{uf.descricao}"
 													itemValue="#{uf}" />
 												<p:ajax listener="#{agenciaBean.refreshUf}"
 													event="change" update="cidade" process="uf" />
 											</h:selectOneMenu>
+											
 											<p:spacer width="10" />
 											<h:outputLabel value='Cidade:'  required="true"/>
 											<h:selectOneMenu required="true"
-												value="#{agenciaBean.item.pessoa.cidade}" id="cidade" converter='#{cidadeConverter}'>
+												value="#{agenciaBean.item.cidade}" id="cidade" converter='#{cidadeConverter}'>
 												<f:selectItems value="#{agenciaBean.cidades}"
+												
 													var="cidade" itemLabel="#{cidade.municipio}"
 													itemValue="#{cidade}" />
 											</h:selectOneMenu>
@@ -234,17 +216,17 @@
 
 											<h:outputLabel value='Celular:' />
 											<p:inputMask id='componente23' mask="(99)99999-9999"
-												value='#{agenciaBean.item.pessoa.celular}' size="12">
+												value='#{agenciaBean.item.fone1}' size="12">
 											</p:inputMask>
 											<p:spacer width="10" />
 											<h:outputLabel value='Telefone Fixo:' />
 											<p:inputMask id='componente35' mask="(99)9999-9999"
-												value='#{agenciaBean.item.pessoa.telefoneFixo}' size="12">
+												value='#{agenciaBean.item.fone2}' size="12">
 											</p:inputMask>
 
 											<h:outputLabel value='Email:' />
 											<p:inputText id='componente28'
-												value='#{agenciaBean.item.pessoa.email}' size="80">
+												value='#{agenciaBean.item.email}' size="80">
 											</p:inputText>
 
 
