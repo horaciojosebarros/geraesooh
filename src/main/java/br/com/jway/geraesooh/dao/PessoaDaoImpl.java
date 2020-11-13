@@ -66,4 +66,36 @@ public class PessoaDaoImpl implements PessoaDao {
 		return null;
 	}
 
+	@Override
+	public List<Pessoa> buscaPorNome(String razaoSocial) {
+		final StringBuilder jpql = new StringBuilder()
+				.append("SELECT x ")
+				.append("FROM " + Pessoa.class.getName() + " x ")
+				.append("WHERE x.razaoSocial like '%" + razaoSocial + "%' "
+						);
+		try {
+			return em.createQuery(jpql.toString(), Pessoa.class)
+					.getResultList();
+		} catch (final Exception e) {
+			return null;
+		}
+	}
+
+	@Override
+	public List<Pessoa> listExibidor() {
+		final StringBuilder jpql = new StringBuilder().append("SELECT x ")
+				.append("FROM " + Pessoa.class.getName() + " x  ") //
+				.append("WHERE x.exibidor = 'S' ")
+				.append("ORDER BY x.id ASC ");
+		return em.createQuery(jpql.toString(), Pessoa.class).getResultList();
+	}
+
+	@Override
+	public List<Pessoa> listAnunciante() {
+		final StringBuilder jpql = new StringBuilder().append("SELECT x ")
+				.append("FROM " + Pessoa.class.getName() + " x  ") //
+				.append("WHERE x.anunciante = 'S' ")
+				.append("ORDER BY x.id ASC ");
+		return em.createQuery(jpql.toString(), Pessoa.class).getResultList();
+	}
 }

@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'
+	xmlns:ui='http://xmlns.jcp.org/jsf/facelets'
+	xmlns:h='http://xmlns.jcp.org/jsf/html'
+	xmlns:f='http://java.sun.com/jsf/core'
+	xmlns:c='http://java.sun.com/jsp/jstl/core'
+	xmlns:p='http://primefaces.org/ui'
+	xmlns:pe='http://primefaces.org/ui/extensions'
+	xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
+	xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
+
+<ui:composition template='/private/template/layout.xhtml'>
+	<ui:define name='content'>
+		<p:growl id='growl' autoUpdate='true' globalOnly='false'
+			showDetail='false' />
+		<h:panelGroup id='wrapper' layout='block' styleClass='wrapper'>
+			<h:form id='form' prependId='false'>
+				<h:panelGroup id='viewPanelGroup' layout='block'
+					rendered="#{escolaBean.state eq 'READ'}"
+					styleClass='ui-grid ui-grid-responsive'>
+					<div class='ui-grid-row'>
+						<div class='ui-grid-col-12'>
+							<br style='clear: left;' />
+							<p:panel id='viewPanel' header="#{i18n['escola']}">
+
+								<h:panelGroup layout='block' style='margin: 0 0 0.5em 0;'>
+									<p:commandButton id="buttonNew" value="#{i18n['button.new']}"
+										action="#{escolaBean.clearItem}" icon="ui-icon-plus"
+										update="@form" resetValues="true">
+										<f:setPropertyActionListener target="#{escolaBean.state}"
+											value="CREATE" />
+									</p:commandButton>
+								</h:panelGroup>
+
+								<p:dataTable id='mainDataTable' value='#{escolaBean.items}'
+									var='itemView'>
+
+									<p:column headerText='Nome' width='80'
+										style='text-align: center;'>
+										<h:outputLabel value='#{itemView.nome}' />
+									</p:column>
+
+									<p:column headerText='Cnpj' width='30'
+										style='text-align: center;'>
+										<h:outputLabel value='#{itemView.cnpj}' />
+									</p:column>
+
+									<p:column headerText='Cidade' width='30'
+										style='text-align: center;'>
+										<h:outputLabel value='#{itemView.cidade.municipio}' />
+									</p:column>
+
+									<p:column headerText='Email' width='60'
+										style='text-align: center;'>
+										<h:outputLabel value='#{itemView.email}' />
+									</p:column>
+
+
+									<p:column headerText="#{i18n['operations']}" width='5'
+										style='text-align: center;'>
+										<p:commandButton id='buttonOperationEdit'
+											icon='ui-icon-pencil' process='@this' update='@form'
+											resetValues='true' immediate='true'>
+											<f:setPropertyActionListener target='#{escolaBean.item}'
+												value='#{itemView}' />
+											<f:setPropertyActionListener target='#{escolaBean.state}'
+												value='UPDATE' />
+										</p:commandButton>
+										<p:commandButton id='buttonOperationRemove'
+											icon='ui-icon-trash' process='@this' update='@form'
+											immediate='true'>
+											<f:setPropertyActionListener target='#{escolaBean.item}'
+												value='#{itemView}' />
+											<f:setPropertyActionListener target='#{escolaBean.state}'
+												value='DELETE' />
+										</p:commandButton>
+									</p:column>
+								</p:dataTable>
+							</p:panel>
+						</div>
+					</div>
+				</h:panelGroup>
+				<h:panelGroup id='editPanelGroup' layout='block'
+					rendered="#{escolaBean.state eq 'CREATE' or escolaBean.state eq 'UPDATE'}"
+					styleClass='ui-grid ui-grid-responsive'>
+					<p:panel id='editPanel'>
+						<f:facet name='header'>
+							<h:outputLabel
+								value="#{i18n['operations.create']} #{i18n['escola']}"
+								rendered="#{escolaBean.state eq 'CREATE'}" />
+							<h:outputLabel
+								value="#{i18n['operations.update']} #{i18n['escola']}"
+								rendered="#{escolaBean.state eq 'UPDATE'}" />
+						</f:facet>
+						<h:inputHidden id='componente21' value='#{escolaBean.item.id}' />
+						<h:form enctype="multipart/form-data">
+								
+								<p:graphicImage value="#{escolaBean.imagem}" id="imagem"
+									width="30" height="30" />
+								<p:fileUpload sizeLimit="900000" auto="true" id="fileUploadId"
+									widgetVar="uploader" label="Procurar..."
+									fileUploadListener="#{escolaBean.handleFileUpload}"
+									allowTypes="/(\.|\/)(gif|jpe?g|png)$/" description="Images"
+									update="imagem" multiple="false" />
+							</h:form>
+						
+
+
+						<p:panelGrid columns="4">
+
+
+							
+							<h:outputLabel value='Nome:' />
+							<p:inputText id='componente34' value='#{escolaBean.item.nome}'
+								size="80">
+							</p:inputText>
+
+							<h:outputLabel value='Cnpj:' />
+							<p:inputMask id='componente28' value='#{escolaBean.item.cnpj}'
+								mask="99.999.999/9999-99">
+							</p:inputMask>
+
+							<h:outputLabel value='Inscricao Estadual:' />
+							<p:inputText id='componente32'
+								value='#{escolaBean.item.inscricaoEstadual}'>
+							</p:inputText>
+
+							<h:outputLabel value='Cep:' />
+							<p:inputMask id='componente26' value='#{escolaBean.item.cep}'
+								mask="99999-999">
+							</p:inputMask>
+
+							<h:outputLabel value='Endereco:' />
+							<p:inputText id='componente31'
+								value='#{escolaBean.item.endereco}' size="80">
+							</p:inputText>
+
+
+							<h:outputLabel value='Numero:' />
+							<p:inputText id='componente35' value='#{escolaBean.item.numero}'>
+							</p:inputText>
+
+							<h:outputLabel value='Complemento:' />
+							<p:inputText id='componente29'
+								value='#{escolaBean.item.complemento}'>
+							</p:inputText>
+
+							<h:outputLabel value='Bairro:' />
+							<p:inputText id='componente23' value='#{escolaBean.item.bairro}'>
+							</p:inputText>
+
+							<h:outputLabel value='Uf:' />
+							<h:selectOneMenu required="true" value="#{escolaBean.item.uf}"
+								id="uf" converter='#{ufConverter}'>
+								<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+								<f:selectItems value="#{escolaBean.ufs}" var="uf"
+									itemLabel="#{uf.descricao}" itemValue="#{uf}" />
+								<p:ajax listener="#{escolaBean.refreshUf}" event="change"
+									update="cidade" process="uf" />
+							</h:selectOneMenu>
+
+							<h:outputLabel value='Cidade:' />
+							<h:selectOneMenu required="true"
+								value="#{escolaBean.item.cidade}" id="cidade"
+								converter='#{cidadeConverter}'>
+								<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+								<f:selectItems value="#{escolaBean.cidades}" var="cidade"
+									itemLabel="#{cidade.municipio}" itemValue="#{cidade}" />
+							</h:selectOneMenu>
+
+
+							<h:outputLabel value='Celular:' />
+							<p:inputMask id='componente24' value='#{escolaBean.item.celular}'
+								mask="(99)99999-9999">
+							</p:inputMask>
+
+							<h:outputLabel value='Celular1:' />
+							<p:inputMask id='componente25' mask="(99)99999-9999"
+								value='#{escolaBean.item.celular1}'>
+							</p:inputMask>
+
+
+
+							<h:outputLabel value='Email:' />
+							<p:inputText id='componente30' value='#{escolaBean.item.email}'
+								size="60">
+							</p:inputText>
+
+
+
+							<h:outputLabel value='Site:' />
+							<p:inputText id='componente36' value='#{escolaBean.item.site}'
+								size="60">
+							</p:inputText>
+
+							<h:outputLabel value='Telefone Fixo:' />
+							<p:inputMask id='componente38' mask="(99)9999-9999"
+								value='#{escolaBean.item.telefoneFixo}'>
+							</p:inputMask>
+
+							<h:outputLabel value='Telefone Fixo1:' />
+							<p:inputMask id='componente39' mask="(99)9999-9999"
+								value='#{escolaBean.item.telefoneFixo1}'>
+							</p:inputMask>
+
+							<h:outputLabel value='Inscricao Municipal:' />
+							<p:inputText id='componente33'
+								value='#{escolaBean.item.inscricaoMunicipal}'>
+							</p:inputText>
+
+							<h:outputLabel value='Ciclo:' />
+							<h:selectOneMenu required="true" value="#{escolaBean.item.ciclo}"
+								id="ciclo">
+								<f:selectItem itemValue="#{null}" itemLabel="Escolha..." />
+								<f:selectItem itemValue="B" itemLabel="Bimestral" />
+								<f:selectItem itemValue="T" itemLabel="Trimestral" />
+								<f:selectItem itemValue="S" itemLabel="Semestral" />
+							</h:selectOneMenu>
+
+
+
+						</p:panelGrid>
+
+						<f:facet name='footer'>
+							<p:commandButton value="#{i18n['button.cancel']}"
+								icon='ui-icon-close' process='@this' update='@form'
+								immediate='true' styleClass='buttonCancel' style='float: left;'>
+								<f:setPropertyActionListener target='#{escolaBean.state}'
+									value='READ' />
+							</p:commandButton>
+							<p:commandButton id='buttonCreate' value="#{i18n['button.save']}"
+								action='#{escolaBean.create}' icon='ui-icon-check'
+								rendered="#{escolaBean.state eq 'CREATE'}" process='@form'
+								update='@form' style='float: right;'>
+								<f:setPropertyActionListener target='#{escolaBean.state}'
+									value='READ' />
+							</p:commandButton>
+							<p:commandButton id='buttonUpdate' value="#{i18n['button.edit']}"
+								action='#{escolaBean.update}' icon='ui-icon-check'
+								rendered="#{escolaBean.state eq 'UPDATE'}" process='@form'
+								update='@form' style='float: right;'>
+								<f:setPropertyActionListener target='#{escolaBean.state}'
+									value='READ' />
+							</p:commandButton>
+							<p:defaultCommand
+								target="#{(escolaBean.item.id eq null) ? 'buttonCreate' : 'buttonUpdate'}" />
+							<div style='clear: both;'></div>
+						</f:facet>
+					</p:panel>
+				</h:panelGroup>
+				<h:panelGroup id='removePanelGroup' layout='block'
+					rendered="#{escolaBean.state eq 'DELETE'}"
+					styleClass='ui-grid ui-grid-responsive'>
+					<div class='ui-grid-row'>
+						<div class='ui-grid-col-12'>
+							<p:panel id='removePanel'
+								header="#{i18n['operations.delete']} #{i18n['escola']}">
+								<div class='ui-grid-form ui-grid ui-grid-responsive'>
+									<div class='ui-grid-row'>
+										<div class='ui-grid-col-12'>
+											<h3>
+												<h:outputFormat
+													value="#{i18n['operations.delete.areYouSure']}">
+													<f:param value='#{escolaBean.item.id}' />
+												</h:outputFormat>
+											</h3>
+										</div>
+									</div>
+								</div>
+								<f:facet name='footer'>
+									<p:commandButton value="#{i18n['button.cancel']}"
+										icon='ui-icon-close' process='@this' update='@form'
+										immediate='true' styleClass='buttonCancel'
+										style='float: left;'>
+										<f:setPropertyActionListener target="#{escolaBean.state}"
+											value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonRemove'
+										value="#{i18n['button.remove']}" action='#{escolaBean.delete}'
+										icon='ui-icon-trash' process='@this' update='@form'
+										style='float: right;'>
+										<f:setPropertyActionListener target="#{escolaBean.state}"
+											value='READ' />
+									</p:commandButton>
+									<div style='clear: both;'></div>
+								</f:facet>
+							</p:panel>
+						</div>
+					</div>
+				</h:panelGroup>
+			</h:form>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>

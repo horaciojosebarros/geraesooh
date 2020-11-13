@@ -18,5 +18,11 @@ public interface PessoaDao {
 	void delete(long id);
 
 	public List<Pessoa> pesquisa(Pessoa pessoa);
+	
+	List<Pessoa> buscaPorNome(String razaoSocial);
+
+	List<Pessoa> listExibidor();
+	
+	List<Pessoa> listAnunciante();
 
 }

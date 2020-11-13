@@ -14,6 +14,9 @@ public interface PessoaService  extends Serializable {
 	public void update(Pessoa pessoa);
 
 	public List<Pessoa> list();
+	
+	public List<Pessoa> listExibidor();
+	public List<Pessoa> listAnunciante();
 
 	public void delete(long id);
 
@@ -22,6 +25,8 @@ public interface PessoaService  extends Serializable {
 	public List<Pessoa> pesquisa(Pessoa pessoa);
 
 	public boolean existe(Pessoa pessoaLogado);
+	
+	public List<Pessoa> pesquisaPorNome(String razaoSocial);
 
 
 }

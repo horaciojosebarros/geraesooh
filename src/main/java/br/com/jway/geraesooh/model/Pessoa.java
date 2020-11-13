@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity 
@@ -35,17 +37,23 @@ public class Pessoa implements Serializable {
 	@Column(name="endereco")
 	private String endereco;
 	
+	@Column(name="numero")
+	private String numero;
+	
+	
 	@Column(name="bairro")
 	private String bairro;
 	
 	@Column(name="complemento")
 	private String complemento;
 	
-	@Column(name="cidade")
-	private String cidade;
+	@ManyToOne
+	@JoinColumn(name="cidade")
+	private Cidade cidade;
 	
-	@Column(name="uf")
-	private String uf;
+	@ManyToOne
+	@JoinColumn(name="uf")
+	private Uf uf;
 	
 	@Column(name="cep")
 	private String cep;
@@ -70,6 +78,22 @@ public class Pessoa implements Serializable {
 	
 	@Column(name="tipo_pessoa")
 	private String tipoPessoa;
+	
+	@Column(name="email")
+	private String email;
+
+	@Column(name="site")
+	private String site;
+	
+	@Column(name="banco")
+	private String banco;
+	
+	@Column(name="agencia")
+	private String agencia;
+	
+	@Column(name="conta")
+	private String conta;
+	
 
 	public Long getId() {
 		return id;
@@ -135,19 +159,21 @@ public class Pessoa implements Serializable {
 		this.complemento = complemento;
 	}
 
-	public String getCidade() {
+	
+
+	public Cidade getCidade() {
 		return cidade;
 	}
 
-	public void setCidade(String cidade) {
+	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
 	}
 
-	public String getUf() {
+	public Uf getUf() {
 		return uf;
 	}
 
-	public void setUf(String uf) {
+	public void setUf(Uf uf) {
 		this.uf = uf;
 	}
 
@@ -219,25 +245,56 @@ public class Pessoa implements Serializable {
 		return serialVersionUID;
 	}
 
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getSite() {
+		return site;
+	}
+
+	public void setSite(String site) {
+		this.site = site;
+	}
+
+	public String getBanco() {
+		return banco;
+	}
+
+	public void setBanco(String banco) {
+		this.banco = banco;
+	}
+
+	public String getAgencia() {
+		return agencia;
+	}
+
+	public void setAgencia(String agencia) {
+		this.agencia = agencia;
+	}
+
+	public String getConta() {
+		return conta;
+	}
+
+	public void setConta(String conta) {
+		this.conta = conta;
+	}
+
 	
-	/*id_pessoa int(11) AI PK 
-	nome_fantasia varchar(45) 
-	razao_social varchar(45) 
-	cnpj varchar(45) 
-	inscricao varchar(45) 
-	endereco varchar(45) 
-	bairro varchar(45) 
-	complemento varchar(45) 
-	cidade varchar(45) 
-	uf varchar(2) 
-	cep varchar(10) 
-	fone1 varchar(12) 
-	fone2 varchar(12) 
-	fone3 varchar(12) 
-	contato varchar(45) 
-	tipo_pessoa varchar(1) 
-	anunciante varchar(1) 
-	exibidor varchar(1)*/
+	
 	
 	
 

@@ -3,8 +3,6 @@ package br.com.jway.geraesooh.service;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -62,5 +60,16 @@ public class PessoaServiceImpl implements PessoaService, Serializable{
 		return false;
 	}
 
-
+	@Override
+	public List<Pessoa> pesquisaPorNome(String razaoSocial) {
+		return dao.buscaPorNome(razaoSocial);
+	}
+	@Override
+	public List<Pessoa> listExibidor() {
+		return dao.listExibidor();
+	}
+	@Override
+	public List<Pessoa> listAnunciante() {
+		return dao.listAnunciante();
+	}
 }
