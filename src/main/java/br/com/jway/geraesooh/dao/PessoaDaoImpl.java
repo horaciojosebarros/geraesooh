@@ -2,6 +2,7 @@ package br.com.jway.geraesooh.dao;
 
 import java.util.List;
 
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -12,6 +13,7 @@ import com.uaihebert.uaicriteria.UaiCriteria;
 
 import br.com.jway.geraesooh.model.Pessoa;
 
+@Named
 public class PessoaDaoImpl implements PessoaDao {
 
 	private static final long serialVersionUID = 1L;

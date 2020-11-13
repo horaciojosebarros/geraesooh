@@ -83,4 +83,19 @@ public class AgenciaDaoImpl implements AgenciaDao {
 		}
 	}
 
+	@Override
+	public List<Agencia> buscaPorNome(String razaoSocial) {
+		final StringBuilder jpql = new StringBuilder()
+				.append("SELECT x ")
+				.append("FROM " + Agencia.class.getName() + " x ")
+				.append("WHERE x.razaoSocial like '%" + razaoSocial + "%' "
+						);
+		try {
+			return em.createQuery(jpql.toString(), Agencia.class)
+					.getResultList();
+		} catch (final Exception e) {
+			return null;
+		}
+	}
+
 }

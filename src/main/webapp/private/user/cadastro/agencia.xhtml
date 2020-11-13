@@ -7,7 +7,6 @@
 	xmlns:c='http://java.sun.com/jsp/jstl/core'
 	xmlns:p='http://primefaces.org/ui'
 	xmlns:pe='http://primefaces.org/ui/extensions'
-	xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
 	xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
 
 <ui:composition template='/private/template/layout.xhtml'>
@@ -19,36 +18,27 @@
 				<h:panelGroup id='viewPanelGroup' layout='block'
 					rendered="#{agenciaBean.state eq 'READ'}">
 					<p:panel id='searchPanel' header="#{i18n['operations.search']}">
-						<h:inputHidden id='componente1' value='#{agenciaBean.itemFilter.id}' />
+						<h:inputHidden id='componente1'
+							value='#{agenciaBean.itemFilter.id}' />
 
 						<h:panelGrid columns="11">
-
-							<h:outputLabel value='Cnpj:' for="componente2" />
+							
+							<h:outputLabel value='Nome/Razão social:' for="componente2" />
 							<p:spacer width="10" />
 							<p:inputText id='componente2'
-								value='#{agenciaBean.itemFilter.cnpj}' maxlength="8" size="8">
+								value='#{agenciaBean.itemFilter.razaoSocial}' maxlength="60" size="60">
 							</p:inputText>
-							<p:spacer width="50" />
-
-							<!--  <h:outputLabel value='Razão Social:' />
-							<p:spacer width="10" />
-							<p:selectOneMenu id='componente5'
-								value='#{agenciaBean.itemFilter.agencia}' label='Nome:'
-								converter='#{agenciaConverter}' maxlength="60" size="60">
-								<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
-								<f:selectItems value='#{agenciaBean.listaAgencia}' var='item'
-									itemValue='#{item}' itemLabel='#{item.nome}' />
-							</p:selectOneMenu>-->
+							
 						</h:panelGrid>
 
 						<div align="right">
 							<p:commandButton value='Pesquisar' id='buttonPesquisa'
-								update='viewPanel' actionListener='#{agenciaBean.pesquisa()}'
+								update='viewPanel' actionListener='#{agenciaBean.pesquisaPorNome()}'
 								styleClass='ui-priority-primary' />
 						</div>
 					</p:panel>
 					<br style='clear: left;' />
-					<p:panel id='viewPanel' header="#{i18n['aluno']}">
+					<p:panel id='viewPanel' header="Agências">
 
 						<h:panelGroup layout='block' style='margin: 0 0 0.5em 0;'>
 							<p:commandButton id="buttonNew" value="#{i18n['button.new']}"
@@ -60,21 +50,23 @@
 						</h:panelGroup>
 
 						<p:dataTable id='mainDataTable' value='#{agenciaBean.items}'
-							var='itemView' emptyMessage="#{i18n['operations.search.noRecordsFound']}">
-							
+							var='itemView'
+							emptyMessage="#{i18n['operations.search.noRecordsFound']}">
+
 							<p:column headerText='Código' width='10'
 								style='text-align: center;'>
 								<h:outputLabel value='#{itemView.id}' />
 							</p:column>
-							
+
 
 							<p:column headerText='Nome' width='60'
 								style='text-align: center;'>
-								<h:outputLabel value='#{itemView.agencia.razaoSocial}' />
+								<h:outputLabel value='#{itemView.razaoSocial}' />
 							</p:column>
 
-							<p:column headerText='Cnpj' width='14' style='text-align: center;'>
-								<h:outputLabel value='#{itemView.pessoa.cnpj}' />
+							<p:column headerText='Cnpj' width='14'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.cnpj}' />
 							</p:column>
 
 							<p:column headerText='Nome fantasia' width='30'
@@ -84,7 +76,7 @@
 
 							<p:column headerText='Cidade' width='10'
 								style='text-align: center;'>
-								<h:outputLabel value='#{itemView.cidade}' />
+								<h:outputLabel value='#{itemView.cidade.municipio}' />
 							</p:column>
 
 
@@ -116,11 +108,9 @@
 						<div class='ui-grid-col-12'>
 							<p:panel id='editPanel'>
 								<f:facet name='header'>
-									<h:outputLabel
-										value="#{i18n['operations.create']} #{i18n['aluno']}"
+									<h:outputLabel value="#{i18n['operations.create']} Agências"
 										rendered="#{agenciaBean.state eq 'CREATE'}" />
-									<h:outputLabel
-										value="#{i18n['operations.update']} #{i18n['aluno']}"
+									<h:outputLabel value="#{i18n['operations.update']} Agências"
 										rendered="#{agenciaBean.state eq 'UPDATE'}" />
 								</f:facet>
 
@@ -132,45 +122,34 @@
 
 
 								<h:panelGrid columns="1">
-
 									<p:panel id='editPanel2'>
 
-										<h:panelGrid columns="9">
 
+										<p:panelGrid columns="5">
 											<h:outputLabel value='Cnpj:' styleClass="cssLabel" />
-											<p:spacer width="15" />
 											<p:inputMask id='cnpj' required="true"
 												value='#{agenciaBean.item.cnpj}' mask="99.999.999/9999-99">
 											</p:inputMask>
 
-											<p:spacer width="50" />
+											<p:spacer width="10" />
+											
 											<h:outputLabel value='Razao Social:' />
-											<p:spacer width="20" />
-											<p:inputText id='nome' required="true"
+											<p:inputText id='razaoSocial' required="true"
 												value='#{agenciaBean.item.razaoSocial}' size="80">
 											</p:inputText>
 
-										</h:panelGrid>
-
-										<p:panelGrid columns="5">
-
-											<h:outputLabel value='Nome Fantasia:'  required="true"/>
-											<p:inputText id='mae'
-												value='#{agenciaBean.item.nomeFantasia}' size="80">
-											</p:inputText>
-											<p:spacer width="10" />
-											<h:outputLabel value='Nome Pai:' />
-											<p:inputText id='pai'
+											<h:outputLabel value='Nome Fantasia:' required="true" />
+											<p:inputText id='nomeFantasia'
 												value='#{agenciaBean.item.nomeFantasia}' size="80">
 											</p:inputText>
 
 											<p:spacer width="10" />
+											
 											<h:outputLabel value='Cep:' />
 											<p:inputMask id='Cep' required="true"
-												value='#{agenciaBean.item.cep}' size="10"
-												mask="99999-999">
+												value='#{agenciaBean.item.cep}' size="10" mask="99999-999">
 											</p:inputMask>
-											
+
 											<h:outputLabel value='Rua/Av:' />
 											<p:inputText id='Endereço' required="true"
 												value='#{agenciaBean.item.endereco}' size="80">
@@ -182,8 +161,7 @@
 											</p:inputText>
 											<h:outputLabel value='Complemento:' />
 											<p:inputText id='componente26'
-												value='#{agenciaBean.item.complemento}'
-												style="width: 20%">
+												value='#{agenciaBean.item.complemento}' style="width: 20%">
 											</p:inputText>
 											<p:spacer width="10" />
 											<h:outputLabel value='Bairro:' />
@@ -194,25 +172,24 @@
 
 											<h:outputLabel value='Uf:' />
 											<h:selectOneMenu required="true"
-												value="#{agenciaBean.item.uf}" id="uf" converter='#{ufConverter}'>
-												<f:selectItems value="#{agenciaBean.ufs}"
-													var="uf" itemLabel="#{uf.descricao}"
-													itemValue="#{uf}" />
-												<p:ajax listener="#{agenciaBean.refreshUf}"
-													event="change" update="cidade" process="uf" />
-											</h:selectOneMenu>
-											
-											<p:spacer width="10" />
-											<h:outputLabel value='Cidade:'  required="true"/>
-											<h:selectOneMenu required="true"
-												value="#{agenciaBean.item.cidade}" id="cidade" converter='#{cidadeConverter}'>
-												<f:selectItems value="#{agenciaBean.cidades}"
-												
-													var="cidade" itemLabel="#{cidade.municipio}"
-													itemValue="#{cidade}" />
+												value="#{agenciaBean.item.uf}" id="uf"
+												converter='#{ufConverter}'>
+												<f:selectItems value="#{agenciaBean.ufs}" var="uf"
+													itemLabel="#{uf.descricao}" itemValue="#{uf}" />
+												<p:ajax listener="#{agenciaBean.refreshUf}" event="change"
+													update="cidade" process="uf" />
 											</h:selectOneMenu>
 
-											
+											<p:spacer width="10" />
+											<h:outputLabel value='Cidade:' required="true" />
+											<h:selectOneMenu required="true"
+												value="#{agenciaBean.item.cidade}" id="cidade"
+												converter='#{cidadeConverter}'>
+												<f:selectItems value="#{agenciaBean.cidades}" var="cidade"
+													itemLabel="#{cidade.municipio}" itemValue="#{cidade}" />
+											</h:selectOneMenu>
+
+
 
 											<h:outputLabel value='Celular:' />
 											<p:inputMask id='componente23' mask="(99)99999-9999"
@@ -227,6 +204,17 @@
 											<h:outputLabel value='Email:' />
 											<p:inputText id='componente28'
 												value='#{agenciaBean.item.email}' size="80">
+											</p:inputText>
+
+											<p:spacer width="10" />
+											<h:outputLabel value='Site:' />
+											<p:inputText id='componente29'
+												value='#{agenciaBean.item.site}' size="80">
+											</p:inputText>
+											
+											<h:outputLabel value='Contato:' />
+											<p:inputText id='componente30'
+												value='#{agenciaBean.item.contato}' size="80">
 											</p:inputText>
 
 
@@ -246,15 +234,17 @@
 									</p:commandButton>
 									<p:commandButton id='buttonCreate'
 										value="#{i18n['button.save']}" action='#{agenciaBean.create}'
-										icon='ui-icon-check' rendered="#{agenciaBean.state eq 'CREATE'}"
-										process='@form' update='@form' style='float: right;'>
+										icon='ui-icon-check'
+										rendered="#{agenciaBean.state eq 'CREATE'}" process='@form'
+										update='@form' style='float: right;'>
 										<f:setPropertyActionListener target='#{agenciaBean.state}'
 											value='READ' />
 									</p:commandButton>
 									<p:commandButton id='buttonUpdate'
 										value="#{i18n['button.edit']}" action='#{agenciaBean.update}'
-										icon='ui-icon-check' rendered="#{agenciaBean.state eq 'UPDATE'}"
-										process='@form' update='@form' style='float: right;'>
+										icon='ui-icon-check'
+										rendered="#{agenciaBean.state eq 'UPDATE'}" process='@form'
+										update='@form' style='float: right;'>
 										<f:setPropertyActionListener target='#{agenciaBean.state}'
 											value='READ' />
 									</p:commandButton>
@@ -272,7 +262,7 @@
 					<div class='ui-grid-row'>
 						<div class='ui-grid-col-12'>
 							<p:panel id='removePanel'
-								header="#{i18n['operations.delete']} #{i18n['aluno']}">
+								header="#{i18n['operations.delete']} Agência">
 								<div class='ui-grid-form ui-grid ui-grid-responsive'>
 									<div class='ui-grid-row'>
 										<div class='ui-grid-col-12'>
@@ -294,9 +284,9 @@
 											value='READ' />
 									</p:commandButton>
 									<p:commandButton id='buttonRemove'
-										value="#{i18n['button.remove']}" action='#{agenciaBean.delete}'
-										icon='ui-icon-trash' process='@this' update='@form'
-										style='float: right;'>
+										value="#{i18n['button.remove']}"
+										action='#{agenciaBean.delete}' icon='ui-icon-trash'
+										process='@this' update='@form' style='float: right;'>
 										<f:setPropertyActionListener target="#{agenciaBean.state}"
 											value='READ' />
 									</p:commandButton>

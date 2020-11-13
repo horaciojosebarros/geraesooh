@@ -1,9 +1,9 @@
 package br.com.jway.geraesooh.service;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.jway.geraesooh.dao.AgenciaDao;
 import br.com.jway.geraesooh.model.Agencia;
 
-
-public class AgenciaServiceImpl  implements AgenciaService, Serializable{
+@Named
+public class AgenciaServiceImpl  implements AgenciaService{
 
 	private static final long serialVersionUID = 1L;
 
@@ -61,6 +61,10 @@ public class AgenciaServiceImpl  implements AgenciaService, Serializable{
 	@Override
 	public Agencia busca(Agencia agenciaLogado) {
 		return dao.busca(agenciaLogado);
+	}
+	@Override
+	public List<Agencia> pesquisaPorNome(String razaoSocial) {
+		return dao.buscaPorNome(razaoSocial);
 	}
 
 }

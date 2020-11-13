@@ -24,4 +24,6 @@ public interface AgenciaService extends Serializable {
 	public boolean existe(Agencia agenciaLogado);
 
 	public Agencia busca(Agencia agenciaLogado);
+
+	public List<Agencia> pesquisaPorNome(String razaoSocial);
 }
