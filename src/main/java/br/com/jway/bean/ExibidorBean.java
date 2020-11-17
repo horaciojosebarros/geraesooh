@@ -206,7 +206,6 @@ public class ExibidorBean extends SpringBeanAutowiringSupport implements Seriali
 	public void setCidades(List<Cidade> cidades) {
 		this.cidades = cidades;
 	}
-	
-	
+
 
 }

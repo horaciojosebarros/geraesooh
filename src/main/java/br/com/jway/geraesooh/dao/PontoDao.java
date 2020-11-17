@@ -22,4 +22,6 @@ public interface PontoDao extends Serializable{
 	public List<Ponto> pesquisa(Ponto ponto);
 
 	List<Ponto> buscaPorExibidor(Long IdExibidor);
+
+	List<Ponto> buscaPorNomeExibidor(String nomeExibidor);
 }

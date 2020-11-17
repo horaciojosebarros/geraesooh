@@ -25,4 +25,6 @@ public interface PontoService  extends Serializable {
 
 	public List<Ponto> pesquisaPorExibidor(Long idExibidor);
 
+	public List<Ponto> pesquisaPorNomeExibidor(String nomeExibidor);
+
 }

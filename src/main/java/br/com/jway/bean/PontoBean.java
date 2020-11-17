@@ -1,28 +1,41 @@
 package br.com.jway.bean;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import br.com.jway.geraesooh.model.Ponto;
 import br.com.jway.geraesooh.model.Cidade;
+import br.com.jway.geraesooh.model.Pessoa;
+import br.com.jway.geraesooh.model.Ponto;
 import br.com.jway.geraesooh.model.Uf;
-import br.com.jway.geraesooh.service.PontoService;
 import br.com.jway.geraesooh.service.CidadeService;
+import br.com.jway.geraesooh.service.PessoaService;
+import br.com.jway.geraesooh.service.PontoService;
 import br.com.jway.geraesooh.service.UfService;
 import br.com.jway.util.FacesUtils;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class PontoBean extends SpringBeanAutowiringSupport implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -38,13 +51,17 @@ public class PontoBean extends SpringBeanAutowiringSupport implements Serializab
 	@Inject
 	private CidadeService cidadeService;
 
+	@Inject
+	private PessoaService pessoaService;
+
 	private String state;
 	private List<Ponto> items;
 	private Ponto item;
 	private Ponto itemFilter;
-	private List<Ponto> listaPonto;
-
+	private List<Pessoa> listaPessoa;
+	private String nomeExibidor;
 	private List<Cidade> cidades;
+	private List<Pessoa> exibidores;
 
 	public PontoBean() {
 		log.info("Bean constructor called.");
@@ -98,9 +115,9 @@ public class PontoBean extends SpringBeanAutowiringSupport implements Serializab
 	public void pesquisa() {
 		items = service.pesquisa(item);
 	}
-	
+
 	public void pesquisaPorNome() {
-		items = service.pesquisaPorExibidor(itemFilter.getPessoa().getId());
+		items = service.pesquisaPorNomeExibidor(getNomeExibidor());
 	}
 
 	public void limpaPesquisa() {
@@ -185,12 +202,12 @@ public class PontoBean extends SpringBeanAutowiringSupport implements Serializab
 		this.cidadeService = cidadeService;
 	}
 
-	public List<Ponto> getListaPonto() {
-		return listaPonto;
+	public List<Pessoa> getListaPessoa() {
+		return listaPessoa;
 	}
 
-	public void setListaPonto(List<Ponto> listaPonto) {
-		this.listaPonto = listaPonto;
+	public void setListaPessoa(List<Pessoa> listaPessoa) {
+		this.listaPessoa = listaPessoa;
 	}
 
 	public static long getSerialversionuid() {
@@ -204,7 +221,48 @@ public class PontoBean extends SpringBeanAutowiringSupport implements Serializab
 	public void setCidades(List<Cidade> cidades) {
 		this.cidades = cidades;
 	}
-	
-	
+
+	public String getNomeExibidor() {
+		return nomeExibidor;
+	}
+
+	public void setNomeExibidor(String nomeExibidor) {
+		this.nomeExibidor = nomeExibidor;
+	}
+
+	public PessoaService getPessoaService() {
+		return pessoaService;
+	}
+
+	public void setPessoaService(PessoaService pessoaService) {
+		this.pessoaService = pessoaService;
+	}
+
+	public List<Pessoa> getExibidores() {
+		this.exibidores = pessoaService.listExibidor();
+		return exibidores;
+	}
+
+	public void setExibidores(List<Pessoa> exibidores) {
+
+		this.exibidores = exibidores;
+	}
+
+	public StreamedContent getImagem() {
+		if (item != null && item.getImagem() != null) {
+			return new DefaultStreamedContent(new ByteArrayInputStream(item.getImagem()), "image/png");
+		} else {
+			return new DefaultStreamedContent();
+		}
+	}
+
+	public void handleFileUpload(FileUploadEvent event) {
+		try {
+			byte[] foto = IOUtils.toByteArray(event.getFile().getInputstream());
+			this.item.setImagem(foto);
+		} catch (IOException ex) {
+			System.out.println("Erro em evento de upload");
+		}
+	}
 
 }

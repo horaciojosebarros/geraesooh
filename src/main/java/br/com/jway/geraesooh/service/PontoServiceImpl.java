@@ -3,6 +3,7 @@ package br.com.jway.geraesooh.service;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.jway.geraesooh.dao.PontoDao;
 import br.com.jway.geraesooh.model.Ponto;
 
+@Named
 public class PontoServiceImpl implements PontoService{
 
 	private static final long serialVersionUID = 1L;
@@ -59,6 +61,10 @@ public class PontoServiceImpl implements PontoService{
 	@Override
 	public List<Ponto> pesquisaPorExibidor(Long idExibidor) {
 		return dao.buscaPorExibidor(idExibidor);
+	}
+	@Override
+	public List<Ponto> pesquisaPorNomeExibidor(String nomeExibidor) {
+		return dao.buscaPorNomeExibidor(nomeExibidor);
 	}
 
 

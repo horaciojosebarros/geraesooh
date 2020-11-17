@@ -71,5 +71,14 @@ public class PontoDaoImpl implements PontoDao {
 		return em.createQuery(jpql.toString(), Ponto.class).getResultList();
 	}
 
+	@Override
+	public List<Ponto> buscaPorNomeExibidor(String nomeExibidor) {
+		final StringBuilder jpql = new StringBuilder().append("SELECT x ")
+				.append("FROM " + Ponto.class.getName() + " x  ") //
+				.append("WHERE x.pessoa.razaoSocial like '%" + nomeExibidor + "%' ")
+				.append("ORDER BY x.id ASC ");
+		return em.createQuery(jpql.toString(), Ponto.class).getResultList();
+	}
+
 
 }

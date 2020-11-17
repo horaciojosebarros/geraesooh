@@ -1,0 +1,289 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'
+	xmlns:ui='http://xmlns.jcp.org/jsf/facelets'
+	xmlns:h='http://xmlns.jcp.org/jsf/html'
+	xmlns:f='http://java.sun.com/jsf/core'
+	xmlns:c='http://java.sun.com/jsp/jstl/core'
+	xmlns:p='http://primefaces.org/ui'
+	xmlns:pe='http://primefaces.org/ui/extensions'
+	xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
+
+<ui:composition template='/private/template/layout.xhtml'>
+	<ui:define name='content'>
+		<p:growl id='growl' autoUpdate='true' globalOnly='false'
+			showDetail='false' />
+		<h:panelGroup id='wrapper' layout='block' styleClass='wrapper'>
+			<h:form id='form' prependId='false'>
+				<h:panelGroup id='viewPanelGroup' layout='block'
+					rendered="#{pontoBean.state eq 'READ'}">
+					<p:panel id='searchPanel' header="#{i18n['operations.search']}">
+						<h:inputHidden id='componente1' value='#{pontoBean.itemFilter.id}' />
+
+						<h:panelGrid columns="11">
+
+							<h:outputLabel value='Nome do exibidor:' for="componente2" />
+							<p:spacer width="10" />
+							<p:inputText id='componente2' value='#{pontoBean.nomeExibidor}'
+								maxlength="60" size="60">
+							</p:inputText>
+
+						</h:panelGrid>
+
+						<div align="right">
+							<p:commandButton value='Pesquisar' id='buttonPesquisa'
+								update='viewPanel'
+								actionListener='#{pontoBean.pesquisaPorNome()}'
+								styleClass='ui-priority-primary' />
+						</div>
+					</p:panel>
+					<br style='clear: left;' />
+					<p:panel id='viewPanel' header="Pontos">
+
+						<h:panelGroup layout='block' style='margin: 0 0 0.5em 0;'>
+							<p:commandButton id="buttonNew" value="#{i18n['button.new']}"
+								action="#{pontoBean.clearItem}" icon="ui-icon-plus"
+								update="@form" resetValues="true">
+								<f:setPropertyActionListener target="#{pontoBean.state}"
+									value="CREATE" />
+							</p:commandButton>
+						</h:panelGroup>
+
+						<p:dataTable id='mainDataTable' value='#{pontoBean.items}'
+							var='itemView'
+							emptyMessage="#{i18n['operations.search.noRecordsFound']}">
+							
+							
+							<p:column headerText='Exibidor' width='60'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.pessoa.razaoSocial}' />
+							</p:column>
+
+							<p:column headerText='Código' width='10'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.codigo}' />
+							</p:column>
+
+
+							<p:column headerText='Descricao' width='60'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.descricao}' />
+							</p:column>
+
+							<p:column headerText='Referência' width='14'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.referencia}' />
+							</p:column>
+
+
+							<p:column headerText='Cidade' width='10'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.cidade.municipio}' />
+							</p:column>
+
+							<p:column headerText='Uf' width='10' style='text-align: center;'>
+								<h:outputLabel value='#{itemView.uf.uf}' />
+							</p:column>
+
+
+							<p:column headerText="#{i18n['operations']}" width='15'
+								style='text-align: center;'>
+								<p:commandButton id='buttonOperationEdit' icon='ui-icon-pencil'
+									process='@this' update='@form' resetValues='true'
+									immediate='true'>
+									<f:setPropertyActionListener target='#{pontoBean.item}'
+										value='#{itemView}' />
+									<f:setPropertyActionListener target='#{pontoBean.state}'
+										value='UPDATE' />
+								</p:commandButton>
+								<p:commandButton id='buttonOperationRemove' icon='ui-icon-trash'
+									process='@this' update='@form' immediate='true'>
+									<f:setPropertyActionListener target='#{pontoBean.item}'
+										value='#{itemView}' />
+									<f:setPropertyActionListener target='#{pontoBean.state}'
+										value='DELETE' />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</h:panelGroup>
+				<h:panelGroup id='editPanelGroup' layout='block'
+					rendered="#{pontoBean.state eq 'CREATE' or pontoBean.state eq 'UPDATE'}"
+					styleClass='ui-grid ui-grid-responsive'>
+					<div class='ui-grid-row'>
+						<div class='ui-grid-col-12'>
+							<p:panel id='editPanel'>
+								<f:facet name='header'>
+									<h:outputLabel value="#{i18n['operations.create']} Pontos "
+										rendered="#{pontoBean.state eq 'CREATE'}" />
+									<h:outputLabel value="#{i18n['operations.update']} pontos"
+										rendered="#{pontoBean.state eq 'UPDATE'}" />
+								</f:facet>
+
+
+
+								<div class='ui-grid-col-6'>
+									<h:inputHidden id='componente6' value='#{pontoBean.item.id}' />
+								</div>
+
+
+								<h:panelGrid columns="1">
+
+									<p:panel id='editPanel2'>
+
+										<p:panelGrid columns="5">
+											<h:outputLabel value='Codigo do ponto:' styleClass="cssLabel" />
+											<p:inputText id='codigo' required="true"
+												value='#{pontoBean.item.codigo}' size="10" maxlength="10">
+											</p:inputText>
+
+											<p:spacer width="10" />
+
+											<h:outputLabel value='Exibidor:' />
+											<h:selectOneMenu required="true" value="#{pontoBean.item.pessoa}"
+												id="p" converter="#{pessoaConverter}">
+												 <f:selectItem itemLabel='Escolha' itemValue='#{null}' /> 
+												<f:selectItems value="#{pontoBean.exibidores}" var="p"
+													itemLabel="#{p.razaoSocial}" itemValue="#{p}" />
+											</h:selectOneMenu>
+
+
+											<h:outputLabel value='Descricao do ponto:' />
+											<p:inputTextarea id='descricao' required="true"
+												value='#{pontoBean.item.descricao}' cols="70">
+											</p:inputTextarea>
+
+											<p:spacer width="10" />
+
+											<h:outputLabel value='Referência:' />
+											<p:inputText id='referencia' required="true"
+												value='#{pontoBean.item.referencia}' size="80">
+											</p:inputText>
+
+
+											<h:outputLabel value='Latitude:' styleClass="cssLabel" />
+											<p:inputText id='latitude' required="true"
+												value='#{pontoBean.item.latitude}' size="50">
+											</p:inputText>
+											<p:spacer width="10" />
+
+											<h:outputLabel value='Longitude:' styleClass="cssLabel" />
+											<p:inputText id='longitude' required="true"
+												value='#{pontoBean.item.longitude}' size="50">
+											</p:inputText>
+
+
+											<h:outputLabel value='Uf:' />
+											<h:selectOneMenu required="true" value="#{pontoBean.item.uf}"
+												id="uf" converter="#{ufConverter}">
+												 <f:selectItem itemLabel="Escolha" itemValue=""/>  
+												<f:selectItems value="#{pontoBean.ufs}" var="uf"
+													itemLabel="#{uf.descricao}" itemValue="#{uf}" />
+												<p:ajax listener="#{pontoBean.refreshUf}" event="change"
+													update="cidade" process="uf" />
+											</h:selectOneMenu>
+
+											<p:spacer width="10" />
+											<h:outputLabel value='Cidade:' />
+											<h:selectOneMenu required="true"
+												value="#{pontoBean.item.cidade}" id="cidade"
+												converter="#{cidadeConverter}">
+												 <f:selectItem itemLabel="Escolha" itemValue=""/>  
+												<f:selectItems value="#{pontoBean.cidades}" var="cidade"
+													itemLabel="#{cidade.municipio}" itemValue="#{cidade}" />
+											</h:selectOneMenu>
+
+										</p:panelGrid>
+									</p:panel>
+								</h:panelGrid>
+
+								<div style="text-align:center;" >
+									<h:form enctype="multipart/form-data">
+										<p:graphicImage value="#{pontoBean.imagem}" id="imagem"
+											width="350" height="300" />
+										<p:fileUpload sizeLimit="9000000" auto="true" id="fileUploadId"
+											widgetVar="uploader" label="Procurar foto..."
+											fileUploadListener="#{pontoBean.handleFileUpload}"
+											allowTypes="/(\.|\/)(gif|jpe?g|png)$/" description="Images"
+											update="imagem" multiple="false" />
+									</h:form>
+									</div>
+
+
+
+
+								<f:facet name='footer'>
+									<p:commandButton value="#{i18n['button.cancel']}"
+										icon='ui-icon-close' process='@this' update='@form'
+										immediate='true' styleClass='buttonCancel'
+										style='float: left;'>
+										<f:setPropertyActionListener target='#{pontoBean.state}'
+											value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonCreate'
+										value="#{i18n['button.save']}" action='#{pontoBean.create}'
+										icon='ui-icon-check' rendered="#{pontoBean.state eq 'CREATE'}"
+										process='@form' update='@form' style='float: right;'>
+										<f:setPropertyActionListener target='#{pontoBean.state}'
+											value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonUpdate'
+										value="#{i18n['button.edit']}" action='#{pontoBean.update}'
+										icon='ui-icon-check' rendered="#{pontoBean.state eq 'UPDATE'}"
+										process='@form' update='@form' style='float: right;'>
+										<f:setPropertyActionListener target='#{pontoBean.state}'
+											value='READ' />
+									</p:commandButton>
+									<p:defaultCommand
+										target="#{(pontoBean.item.id eq null) ? 'buttonCreate' : 'buttonUpdate'}" />
+									<div style='clear: both;'></div>
+								</f:facet>
+							</p:panel>
+						</div>
+					</div>
+				</h:panelGroup>
+				<h:panelGroup id='removePanelGroup' layout='block'
+					rendered="#{pontoBean.state eq 'DELETE'}"
+					styleClass='ui-grid ui-grid-responsive'>
+					<div class='ui-grid-row'>
+						<div class='ui-grid-col-12'>
+							<p:panel id='removePanel'
+								header="#{i18n['operations.delete']} Ponto">
+								<div class='ui-grid-form ui-grid ui-grid-responsive'>
+									<div class='ui-grid-row'>
+										<div class='ui-grid-col-12'>
+											<h3>
+												<h:outputFormat
+													value="#{i18n['operations.delete.areYouSure']}">
+													<f:param value='#{pontoBean.item.id}' />
+												</h:outputFormat>
+											</h3>
+										</div>
+									</div>
+								</div>
+								<f:facet name='footer'>
+									<p:commandButton value="#{i18n['button.cancel']}"
+										icon='ui-icon-close' process='@this' update='@form'
+										immediate='true' styleClass='buttonCancel'
+										style='float: left;'>
+										<f:setPropertyActionListener target="#{pontoBean.state}"
+											value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonRemove'
+										value="#{i18n['button.remove']}" action='#{pontoBean.delete}'
+										icon='ui-icon-trash' process='@this' update='@form'
+										style='float: right;'>
+										<f:setPropertyActionListener target="#{pontoBean.state}"
+											value='READ' />
+									</p:commandButton>
+									<div style='clear: both;'></div>
+								</f:facet>
+							</p:panel>
+						</div>
+					</div>
+				</h:panelGroup>
+			</h:form>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>

@@ -3,7 +3,7 @@ package br.com.jway.utils.converter;
 import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -15,7 +15,7 @@ import br.com.jway.geraesooh.model.Pessoa;
 import br.com.jway.geraesooh.service.PessoaService;
 
 @ManagedBean
-@ViewScoped
+@RequestScoped
 @Named
 public class PessoaConverter implements Converter, Serializable{
 	
@@ -34,8 +34,8 @@ public class PessoaConverter implements Converter, Serializable{
 			Object object = service.read(id);
 			return object;
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new ConverterException("N�o foi poss�vel encontrar o Pessoa de id: " + value + ". " + e.getMessage());
+			
+			throw new ConverterException("Não foi possível encontrar a Pessoa de id: " + value + ". " + e.getMessage());
 		}
 	
 	

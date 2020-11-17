@@ -1,6 +1,7 @@
 package br.com.jway.geraesooh.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,34 +12,49 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity 
-@Table(name="ponto")
+@Entity
+@Table(name = "ponto")
 public class Ponto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_ponto")
+	@Column(name = "id_ponto")
 	private Long id;
-	
-	@Column(name="descricao")
+
+	@Column(name = "descricao")
 	private String descricao;
-	
-	@Column(name="referencia")
+
+	@Column(name = "referencia")
 	private String referencia;
-	
+
 	@ManyToOne
-	@JoinColumn(name="id_exibidor")
+	@JoinColumn(name = "id_exibidor")
 	private Pessoa pessoa;
-	
+
 	@ManyToOne
-	@JoinColumn(name="id_cidade")
+	@JoinColumn(name = "id_cidade")
 	private Cidade cidade;
-	
+
 	@ManyToOne
-	@JoinColumn(name="uf")
+	@JoinColumn(name = "uf")
 	private Uf uf;
+
+	@Column(name = "path_imagem")
+	private String pathImagem;
+
+	@Column(name = "codigo")
+	private String codigo;
+
+	@Column(name = "latitude")
+	private String latitude;
+
+	@Column(name = "longitude")
+	private String longitude;
+	
+	@Column(name = "imagem")
+	private byte[] imagem;
 
 	public Long getId() {
 		return id;
@@ -91,6 +107,61 @@ public class Ponto implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public String getPathImagem() {
+		return pathImagem;
+	}
+
+	public void setPathImagem(String pathImagem) {
+		this.pathImagem = pathImagem;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		
+		try {
+			BigDecimal aux;
+			aux = BigDecimal.valueOf(Double.valueOf(latitude));
+		} catch (Exception e) {
+			throw e;
+		}
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		
+		try {
+			BigDecimal aux;
+			aux = BigDecimal.valueOf(Double.valueOf(longitude));
+		} catch (Exception e) {
+			throw e;
+		}
+		this.longitude = longitude;
+	}
+
+	public byte[] getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(byte[] imagem) {
+		this.imagem = imagem;
+	}
+	
 	
 
 }
