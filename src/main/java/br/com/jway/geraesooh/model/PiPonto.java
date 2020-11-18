@@ -33,7 +33,7 @@ public class PiPonto implements Serializable {
 	@Column(name = "valor_liquido_negociado")
 	private Double valorLiquidoNegociado;
 	
-	@Column(name = "valor_liquido_negociado")
+	@Column(name = "valor_liquido_tabela")
 	private Double valorTabela;
 
 	@Override

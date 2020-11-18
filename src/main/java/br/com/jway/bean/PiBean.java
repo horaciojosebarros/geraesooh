@@ -1,49 +1,44 @@
 package br.com.jway.bean;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-import org.primefaces.model.UploadedFile;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import br.com.jway.geraesooh.model.Cidade;
 import br.com.jway.geraesooh.model.Pessoa;
+import br.com.jway.geraesooh.model.Pi;
 import br.com.jway.geraesooh.model.Ponto;
 import br.com.jway.geraesooh.model.Uf;
 import br.com.jway.geraesooh.service.CidadeService;
 import br.com.jway.geraesooh.service.PessoaService;
+import br.com.jway.geraesooh.service.PiService;
 import br.com.jway.geraesooh.service.PontoService;
 import br.com.jway.geraesooh.service.UfService;
 import br.com.jway.util.FacesUtils;
 
 @ManagedBean
 @SessionScoped
-public class PontoBean extends SpringBeanAutowiringSupport implements Serializable {
+public class PiBean extends SpringBeanAutowiringSupport implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	protected static final Log log = LogFactory.getLog(PontoBean.class);
 
 	@Inject
-	private PontoService service;
+	private PiService service;
+	
+	@Inject
+	private PontoService pontoService;
+
 
 	@Inject
 	private UfService ufService;
@@ -55,17 +50,19 @@ public class PontoBean extends SpringBeanAutowiringSupport implements Serializab
 	private PessoaService pessoaService;
 
 	private String state;
-	private List<Ponto> items;
-	private Ponto item;
-	private Ponto itemFilter;
-	private List<Pessoa> listaPessoa;
+	private List<Pi> items;
+	private List<Ponto> pontos;
+	private Pi item;
+	private Pi itemFilter;
+	private List<Pessoa> anunciantes;
+	
 	private String nomeExibidor;
 	private List<Cidade> cidades;
 	private List<Pessoa> exibidores;
 
-	public PontoBean() {
+	public PiBean() {
 		log.info("Bean constructor called.");
-		itemFilter = new Ponto();
+		itemFilter = new Pi();
 		limpaPesquisa();
 	}
 
@@ -85,7 +82,7 @@ public class PontoBean extends SpringBeanAutowiringSupport implements Serializab
 	public void clearItem() {
 		try {
 			// Instantiating via reflection was used here for generic purposes
-			item = Ponto.class.newInstance();
+			item = Pi.class.newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
 			FacesUtils.addI18nError("generic.bean.unableToCleanViewData");
 		}
@@ -116,10 +113,6 @@ public class PontoBean extends SpringBeanAutowiringSupport implements Serializab
 		items = service.pesquisa(item);
 	}
 
-	public void pesquisaPorNome() {
-		items = service.pesquisaPorNomeExibidor(getNomeExibidor());
-	}
-
 	public void limpaPesquisa() {
 
 	}
@@ -137,27 +130,27 @@ public class PontoBean extends SpringBeanAutowiringSupport implements Serializab
 		this.state = state;
 	}
 
-	public List<Ponto> getItems() {
+	public List<Pi> getItems() {
 		return items;
 	}
 
-	public void setItems(List<Ponto> items) {
+	public void setItems(List<Pi> items) {
 		this.items = items;
 	}
 
-	public Ponto getItem() {
+	public Pi getItem() {
 		return item;
 	}
 
-	public void setItem(Ponto item) {
+	public void setItem(Pi item) {
 		this.item = item;
 	}
 
-	public Ponto getItemFilter() {
+	public Pi getItemFilter() {
 		return itemFilter;
 	}
 
-	public void setItemFilter(Ponto itemFilter) {
+	public void setItemFilter(Pi itemFilter) {
 		this.itemFilter = itemFilter;
 	}
 
@@ -166,28 +159,12 @@ public class PontoBean extends SpringBeanAutowiringSupport implements Serializab
 
 	}
 
-	public List<Cidade> getCidades() {
-		if (cidades == null && item != null) {
-			refreshUf();
-		} else {
-			if (item.getCidade() != null) {
-				refreshUf();
-			}
-		}
-		return cidades;
-	}
-
-	public void refreshUf() {
-		cidades = cidadeService.findByUf(item.getUf());
-
-	}
-
 	public PontoService getService() {
-		return service;
+		return pontoService;
 	}
 
-	public void setService(PontoService service) {
-		this.service = service;
+	public void setPontoService(PontoService pontoService) {
+		this.pontoService = pontoService;
 	}
 
 	public UfService getUfService() {
@@ -204,14 +181,6 @@ public class PontoBean extends SpringBeanAutowiringSupport implements Serializab
 
 	public void setCidadeService(CidadeService cidadeService) {
 		this.cidadeService = cidadeService;
-	}
-
-	public List<Pessoa> getListaPessoa() {
-		return listaPessoa;
-	}
-
-	public void setListaPessoa(List<Pessoa> listaPessoa) {
-		this.listaPessoa = listaPessoa;
 	}
 
 	public static long getSerialversionuid() {
@@ -252,21 +221,34 @@ public class PontoBean extends SpringBeanAutowiringSupport implements Serializab
 		this.exibidores = exibidores;
 	}
 
-	public StreamedContent getImagem() {
-		if (item != null && item.getImagem() != null) {
-			return new DefaultStreamedContent(new ByteArrayInputStream(item.getImagem()), "image/png");
-		} else {
-			return new DefaultStreamedContent();
-		}
+	public List<Ponto> getPontos() {
+		return pontos;
 	}
 
-	public void handleFileUpload(FileUploadEvent event) {
-		try {
-			byte[] foto = IOUtils.toByteArray(event.getFile().getInputstream());
-			this.item.setImagem(foto);
-		} catch (IOException ex) {
-			System.out.println("Erro em evento de upload");
-		}
+	public void setPontos(List<Ponto> pontos) {
+		this.pontos = pontos;
 	}
+
+	public List<Pessoa> getAnunciantes() {
+		return anunciantes;
+	}
+
+	public void setAnunciantes(List<Pessoa> anunciantes) {
+		this.anunciantes = anunciantes;
+	}
+
+	public PontoService getPontoService() {
+		return pontoService;
+	}
+
+	public List<Cidade> getCidades() {
+		return cidades;
+	}
+
+	public void setService(PiService service) {
+		this.service = service;
+	}
+	
+	
 
 }

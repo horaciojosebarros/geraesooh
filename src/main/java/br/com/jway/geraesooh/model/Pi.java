@@ -2,6 +2,7 @@ package br.com.jway.geraesooh.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "pi")
@@ -55,6 +57,10 @@ public class Pi implements Serializable {
 	
 	@Column(name = "total_liquido")
 	private Double totalLiquido;
+	
+	@Transient
+	private List<PiPonto> detalhes; 
+	
 
 	public Long getId() {
 		return id;
@@ -231,6 +237,14 @@ public class Pi implements Serializable {
 		} else if (!totalValorTabela.equals(other.totalValorTabela))
 			return false;
 		return true;
+	}
+
+	public List<PiPonto> getDetalhes() {
+		return detalhes;
+	}
+
+	public void setDetalhes(List<PiPonto> detalhes) {
+		this.detalhes = detalhes;
 	}
 	
 	
