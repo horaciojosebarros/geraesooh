@@ -1,0 +1,321 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'
+	xmlns:ui='http://xmlns.jcp.org/jsf/facelets'
+	xmlns:h='http://xmlns.jcp.org/jsf/html'
+	xmlns:f='http://java.sun.com/jsf/core'
+	xmlns:c='http://java.sun.com/jsp/jstl/core'
+	xmlns:p='http://primefaces.org/ui'
+	xmlns:pe='http://primefaces.org/ui/extensions'
+	xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
+
+<ui:composition template='/private/template/layout.xhtml'>
+	<ui:define name='content'>
+		<p:growl id='growl' autoUpdate='true' globalOnly='false'
+			showDetail='false' />
+		<h:panelGroup id='wrapper' layout='block' styleClass='wrapper'>
+			<h:form id='form' prependId='false'>
+				<h:panelGroup id='viewPanelGroup' layout='block'
+					rendered="#{anuncianteBean.state eq 'READ'}">
+					<p:panel id='searchPanel' header="#{i18n['operations.search']}">
+						<h:inputHidden id='componente1'
+							value='#{anuncianteBean.itemFilter.id}' />
+
+						<h:panelGrid columns="11">
+							
+							<h:outputLabel value='Nome/Razão social:' for="componente2" />
+							<p:spacer width="10" />
+							<p:inputText id='componente2'
+								value='#{anuncianteBean.itemFilter.razaoSocial}' maxlength="60" size="60">
+							</p:inputText>
+							
+						</h:panelGrid>
+
+						<div align="right">
+							<p:commandButton value='Pesquisar' id='buttonPesquisa'
+								update='viewPanel' actionListener='#{anuncianteBean.pesquisaPorNome()}'
+								styleClass='ui-priority-primary' />
+						</div>
+					</p:panel>
+					<br style='clear: left;' />
+					<p:panel id='viewPanel' header="Anunciantees">
+
+						<h:panelGroup layout='block' style='margin: 0 0 0.5em 0;'>
+							<p:commandButton id="buttonNew" value="#{i18n['button.new']}"
+								action="#{anuncianteBean.clearItem}" icon="ui-icon-plus"
+								update="@form" resetValues="true">
+								<f:setPropertyActionListener target="#{anuncianteBean.state}"
+									value="CREATE" />
+							</p:commandButton>
+						</h:panelGroup>
+
+						<p:dataTable id='mainDataTable' value='#{anuncianteBean.items}'
+							var='itemView'
+							emptyMessage="#{i18n['operations.search.noRecordsFound']}">
+
+							<p:column headerText='Código' width='10'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.id}' />
+							</p:column>
+
+
+							<p:column headerText='Nome' width='60'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.razaoSocial}' />
+							</p:column>
+
+							<p:column headerText='Cnpj' width='14'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.cnpj}' />
+							</p:column>
+
+							<p:column headerText='Nome fantasia' width='30'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.nomeFantasia}' />
+							</p:column>
+
+							<p:column headerText='Cidade' width='10'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.cidade.municipio}' />
+							</p:column>
+
+
+							<p:column headerText="#{i18n['operations']}" width='15'
+								style='text-align: center;'>
+								<p:commandButton id='buttonOperationEdit' icon='ui-icon-pencil'
+									process='@this' update='@form' resetValues='true'
+									immediate='true'>
+									<f:setPropertyActionListener target='#{anuncianteBean.item}'
+										value='#{itemView}' />
+									<f:setPropertyActionListener target='#{anuncianteBean.state}'
+										value='UPDATE' />
+								</p:commandButton>
+								<p:commandButton id='buttonOperationRemove' icon='ui-icon-trash'
+									process='@this' update='@form' immediate='true'>
+									<f:setPropertyActionListener target='#{anuncianteBean.item}'
+										value='#{itemView}' />
+									<f:setPropertyActionListener target='#{anuncianteBean.state}'
+										value='DELETE' />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</h:panelGroup>
+				<h:panelGroup id='editPanelGroup' layout='block'
+					rendered="#{anuncianteBean.state eq 'CREATE' or anuncianteBean.state eq 'UPDATE'}"
+					styleClass='ui-grid ui-grid-responsive'>
+					<div class='ui-grid-row'>
+						<div class='ui-grid-col-12'>
+							<p:panel id='editPanel'>
+								<f:facet name='header'>
+									<h:outputLabel value="#{i18n['operations.create']} Anunciantees"
+										rendered="#{anuncianteBean.state eq 'CREATE'}" />
+									<h:outputLabel value="#{i18n['operations.update']} Anunciantees"
+										rendered="#{anuncianteBean.state eq 'UPDATE'}" />
+								</f:facet>
+
+
+
+								<div class='ui-grid-col-6'>
+									<h:inputHidden id='componente6' value='#{anuncianteBean.item.id}' />
+								</div>
+
+
+								<h:panelGrid columns="1">
+									<p:panel id='editPanel2'>
+
+
+										<p:panelGrid columns="5">
+											<h:outputLabel value='Cnpj:' styleClass="cssLabel" />
+											<p:inputMask id='cnpj' required="true"
+												value='#{anuncianteBean.item.cnpj}' mask="99.999.999/9999-99">
+											</p:inputMask>
+
+											<p:spacer width="10" />
+											
+											<h:outputLabel value='Razao Social:' />
+											<p:inputText id='razaoSocial' required="true"
+												value='#{anuncianteBean.item.razaoSocial}' size="80">
+											</p:inputText>
+
+											<h:outputLabel value='Nome Fantasia:' required="true" />
+											<p:inputText id='nomeFantasia'
+												value='#{anuncianteBean.item.nomeFantasia}' size="80">
+											</p:inputText>
+
+											<p:spacer width="10" />
+											
+											<h:outputLabel value='Cep:' />
+											<p:inputMask id='Cep' required="true"
+												value='#{anuncianteBean.item.cep}' size="10" mask="99999-999">
+											</p:inputMask>
+
+											<h:outputLabel value='Rua/Av:' />
+											<p:inputText id='Endereço' required="true"
+												value='#{anuncianteBean.item.endereco}' size="80">
+											</p:inputText>
+											<p:spacer width="10" />
+											<h:outputLabel value='Numero:' />
+											<p:inputText id='componente33'
+												value='#{anuncianteBean.item.numero}' style="width: 20%">
+											</p:inputText>
+											<h:outputLabel value='Complemento:' />
+											<p:inputText id='componente26'
+												value='#{anuncianteBean.item.complemento}' style="width: 20%">
+											</p:inputText>
+											<p:spacer width="10" />
+											<h:outputLabel value='Bairro:' />
+											<p:inputText id='componente22'
+												value='#{anuncianteBean.item.bairro}' size="40">
+											</p:inputText>
+
+
+											<h:outputLabel value='Uf:' />
+											<h:selectOneMenu required="true"
+												value="#{anuncianteBean.item.uf}" id="uf"
+												converter='#{ufConverter}'>
+												<f:selectItems value="#{anuncianteBean.ufs}" var="uf"
+													itemLabel="#{uf.descricao}" itemValue="#{uf}" />
+												<p:ajax listener="#{anuncianteBean.refreshUf}" event="change"
+													update="cidade" process="uf" />
+											</h:selectOneMenu>
+
+											<p:spacer width="10" />
+											<h:outputLabel value='Cidade:' required="true" />
+											<h:selectOneMenu required="true"
+												value="#{anuncianteBean.item.cidade}" id="cidade"
+												converter='#{cidadeConverter}'>
+												<f:selectItems value="#{anuncianteBean.cidades}" var="cidade"
+													itemLabel="#{cidade.municipio}" itemValue="#{cidade}" />
+											</h:selectOneMenu>
+
+
+
+											<h:outputLabel value='Celular:' />
+											<p:inputMask id='componente23' mask="(99)99999-9999"
+												value='#{anuncianteBean.item.fone1}' size="12">
+											</p:inputMask>
+											<p:spacer width="10" />
+											<h:outputLabel value='Telefone Fixo:' />
+											<p:inputMask id='componente35' mask="(99)9999-9999"
+												value='#{anuncianteBean.item.fone2}' size="12">
+											</p:inputMask>
+
+											<h:outputLabel value='Email:' />
+											<p:inputText id='componente28'
+												value='#{anuncianteBean.item.email}' size="80">
+											</p:inputText>
+
+											<p:spacer width="10" />
+											<h:outputLabel value='Site:' />
+											<p:inputText id='componente29'
+												value='#{anuncianteBean.item.site}' size="80">
+											</p:inputText>
+											
+											<h:outputLabel value='Contato:' />
+											<p:inputText id='componente30'
+												value='#{anuncianteBean.item.contato}' size="80">
+											</p:inputText>
+											
+											<p:spacer width="10" />
+											<h:outputLabel value='Banco:' />
+											<p:inputText id='componente31'
+												value='#{anuncianteBean.item.banco}' size="30">
+											</p:inputText>
+											
+											<h:outputLabel value='Agência:' />
+											<p:inputText id='agencia'
+												value='#{anuncianteBean.item.agencia}' size="10">
+											</p:inputText>
+											
+											<p:spacer width="10" />
+											<h:outputLabel value='Conta:' />
+											<p:inputText id='conta'
+												value='#{anuncianteBean.item.conta}' size="10">
+											</p:inputText>
+											
+
+
+										</p:panelGrid>
+									</p:panel>
+								</h:panelGrid>
+
+
+
+								<f:facet name='footer'>
+									<p:commandButton value="#{i18n['button.cancel']}"
+										icon='ui-icon-close' process='@this' update='@form'
+										immediate='true' styleClass='buttonCancel'
+										style='float: left;'>
+										<f:setPropertyActionListener target='#{anuncianteBean.state}'
+											value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonCreate'
+										value="#{i18n['button.save']}" action='#{anuncianteBean.create}'
+										icon='ui-icon-check'
+										rendered="#{anuncianteBean.state eq 'CREATE'}" process='@form'
+										update='@form' style='float: right;'>
+										<f:setPropertyActionListener target='#{anuncianteBean.state}'
+											value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonUpdate'
+										value="#{i18n['button.edit']}" action='#{anuncianteBean.update}'
+										icon='ui-icon-check'
+										rendered="#{anuncianteBean.state eq 'UPDATE'}" process='@form'
+										update='@form' style='float: right;'>
+										<f:setPropertyActionListener target='#{anuncianteBean.state}'
+											value='READ' />
+									</p:commandButton>
+									<p:defaultCommand
+										target="#{(anuncianteBean.item.id eq null) ? 'buttonCreate' : 'buttonUpdate'}" />
+									<div style='clear: both;'></div>
+								</f:facet>
+							</p:panel>
+						</div>
+					</div>
+				</h:panelGroup>
+				<h:panelGroup id='removePanelGroup' layout='block'
+					rendered="#{anuncianteBean.state eq 'DELETE'}"
+					styleClass='ui-grid ui-grid-responsive'>
+					<div class='ui-grid-row'>
+						<div class='ui-grid-col-12'>
+							<p:panel id='removePanel'
+								header="#{i18n['operations.delete']} Anunciante">
+								<div class='ui-grid-form ui-grid ui-grid-responsive'>
+									<div class='ui-grid-row'>
+										<div class='ui-grid-col-12'>
+											<h3>
+												<h:outputFormat
+													value="#{i18n['operations.delete.areYouSure']}">
+													<f:param value='#{anuncianteBean.item.id}' />
+												</h:outputFormat>
+											</h3>
+										</div>
+									</div>
+								</div>
+								<f:facet name='footer'>
+									<p:commandButton value="#{i18n['button.cancel']}"
+										icon='ui-icon-close' process='@this' update='@form'
+										immediate='true' styleClass='buttonCancel'
+										style='float: left;'>
+										<f:setPropertyActionListener target="#{anuncianteBean.state}"
+											value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonRemove'
+										value="#{i18n['button.remove']}"
+										action='#{anuncianteBean.delete}' icon='ui-icon-trash'
+										process='@this' update='@form' style='float: right;'>
+										<f:setPropertyActionListener target="#{anuncianteBean.state}"
+											value='READ' />
+									</p:commandButton>
+									<div style='clear: both;'></div>
+								</f:facet>
+							</p:panel>
+						</div>
+					</div>
+				</h:panelGroup>
+			</h:form>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>
