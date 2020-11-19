@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "ponto")
@@ -56,6 +57,9 @@ public class Ponto implements Serializable {
 	
 	@Column(name = "imagem")
 	private byte[] imagem;
+	
+	@Transient
+	private boolean checkBox;
 
 	public Long getId() {
 		return id;
@@ -243,6 +247,14 @@ public class Ponto implements Serializable {
 		} else if (!uf.equals(other.uf))
 			return false;
 		return true;
+	}
+
+	public boolean isCheckBox() {
+		return checkBox;
+	}
+
+	public void setCheckBox(boolean checkBox) {
+		this.checkBox = checkBox;
 	}
 	
 	

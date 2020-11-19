@@ -74,6 +74,12 @@ public class Agencia implements Serializable {
 		
 		@Column(name="site")
 		private String site;
+		
+		@Column(name="master")
+		private String master;
+		
+		@Column(name="prox_numero_pi")
+		private Long proxNumeroPi;
 
 		public Long getId() {
 			return id;
@@ -222,6 +228,22 @@ public class Agencia implements Serializable {
 
 		public void setSite(String site) {
 			this.site = site;
+		}
+
+		public String getMaster() {
+			return master;
+		}
+
+		public void setMaster(String master) {
+			this.master = master;
+		}
+
+		public Long getProxNumeroPi() {
+			return proxNumeroPi;
+		}
+
+		public void setProxNumeroPi(Long proxNumeroPi) {
+			this.proxNumeroPi = proxNumeroPi;
 		}
 		
 		

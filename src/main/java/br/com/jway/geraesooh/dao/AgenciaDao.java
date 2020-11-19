@@ -25,4 +25,8 @@ public interface AgenciaDao  extends Serializable{
 
 	List<Agencia> buscaPorNome(String razaoSocial);
 
+	Agencia buscaAgenciaMaster();
+
+	Agencia atualizaProxNumeroPi(Agencia agenciaMaster);
+
 }

@@ -66,7 +66,7 @@ public class PontoDaoImpl implements PontoDao {
 	public List<Ponto> buscaPorExibidor(Long idExibidor) {
 		final StringBuilder jpql = new StringBuilder().append("SELECT x ")
 				.append("FROM " + Ponto.class.getName() + " x  ") //
-				.append("WHERE x.exibidor.id = " + idExibidor + " ")
+				.append("WHERE x.pessoa.id = " + idExibidor + " ")
 				.append("ORDER BY x.id ASC ");
 		return em.createQuery(jpql.toString(), Ponto.class).getResultList();
 	}

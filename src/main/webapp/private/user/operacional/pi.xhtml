@@ -1,422 +1,270 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns='http://www.w3.org/1999/xhtml'
-xmlns:ui='http://xmlns.jcp.org/jsf/facelets'
-xmlns:h='http://xmlns.jcp.org/jsf/html'
-xmlns:f='http://java.sun.com/jsf/core'
-xmlns:c='http://java.sun.com/jsp/jstl/core'
-xmlns:p='http://primefaces.org/ui'
-xmlns:pe='http://primefaces.org/ui/extensions'
-xmlns:pt='http://xmlns.jcp.org/jsf/passthrough'
-xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
+	xmlns:ui='http://xmlns.jcp.org/jsf/facelets'
+	xmlns:h='http://xmlns.jcp.org/jsf/html'
+	xmlns:f='http://java.sun.com/jsf/core'
+	xmlns:c='http://java.sun.com/jsp/jstl/core'
+	xmlns:p='http://primefaces.org/ui'
+	xmlns:pe='http://primefaces.org/ui/extensions'
+	xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
 
 <ui:composition template='/private/template/layout.xhtml'>
 	<ui:define name='content'>
-	<p:growl id='growl' autoUpdate='true' globalOnly='false' showDetail='false' />
-	<h:panelGroup id='wrapper' layout='block' styleClass='wrapper'>
-		<h:form id='form' prependId='false'>
-		<h:panelGroup id='viewPanelGroup' layout='block'
-		rendered="#{piBean.state eq 'READ'}"
-		styleClass='ui-grid ui-grid-responsive'>
-		<div class='ui-grid-row'>
-		<div class='ui-grid-col-12'>
-			<p:panel id='searchPanel' header="#{i18n['operations.search']}">
-		
-				<h:outputText value='Id:' />
-				<p:inputText id='componente1'
-					value='#{piBean.itemFilter.id}'>
- 				</p:inputText>
-		
-				<h:outputText value='Data Nascimento:' />
-				<p:calendar id='componente2'
-					value='#{piBean.itemFilter.dataNascimento}' showOn="button">
- 				</p:calendar>
-		
-				<h:outputText value='Ativo:' />
-				<p:inputText id='componente3'
-					value='#{piBean.itemFilter.ativo}'>
- 				</p:inputText>
-		
-				<h:outputText value='Bairro:' />
-				<p:inputText id='componente4'
-					value='#{piBean.itemFilter.bairro}'>
- 				</p:inputText>
-		
-				<h:outputText value='Celular:' />
-				<p:inputText id='componente5'
-					value='#{piBean.itemFilter.celular}'>
- 				</p:inputText>
-		
-				<h:outputText value='Cep:' />
-				<p:inputText id='componente6'
-					value='#{piBean.itemFilter.cep}'>
- 				</p:inputText>
-		
-				<h:outputText value='Cidade:' />
-				<p:inputText id='componente7'
-					value='#{piBean.itemFilter.cidade}'>
- 				</p:inputText>
-		
-				<h:outputText value='Complemento:' />
-				<p:inputText id='componente8'
-					value='#{piBean.itemFilter.complemento}'>
- 				</p:inputText>
-		
-				<h:outputText value='Cpf:' />
-				<p:inputText id='componente9'
-					value='#{piBean.itemFilter.cpf}'>
- 				</p:inputText>
-		
-				<h:outputText value='Email:' />
-				<p:inputText id='componente10'
-					value='#{piBean.itemFilter.email}'>
- 				</p:inputText>
-		
-				<h:outputText value='Endereco:' />
-				<p:inputText id='componente11'
-					value='#{piBean.itemFilter.endereco}'>
- 				</p:inputText>
-		
-				<h:outputText value='Nome:' />
-				<p:inputText id='componente12'
-					value='#{piBean.itemFilter.nome}'>
- 				</p:inputText>
-		
-				<h:outputText value='Nome Mae:' />
-				<p:inputText id='componente13'
-					value='#{piBean.itemFilter.nomeMae}'>
- 				</p:inputText>
-		
-				<h:outputText value='Nome Pai:' />
-				<p:inputText id='componente14'
-					value='#{piBean.itemFilter.nomePai}'>
- 				</p:inputText>
-		
-				<h:outputText value='Numero:' />
-				<p:inputText id='componente15'
-					value='#{piBean.itemFilter.numero}'>
- 				</p:inputText>
-		
-				<h:outputText value='Status:' />
-				<p:inputText id='componente16'
-					value='#{piBean.itemFilter.status}'>
- 				</p:inputText>
-		
-				<h:outputText value='Telefone Fixo:' />
-				<p:inputText id='componente17'
-					value='#{piBean.itemFilter.telefoneFixo}'>
- 				</p:inputText>
-		
-				<h:outputText value='Uf:' />
-				<p:inputText id='componente18'
-					value='#{piBean.itemFilter.uf}'>
- 				</p:inputText>
-	<div align="right">
-		<p:commandButton value='Pesquisar' id='buttonPesquisa'
-		update='viewPanel' actionListener='#{piBean.pesquisa()}'
-		styleClass='ui-priority-primary' />
-	</div>
-			</p:panel>
-		<br style='clear: left;' />
-			<p:panel id='viewPanel' header="#{i18n['pessoa']}">
-			
-			<h:panelGroup layout='block' style='margin: 0 0 0.5em 0;'>
-				<p:commandButton id="buttonNew" value="#{i18n['button.new']}"
-					 action="#{piBean.clearItem}" icon="ui-icon-plus"
-					 update="@form" resetValues="true">
-					<f:setPropertyActionListener target="#{piBean.state}"
-						 value="CREATE" />
-				</p:commandButton>
-			</h:panelGroup>
-			
-			<p:dataTable id='mainDataTable' value='#{piBean.items}'			var='itemView'>
-				<p:column headerText='Id' width='30' style='text-align: center;'>
-						<h:outputText value='#{itemView.id}' />
-				</p:column>
-		
-				<p:column headerText='Data Nascimento' width='30' style='text-align: center;'>
-						<h:outputText value='#{itemView.dataNascimento}' />
-				</p:column>
-		
-				<p:column headerText='Ativo' width='30' style='text-align: center;'>
-						<h:outputText value='#{itemView.ativo}' />
-				</p:column>
-		
-				<p:column headerText='Bairro' width='30' style='text-align: center;'>
-						<h:outputText value='#{itemView.bairro}' />
-				</p:column>
-		
-				<p:column headerText='Celular' width='30' style='text-align: center;'>
-						<h:outputText value='#{itemView.celular}' />
-				</p:column>
-		
-				<p:column headerText='Cep' width='30' style='text-align: center;'>
-						<h:outputText value='#{itemView.cep}' />
-				</p:column>
-		
-				<p:column headerText='Cidade' width='30' style='text-align: center;'>
-						<h:outputText value='#{itemView.cidade}' />
-				</p:column>
-		
-				<p:column headerText='Complemento' width='30' style='text-align: center;'>
-						<h:outputText value='#{itemView.complemento}' />
-				</p:column>
-		
-				<p:column headerText='Cpf' width='30' style='text-align: center;'>
-						<h:outputText value='#{itemView.cpf}' />
-				</p:column>
-		
-				<p:column headerText='Email' width='30' style='text-align: center;'>
-						<h:outputText value='#{itemView.email}' />
-				</p:column>
-		
-				<p:column headerText='Endereco' width='30' style='text-align: center;'>
-						<h:outputText value='#{itemView.endereco}' />
-				</p:column>
-		
-				<p:column headerText='Nome' width='30' style='text-align: center;'>
-						<h:outputText value='#{itemView.nome}' />
-				</p:column>
-		
-				<p:column headerText='Nome Mae' width='30' style='text-align: center;'>
-						<h:outputText value='#{itemView.nomeMae}' />
-				</p:column>
-		
-				<p:column headerText='Nome Pai' width='30' style='text-align: center;'>
-						<h:outputText value='#{itemView.nomePai}' />
-				</p:column>
-		
-				<p:column headerText='Numero' width='30' style='text-align: center;'>
-						<h:outputText value='#{itemView.numero}' />
-				</p:column>
-		
-				<p:column headerText='Status' width='30' style='text-align: center;'>
-						<h:outputText value='#{itemView.status}' />
-				</p:column>
-		
-				<p:column headerText='Telefone Fixo' width='30' style='text-align: center;'>
-						<h:outputText value='#{itemView.telefoneFixo}' />
-				</p:column>
-		
-				<p:column headerText='Uf' width='30' style='text-align: center;'>
-						<h:outputText value='#{itemView.uf}' />
-				</p:column>
-		
-				<p:column headerText="#{i18n['operations']}" width='70'
-						style='text-align: center;'>
-						<p:commandButton id='buttonOperationEdit'
-							icon='ui-icon-pencil' process='@this' update='@form'
-							resetValues='true' immediate='true'>
-							<f:setPropertyActionListener target='#{piBean.item}'
-							value='#{itemView}' />
-							<f:setPropertyActionListener target='#{piBean.state}'
-							value='UPDATE' />
-						</p:commandButton>
-						<p:commandButton id='buttonOperationRemove'
-							icon='ui-icon-trash' process='@this' update='@form'
-							immediate='true'>
-							<f:setPropertyActionListener target='#{piBean.item}'
-							value='#{itemView}' />
-							<f:setPropertyActionListener target='#{piBean.state}'
-							value='DELETE' />
-						</p:commandButton>
-				</p:column>
-			</p:dataTable>
-			</p:panel>
-		</div>
-		</div>
-			</h:panelGroup>
-		<h:panelGroup id='editPanelGroup' layout='block'
-		rendered="#{piBean.state eq 'CREATE' or piBean.state eq 'UPDATE'}"
-		styleClass='ui-grid ui-grid-responsive'>
-		<div class='ui-grid-row'>
-		<div class='ui-grid-col-12'>
-		<p:panel id='editPanel'>
-		<f:facet name='header'>
-		<h:outputText
-		value="#{i18n['operations.create']} #{i18n['pessoa']}"		rendered="#{piBean.state eq 'CREATE'}" />
-		<h:outputText
-		value="#{i18n['operations.update']} #{i18n['pessoa']}"
-		rendered="#{piBean.state eq 'UPDATE'}" />
-		</f:facet>
-		<div class='ui-grid-form ui-grid ui-grid-responsive'>		<div class='ui-grid-row'>		<div class='ui-grid-col-6'>		
-				<h:outputText value='Id:' />
-				<p:inputText id='componente19'
-					value='#{piBean.item.id}'>
- 				</p:inputText>
-		</div>
-		<div class='ui-grid-col-6'>		
-				<h:outputText value='Data Nascimento:' />
-				<p:calendar id='componente20'
-					value='#{piBean.item.dataNascimento}' showOn="button">
- 				</p:calendar>
-		</div>
-		<div class='ui-grid-col-6'>		
-				<h:outputText value='Ativo:' />
-				<p:inputText id='componente21'
-					value='#{piBean.item.ativo}'>
- 				</p:inputText>
-		</div>
-		<div class='ui-grid-col-6'>		
-				<h:outputText value='Bairro:' />
-				<p:inputText id='componente22'
-					value='#{piBean.item.bairro}'>
- 				</p:inputText>
-		</div>
-		<div class='ui-grid-col-6'>		
-				<h:outputText value='Celular:' />
-				<p:inputText id='componente23'
-					value='#{piBean.item.celular}'>
- 				</p:inputText>
-		</div>
-		<div class='ui-grid-col-6'>		
-				<h:outputText value='Cep:' />
-				<p:inputText id='componente24'
-					value='#{piBean.item.cep}'>
- 				</p:inputText>
-		</div>
-		<div class='ui-grid-col-6'>		
-				<h:outputText value='Cidade:' />
-				<p:inputText id='componente25'
-					value='#{piBean.item.cidade}'>
- 				</p:inputText>
-		</div>
-		<div class='ui-grid-col-6'>		
-				<h:outputText value='Complemento:' />
-				<p:inputText id='componente26'
-					value='#{piBean.item.complemento}'>
- 				</p:inputText>
-		</div>
-		<div class='ui-grid-col-6'>		
-				<h:outputText value='Cpf:' />
-				<p:inputText id='componente27'
-					value='#{piBean.item.cpf}'>
- 				</p:inputText>
-		</div>
-		<div class='ui-grid-col-6'>		
-				<h:outputText value='Email:' />
-				<p:inputText id='componente28'
-					value='#{piBean.item.email}'>
- 				</p:inputText>
-		</div>
-		<div class='ui-grid-col-6'>		
-				<h:outputText value='Endereco:' />
-				<p:inputText id='componente29'
-					value='#{piBean.item.endereco}'>
- 				</p:inputText>
-		</div>
-		<div class='ui-grid-col-6'>		
-				<h:outputText value='Nome:' />
-				<p:inputText id='componente30'
-					value='#{piBean.item.nome}'>
- 				</p:inputText>
-		</div>
-		<div class='ui-grid-col-6'>		
-				<h:outputText value='Nome Mae:' />
-				<p:inputText id='componente31'
-					value='#{piBean.item.nomeMae}'>
- 				</p:inputText>
-		</div>
-		<div class='ui-grid-col-6'>		
-				<h:outputText value='Nome Pai:' />
-				<p:inputText id='componente32'
-					value='#{piBean.item.nomePai}'>
- 				</p:inputText>
-		</div>
-		<div class='ui-grid-col-6'>		
-				<h:outputText value='Numero:' />
-				<p:inputText id='componente33'
-					value='#{piBean.item.numero}'>
- 				</p:inputText>
-		</div>
-		<div class='ui-grid-col-6'>		
-				<h:outputText value='Status:' />
-				<p:inputText id='componente34'
-					value='#{piBean.item.status}'>
- 				</p:inputText>
-		</div>
-		<div class='ui-grid-col-6'>		
-				<h:outputText value='Telefone Fixo:' />
-				<p:inputText id='componente35'
-					value='#{piBean.item.telefoneFixo}'>
- 				</p:inputText>
-		</div>
-		<div class='ui-grid-col-6'>		
-				<h:outputText value='Uf:' />
-				<p:inputText id='componente36'
-					value='#{piBean.item.uf}'>
- 				</p:inputText>
-		</div>
-		</div>
-		</div>
-		<f:facet name='footer'>
-			<p:commandButton value="#{i18n['button.cancel']}"
-				icon='ui-icon-close' process='@this' update='@form'
-				immediate='true' styleClass='buttonCancel'
-				style='float: left;'>
-				<f:setPropertyActionListener target='#{piBean.state}'
-				value='READ' />
-			</p:commandButton>
-			<p:commandButton id='buttonCreate'
-				value="#{i18n['button.save']}" action='#{piBean.create}'
-				icon='ui-icon-check'
-				rendered="#{piBean.state eq 'CREATE'}" process='@form'
-				update='@form' style='float: right;'>
-				<f:setPropertyActionListener target='#{piBean.state}'
-				value='READ' />
-			</p:commandButton>
-			<p:commandButton id='buttonUpdate'
-				value="#{i18n['button.edit']}" action='#{piBean.update}'
-				icon='ui-icon-check'
-				rendered="#{piBean.state eq 'UPDATE'}" process='@form'
-				update='@form' style='float: right;'>
-				<f:setPropertyActionListener target='#{piBean.state}'
-				value='READ' />
-			</p:commandButton>
-			<p:defaultCommand
-				target="#{(piBean.item.id eq null) ? 'buttonCreate' : 'buttonUpdate'}" />
-			<div style='clear: both;'></div>
-		</f:facet>
-		</p:panel>
-		</div>
-		</div>
+		<p:growl id='growl' autoUpdate='true' globalOnly='false'
+			showDetail='false' />
+		<h:panelGroup id='wrapper' layout='block' styleClass='wrapper'>
+			<h:form id='form' prependId='false'>
+				<h:panelGroup id='viewPanelGroup' layout='block'
+					rendered="#{piBean.state eq 'READ'}">
+					<br style='clear: left;' />
+					<p:panel id='viewPanel' header="Pedidos de Inserção ">
+
+						<h:panelGroup layout='block' style='margin: 0 0 0.5em 0;'>
+							<p:commandButton id="buttonNew" value="#{i18n['button.new']}"
+								action="#{piBean.clearItem}" icon="ui-icon-plus" update="@form"
+								resetValues="true">
+								<f:setPropertyActionListener target="#{piBean.state}"
+									value="CREATE" />
+							</p:commandButton>
+						</h:panelGroup>
+
+						<p:dataTable id='mainDataTable' value='#{piBean.items}'
+							var='itemView'
+							emptyMessage="#{i18n['operations.search.noRecordsFound']}">
+
+							<p:column headerText='Número PI' width='10'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.numeroPi}' />
+							</p:column>
+
+
+							<p:column headerText='Anunciante' width='60'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.pessoaAnunciante.razaoSocial}' />
+							</p:column>
+
+							<p:column headerText='Exibidor' width='60'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.pessoaExibidor.razaoSocial}' />
+							</p:column>
+
+
+							<p:column headerText='Pi' width='14' style='text-align: center;'>
+								<h:outputLabel value='#{itemView.numeroPi}' />
+							</p:column>
+
+							<p:column headerText='Bi-Semana' width='30'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.biSemana.periodo}' />
+							</p:column>
+
+							<p:column headerText='Data' width='10'
+								style='text-align: center;'>
+								<h:outputLabel value='#{itemView.data}' />
+							</p:column>
+
+
+							<p:column headerText="#{i18n['operations']}" width='15'
+								style='text-align: center;'>
+								<p:commandButton id='buttonOperationEdit' icon='ui-icon-pencil'
+									process='@this' update='@form' resetValues='true'
+									immediate='true'>
+									<f:setPropertyActionListener target='#{piBean.item}'
+										value='#{itemView}' />
+									<f:setPropertyActionListener target='#{piBean.state}'
+										value='UPDATE' />
+								</p:commandButton>
+								<p:commandButton id='buttonOperationRemove' icon='ui-icon-trash'
+									process='@this' update='@form' immediate='true'>
+									<f:setPropertyActionListener target='#{piBean.item}'
+										value='#{itemView}' />
+									<f:setPropertyActionListener target='#{piBean.state}'
+										value='DELETE' />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</h:panelGroup>
+				<h:panelGroup id='editPanelGroup' layout='block'
+					rendered="#{piBean.state eq 'CREATE' or piBean.state eq 'UPDATE'}"
+					styleClass='ui-grid ui-grid-responsive'>
+					<div class='ui-grid-row'>
+						<div class='ui-grid-col-12'>
+							<p:panel id='editPanel'>
+								<f:facet name='header'>
+									<h:outputLabel value="#{i18n['operations.create']} Pi"
+										rendered="#{piBean.state eq 'CREATE'}" />
+									<h:outputLabel
+										value="#{i18n['operations.update']} Pi #{piBean.item.numeroPi} "
+										rendered="#{piBean.state eq 'UPDATE'}" />
+								</f:facet>
+
+
+
+								<div class='ui-grid-col-6'>
+									<h:inputHidden id='componente6' value='#{piBean.item.id}' />
+								</div>
+
+
+								<h:panelGrid columns="1">
+									<p:panel id='editPanel2'>
+
+										<p:panelGrid columns="4">
+											<h:outputLabel value='Anunciante:' />
+											<h:selectOneMenu required="true"
+												value="#{piBean.item.pessoaAnunciante}" id="anunciante"
+												converter="#{pessoaConverter}">
+												<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+												<f:selectItems value="#{piBean.anunciantes}" var="p"
+													itemLabel="#{p.razaoSocial}" itemValue="#{p}" />
+											</h:selectOneMenu>
+
+											<h:outputLabel value='Exibidor:' />
+											<h:selectOneMenu required="true"
+												value="#{piBean.item.pessoaExibidor}" id="exibidor"
+												converter="#{pessoaConverter}">
+												<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+												<f:selectItems value="#{piBean.exibidores}" var="p"
+													itemLabel="#{p.razaoSocial}" itemValue="#{p}" />
+												<p:ajax listener="#{piBean.refreshPontosDoExibidor}"
+													event="change" update="pontosDoExibidor, exibidor" process="exibidor"
+													immediate="true" partialSubmit="editPanel2"/>
+											</h:selectOneMenu>
+
+											<h:outputLabel value='Bi-Semana:' />
+											<h:selectOneMenu required="true"
+												value="#{piBean.item.biSemana}" id="biSemana"
+												converter="#{biSemanaConverter}">
+												<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+												<f:selectItems value="#{piBean.biSemanas}" var="b"
+													itemLabel="#{b.numero}  (#{b.periodo})" itemValue="#{b}" />
+											</h:selectOneMenu>
+
+											<br style='clear: left;' />
+											<br style='clear: left;' />
+											<br style='clear: left;' />
+
+											<p:dataTable id="pontosDoExibidor"
+												rendered="#{piBean.item.pessoaExibidor ne null}"
+												value='#{piBean.pontosDoExibidor}' var='pontoView'
+												emptyMessage="#{i18n['operations.search.noRecordsFound']}">
+
+												<p:column headerText='' width='10'
+													style='text-align: center;'>
+													<h:selectBooleanCheckbox value='#{pontoView.checkBox}' />
+												</p:column>
+
+												<p:column headerText='Código' width='10'
+													style='text-align: center;'>
+													<h:outputLabel value='#{pontoView.codigo}' />
+												</p:column>
+
+
+												<p:column headerText='Descricao' width='60'
+													style='text-align: center;'>
+													<h:outputLabel value='#{pontoView.descricao}' />
+												</p:column>
+
+												<p:column headerText='Referência' width='14'
+													style='text-align: center;'>
+													<h:outputLabel value='#{pontoView.referencia}' />
+												</p:column>
+
+
+												<p:column headerText='Cidade' width='10'
+													style='text-align: center;'>
+													<h:outputLabel value='#{pontoView.cidade.municipio}' />
+												</p:column>
+
+												<p:column headerText='Uf' width='10'
+													style='text-align: center;'>
+													<h:outputLabel value='#{pontoView.uf.uf}' />
+												</p:column>
+
+											</p:dataTable>
+
+
+										</p:panelGrid>
+
+
+									</p:panel>
+								</h:panelGrid>
+
+
+
+								<f:facet name='footer'>
+									<p:commandButton value="#{i18n['button.cancel']}"
+										icon='ui-icon-close' process='@this' update='@form'
+										immediate='true' styleClass='buttonCancel'
+										style='float: left;'>
+										<f:setPropertyActionListener target='#{piBean.state}'
+											value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonCreate'
+										value="#{i18n['button.save']}" action='#{piBean.create}'
+										icon='ui-icon-check' rendered="#{piBean.state eq 'CREATE'}"
+										process='@form' update='@form' style='float: right;'>
+										<f:setPropertyActionListener target='#{piBean.state}'
+											value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonUpdate'
+										value="#{i18n['button.edit']}" action='#{piBean.update}'
+										icon='ui-icon-check' rendered="#{piBean.state eq 'UPDATE'}"
+										process='@form' update='@form' style='float: right;'>
+										<f:setPropertyActionListener target='#{piBean.state}'
+											value='READ' />
+									</p:commandButton>
+									<p:defaultCommand
+										target="#{(piBean.item.id eq null) ? 'buttonCreate' : 'buttonUpdate'}" />
+									<div style='clear: both;'></div>
+								</f:facet>
+							</p:panel>
+						</div>
+					</div>
+				</h:panelGroup>
+				<h:panelGroup id='removePanelGroup' layout='block'
+					rendered="#{piBean.state eq 'DELETE'}"
+					styleClass='ui-grid ui-grid-responsive'>
+					<div class='ui-grid-row'>
+						<div class='ui-grid-col-12'>
+							<p:panel id='removePanel'
+								header="#{i18n['operations.delete']} Pi">
+								<div class='ui-grid-form ui-grid ui-grid-responsive'>
+									<div class='ui-grid-row'>
+										<div class='ui-grid-col-12'>
+											<h3>
+												<h:outputFormat
+													value="#{i18n['operations.delete.areYouSure']}">
+													<f:param value='#{piBean.item.id}' />
+												</h:outputFormat>
+											</h3>
+										</div>
+									</div>
+								</div>
+								<f:facet name='footer'>
+									<p:commandButton value="#{i18n['button.cancel']}"
+										icon='ui-icon-close' process='@this' update='@form'
+										immediate='true' styleClass='buttonCancel'
+										style='float: left;'>
+										<f:setPropertyActionListener target="#{piBean.state}"
+											value='READ' />
+									</p:commandButton>
+									<p:commandButton id='buttonRemove'
+										value="#{i18n['button.remove']}" action='#{piBean.delete}'
+										icon='ui-icon-trash' process='@this' update='@form'
+										style='float: right;'>
+										<f:setPropertyActionListener target="#{piBean.state}"
+											value='READ' />
+									</p:commandButton>
+									<div style='clear: both;'></div>
+								</f:facet>
+							</p:panel>
+						</div>
+					</div>
+				</h:panelGroup>
+			</h:form>
 		</h:panelGroup>
-		<h:panelGroup id='removePanelGroup' layout='block'
-		rendered="#{piBean.state eq 'DELETE'}"
-		styleClass='ui-grid ui-grid-responsive'>
-		<div class='ui-grid-row'>
-		<div class='ui-grid-col-12'>
-		<p:panel id='removePanel'
-		 header="#{i18n['operations.delete']} #{i18n['pessoa']}">
-  <div class='ui-grid-form ui-grid ui-grid-responsive'>
- 	<div class='ui-grid-row'>
- 	<div class='ui-grid-col-12'> 
-			<h3>				<h:outputFormat					value="#{i18n['operations.delete.areYouSure']}">
-					<f:param value='#{piBean.item.id}' />
-					</h:outputFormat>
-			</h3>
-		</div>
-	</div>
-	</div>
-	<f:facet name='footer'>	<p:commandButton value="#{i18n['button.cancel']}"
-		icon='ui-icon-close' process='@this' update='@form'		immediate='true' styleClass='buttonCancel'
-		style='float: left;'>
-		<f:setPropertyActionListener target="#{piBean.state}"
-			value='READ' />
-	</p:commandButton>	<p:commandButton id='buttonRemove'
-		value="#{i18n['button.remove']}"
-		action='#{piBean.delete}' icon='ui-icon-trash'
-		process='@this' update='@form' style='float: right;'>
-		<f:setPropertyActionListener target="#{piBean.state}"			value='READ' />
-	</p:commandButton>	<div style='clear: both;'>
-</div>
-	</f:facet>
-	</p:panel>
-	</div>
-	</div>
-		</h:panelGroup>
-		</h:form>
-	</h:panelGroup>
 	</ui:define>
 </ui:composition>
 </html>

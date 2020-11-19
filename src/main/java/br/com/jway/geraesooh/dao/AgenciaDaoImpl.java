@@ -98,4 +98,27 @@ public class AgenciaDaoImpl implements AgenciaDao {
 		}
 	}
 
+	@Override
+	public Agencia buscaAgenciaMaster() {
+		final StringBuilder jpql = new StringBuilder()
+				.append("SELECT x ")
+				.append("FROM " + Agencia.class.getName() + " x ")
+				.append("WHERE x.master = 'S' "
+						);
+		try {
+			return em.createQuery(jpql.toString(), Agencia.class)
+					.getSingleResult();
+		} catch (final Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.MANDATORY)
+	public Agencia atualizaProxNumeroPi(Agencia agenciaMaster) {
+		agenciaMaster.setProxNumeroPi(agenciaMaster.getProxNumeroPi() + 1);
+		return em.merge(agenciaMaster);
+		
+	}
+
 }

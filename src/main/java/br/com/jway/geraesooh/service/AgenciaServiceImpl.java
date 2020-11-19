@@ -66,5 +66,15 @@ public class AgenciaServiceImpl  implements AgenciaService{
 	public List<Agencia> pesquisaPorNome(String razaoSocial) {
 		return dao.buscaPorNome(razaoSocial);
 	}
+	@Override
+	public Agencia buscaAgenciaMaster() {
+		return dao.buscaAgenciaMaster();
+	}
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Agencia atualizaProxNumeroPi(Agencia agenciaMaster) {
+		return dao.atualizaProxNumeroPi(agenciaMaster);
+		
+	}
 
 }

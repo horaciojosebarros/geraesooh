@@ -1,23 +1,29 @@
 package br.com.jway.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import br.com.jway.geraesooh.model.Agencia;
+import br.com.jway.geraesooh.model.BiSemana;
 import br.com.jway.geraesooh.model.Cidade;
 import br.com.jway.geraesooh.model.Pessoa;
 import br.com.jway.geraesooh.model.Pi;
 import br.com.jway.geraesooh.model.Ponto;
 import br.com.jway.geraesooh.model.Uf;
+import br.com.jway.geraesooh.service.AgenciaService;
+import br.com.jway.geraesooh.service.BiSemanaService;
 import br.com.jway.geraesooh.service.CidadeService;
 import br.com.jway.geraesooh.service.PessoaService;
 import br.com.jway.geraesooh.service.PiService;
@@ -26,7 +32,7 @@ import br.com.jway.geraesooh.service.UfService;
 import br.com.jway.util.FacesUtils;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class PiBean extends SpringBeanAutowiringSupport implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -48,6 +54,12 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 
 	@Inject
 	private PessoaService pessoaService;
+	
+	@Inject
+	private BiSemanaService biSemanaService;
+	
+	@Inject
+	private AgenciaService agenciaService;
 
 	private String state;
 	private List<Pi> items;
@@ -59,6 +71,11 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 	private String nomeExibidor;
 	private List<Cidade> cidades;
 	private List<Pessoa> exibidores;
+	private List<BiSemana> biSemanas;
+	
+	private List<Ponto> pontosDoExibidor;
+	
+	private Agencia agenciaMaster;
 
 	public PiBean() {
 		log.info("Bean constructor called.");
@@ -81,7 +98,6 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 
 	public void clearItem() {
 		try {
-			// Instantiating via reflection was used here for generic purposes
 			item = Pi.class.newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
 			FacesUtils.addI18nError("generic.bean.unableToCleanViewData");
@@ -89,10 +105,17 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 	}
 
 	public void create() {
+		item.setData(new Date());
+		incluiNumeroPi();
 		service.create(item);
 		limpaPesquisa();
 		items = service.list();
 		item = null;
+	}
+
+	private void incluiNumeroPi() {
+		this.item.setNumeroPi(getAgenciaMaster().getProxNumeroPi().toString().trim() + "/" + this.item.getBiSemana().getAno());
+		agenciaMaster = agenciaService.atualizaProxNumeroPi(getAgenciaMaster());
 	}
 
 	public void update() {
@@ -114,6 +137,7 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 	}
 
 	public void limpaPesquisa() {
+		this.pontosDoExibidor = null;
 
 	}
 
@@ -215,6 +239,16 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 		this.exibidores = pessoaService.listExibidor();
 		return exibidores;
 	}
+	
+	public List<Pessoa> getAnunciantes() {
+		this.anunciantes = pessoaService.listAnunciante();
+		return anunciantes;
+	}
+	
+	public List<BiSemana> getBiSemanas() {
+		this.biSemanas = biSemanaService.list();
+		return biSemanas;
+	}
 
 	public void setExibidores(List<Pessoa> exibidores) {
 
@@ -227,10 +261,6 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 
 	public void setPontos(List<Ponto> pontos) {
 		this.pontos = pontos;
-	}
-
-	public List<Pessoa> getAnunciantes() {
-		return anunciantes;
 	}
 
 	public void setAnunciantes(List<Pessoa> anunciantes) {
@@ -248,7 +278,47 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 	public void setService(PiService service) {
 		this.service = service;
 	}
-	
-	
+
+	public void setBiSemanas(List<BiSemana> biSemanas) {
+		this.biSemanas = biSemanas;
+	}
+
+	public BiSemanaService getBiSemanaService() {
+		return biSemanaService;
+	}
+
+	public void setBiSemanaService(BiSemanaService biSemanaService) {
+		this.biSemanaService = biSemanaService;
+	}
+
+	public AgenciaService getAgenciaService() {
+		return agenciaService;
+	}
+
+	public void setAgenciaService(AgenciaService agenciaService) {
+		this.agenciaService = agenciaService;
+	}
+
+	public Agencia getAgenciaMaster() {
+		if (agenciaMaster == null || !agenciaMaster.getMaster().equals("S")) {
+			agenciaMaster = agenciaService.buscaAgenciaMaster();
+		}
+		return agenciaMaster;
+	}
+
+	public List<Ponto> getPontosDoExibidor() {
+		if (pontosDoExibidor == null || pontosDoExibidor.isEmpty() && item.getPessoaExibidor() != null) {
+			pontosDoExibidor = pontoService.pesquisaPorExibidor(item.getPessoaExibidor().getId());
+		}
+		return pontosDoExibidor;
+	}
+
+	public void setPontosDoExibidor(List<Ponto> pontosDoExibidor) {
+		this.pontosDoExibidor = pontosDoExibidor;
+	}
+
+	public void refreshPontosDoExibidor() { 
+		pontosDoExibidor = pontoService.pesquisaPorExibidor(item.getPessoaExibidor().getId());
+	}
 
 }

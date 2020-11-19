@@ -26,4 +26,8 @@ public interface AgenciaService extends Serializable {
 	public Agencia busca(Agencia agenciaLogado);
 
 	public List<Agencia> pesquisaPorNome(String razaoSocial);
+
+	public Agencia buscaAgenciaMaster();
+
+	public Agencia atualizaProxNumeroPi(Agencia agenciaMaster);
 }
