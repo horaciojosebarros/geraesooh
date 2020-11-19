@@ -53,7 +53,10 @@ public class BiSemanaDao implements Serializable {
 	}
 
 	public List<BiSemana> pesquisa(final BiSemana biSemana) {
-		return null;
+		final StringBuilder jpql = new StringBuilder().append("SELECT x ")
+				.append("FROM " + BiSemana.class.getName() + " x ") //
+				.append("ORDER BY x.id ASC ");
+		return em.createQuery(jpql.toString(), BiSemana.class).getResultList();
 	}
 
 
