@@ -3,6 +3,7 @@ package br.com.jway.geraesooh.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.jway.geraesooh.model.Pi;
+import br.com.jway.geraesooh.model.PiPonto;
 
 @Named
 public class PiDao implements Serializable {
@@ -19,6 +21,9 @@ public class PiDao implements Serializable {
 
 	@PersistenceContext
 	protected EntityManager em;
+	
+	@Inject
+	PiPontoDao piPontoDao;
 
 	public List<Pi> list() {
 		final StringBuilder jpql = new StringBuilder().append("SELECT x ")
@@ -34,6 +39,10 @@ public class PiDao implements Serializable {
 	@Transactional(propagation = Propagation.MANDATORY)
 	public void create(final Pi pi) {
 		em.persist(pi);
+		// gravando os pontos selecionados
+		for (PiPonto pp : pi.getDetalhes()) {
+			em.persist(pp);
+		}
 	}
 
 	@Transactional(propagation = Propagation.MANDATORY)

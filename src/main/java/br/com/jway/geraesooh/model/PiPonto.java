@@ -33,7 +33,7 @@ public class PiPonto implements Serializable {
 	@Column(name = "valor_liquido_negociado")
 	private Double valorLiquidoNegociado;
 	
-	@Column(name = "valor_liquido_tabela")
+	@Column(name = "valor_tabela")
 	private Double valorTabela;
 
 	@Override
@@ -84,6 +84,51 @@ public class PiPonto implements Serializable {
 			return false;
 		return true;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Ponto getPonto() {
+		return ponto;
+	}
+
+	public void setPonto(Ponto ponto) {
+		this.ponto = ponto;
+	}
+
+	public Pi getPi() {
+		return pi;
+	}
+
+	public void setPi(Pi pi) {
+		this.pi = pi;
+	}
+
+	public Double getValorLiquidoNegociado() {
+		return valorLiquidoNegociado;
+	}
+
+	public void setValorLiquidoNegociado(Double valorLiquidoNegociado) {
+		this.valorLiquidoNegociado = valorLiquidoNegociado;
+	}
+
+	public Double getValorTabela() {
+		return valorTabela;
+	}
+
+	public void setValorTabela(Double valorTabela) {
+		this.valorTabela = valorTabela;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
 	
 	
 

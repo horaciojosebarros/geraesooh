@@ -54,6 +54,10 @@ public class PiPontoService implements Serializable{
 	public List<PiPonto> pesquisa(PiPonto piPonto){
 		return dao.pesquisa(piPonto);
  	}
+	
+	public List<PiPonto> buscaDetalhesPorPi(Long piId){
+		return dao.buscaDetalhesPorPi(piId);
+ 	}
 
 	
 	

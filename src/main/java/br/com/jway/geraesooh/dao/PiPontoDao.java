@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.jway.geraesooh.model.Pi;
 import br.com.jway.geraesooh.model.PiPonto;
 
 @Named
@@ -54,6 +55,14 @@ public class PiPontoDao implements Serializable {
 
 	public List<PiPonto> pesquisa(final PiPonto piPonto) {
 		return null;
+	}
+
+	public List<PiPonto> buscaDetalhesPorPi(Long piId) {
+		final StringBuilder jpql = new StringBuilder().append("SELECT x ")
+				.append("FROM " + PiPonto.class.getName() + " x  ") //
+				.append("WHERE x.pi.id = " + piId + " ")
+				.append("ORDER BY x.id ASC ");
+		return em.createQuery(jpql.toString(), PiPonto.class).getResultList();
 	}
 
 

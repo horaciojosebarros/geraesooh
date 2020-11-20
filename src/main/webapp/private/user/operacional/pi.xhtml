@@ -50,9 +50,7 @@
 							</p:column>
 
 
-							<p:column headerText='Pi' width='14' style='text-align: center;'>
-								<h:outputLabel value='#{itemView.numeroPi}' />
-							</p:column>
+							
 
 							<p:column headerText='Bi-Semana' width='30'
 								style='text-align: center;'>
@@ -96,7 +94,7 @@
 									<h:outputLabel value="#{i18n['operations.create']} Pi"
 										rendered="#{piBean.state eq 'CREATE'}" />
 									<h:outputLabel
-										value="#{i18n['operations.update']} Pi #{piBean.item.numeroPi} "
+										value="Dados do Pi #{piBean.item.numeroPi} "
 										rendered="#{piBean.state eq 'UPDATE'}" />
 								</f:facet>
 
@@ -108,32 +106,37 @@
 
 
 								<h:panelGrid columns="1">
+									<h:outputLabel value='Anunciante:' />
+									<h:selectOneMenu required="true"
+										disabled="#{piBean.item.id ne null}"
+										value="#{piBean.item.pessoaAnunciante}" id="anunciante"
+										converter="#{pessoaConverter}">
+										<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+										<f:selectItems value="#{piBean.anunciantes}" var="p"
+											itemLabel="#{p.razaoSocial}" itemValue="#{p}" />
+									</h:selectOneMenu>
+									<br style='clear: left;' />
 									<p:panel id='editPanel2'>
 
 										<p:panelGrid columns="4">
-											<h:outputLabel value='Anunciante:' />
-											<h:selectOneMenu required="true"
-												value="#{piBean.item.pessoaAnunciante}" id="anunciante"
-												converter="#{pessoaConverter}">
-												<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
-												<f:selectItems value="#{piBean.anunciantes}" var="p"
-													itemLabel="#{p.razaoSocial}" itemValue="#{p}" />
-											</h:selectOneMenu>
+
 
 											<h:outputLabel value='Exibidor:' />
 											<h:selectOneMenu required="true"
+												disabled="#{piBean.item.id ne null}"
 												value="#{piBean.item.pessoaExibidor}" id="exibidor"
 												converter="#{pessoaConverter}">
 												<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
 												<f:selectItems value="#{piBean.exibidores}" var="p"
 													itemLabel="#{p.razaoSocial}" itemValue="#{p}" />
 												<p:ajax listener="#{piBean.refreshPontosDoExibidor}"
-													event="change" update="pontosDoExibidor, exibidor" process="exibidor"
-													immediate="true" partialSubmit="editPanel2"/>
+													event="change" update="editPanel2" process="exibidor"
+													immediate="true" partialSubmit="editPanel2" />
 											</h:selectOneMenu>
 
 											<h:outputLabel value='Bi-Semana:' />
 											<h:selectOneMenu required="true"
+												disabled="#{piBean.item.id ne null}"
 												value="#{piBean.item.biSemana}" id="biSemana"
 												converter="#{biSemanaConverter}">
 												<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
@@ -141,51 +144,89 @@
 													itemLabel="#{b.numero}  (#{b.periodo})" itemValue="#{b}" />
 											</h:selectOneMenu>
 
-											<br style='clear: left;' />
-											<br style='clear: left;' />
-											<br style='clear: left;' />
-
-											<p:dataTable id="pontosDoExibidor"
-												rendered="#{piBean.item.pessoaExibidor ne null}"
-												value='#{piBean.pontosDoExibidor}' var='pontoView'
-												emptyMessage="#{i18n['operations.search.noRecordsFound']}">
-
-												<p:column headerText='' width='10'
-													style='text-align: center;'>
-													<h:selectBooleanCheckbox value='#{pontoView.checkBox}' />
-												</p:column>
-
-												<p:column headerText='Código' width='10'
-													style='text-align: center;'>
-													<h:outputLabel value='#{pontoView.codigo}' />
-												</p:column>
-
-
-												<p:column headerText='Descricao' width='60'
-													style='text-align: center;'>
-													<h:outputLabel value='#{pontoView.descricao}' />
-												</p:column>
-
-												<p:column headerText='Referência' width='14'
-													style='text-align: center;'>
-													<h:outputLabel value='#{pontoView.referencia}' />
-												</p:column>
-
-
-												<p:column headerText='Cidade' width='10'
-													style='text-align: center;'>
-													<h:outputLabel value='#{pontoView.cidade.municipio}' />
-												</p:column>
-
-												<p:column headerText='Uf' width='10'
-													style='text-align: center;'>
-													<h:outputLabel value='#{pontoView.uf.uf}' />
-												</p:column>
-
-											</p:dataTable>
-
 
 										</p:panelGrid>
+
+
+										<br style='clear: left;' />
+										<br style='clear: left;' />
+										<br style='clear: left;' />
+
+										<p:dataTable id="pontosDoExibidor"
+											rendered="#{piBean.item.pessoaExibidor ne null and piBean.item.id eq null}"
+											value='#{piBean.pontosDoExibidor}' var='pontoView'
+											emptyMessage="#{i18n['operations.search.noRecordsFound']}">
+
+											<p:column headerText='' width='10'
+												style='text-align: center;'>
+												<h:selectBooleanCheckbox value='#{pontoView.checkBox}'
+													disabled="#{piBean.item.id ne null}" />
+											</p:column>
+
+											<p:column headerText='Código' width='10'
+												style='text-align: center;'>
+												<h:outputLabel value='#{pontoView.codigo}' />
+											</p:column>
+
+
+											<p:column headerText='Descricao' width='60'
+												style='text-align: center;'>
+												<h:outputLabel value='#{pontoView.descricao}' />
+											</p:column>
+
+											<p:column headerText='Referência' width='14'
+												style='text-align: center;'>
+												<h:outputLabel value='#{pontoView.referencia}' />
+											</p:column>
+
+
+											<p:column headerText='Cidade' width='10'
+												style='text-align: center;'>
+												<h:outputLabel value='#{pontoView.cidade.municipio}' />
+											</p:column>
+
+											<p:column headerText='Uf' width='10'
+												style='text-align: center;'>
+												<h:outputLabel value='#{pontoView.uf.uf}' />
+											</p:column>
+
+										</p:dataTable>
+
+										<p:dataTable id="detalhes"
+											rendered="#{piBean.item.detalhes ne null}"
+											value='#{piBean.item.detalhes}' var='piPontoView'
+											emptyMessage="#{i18n['operations.search.noRecordsFound']}">
+
+											<p:column headerText='Código' width='10'
+												style='text-align: center;'>
+												<h:outputLabel value='#{piPontoView.id}' />
+											</p:column>
+
+
+											<p:column headerText='Descricao' width='60'
+												style='text-align: center;'>
+												<h:outputLabel value='#{piPontoView.ponto.descricao}' />
+											</p:column>
+
+											<p:column headerText='Referência' width='14'
+												style='text-align: center;'>
+												<h:outputLabel value='#{piPontoView.ponto.referencia}' />
+											</p:column>
+
+
+											<p:column headerText='Cidade' width='10'
+												style='text-align: center;'>
+												<h:outputLabel value='#{piPontoView.ponto.cidade.municipio}' />
+											</p:column>
+
+											<p:column headerText='Uf' width='10'
+												style='text-align: center;'>
+												<h:outputLabel value='#{piPontoView.ponto.uf.uf}' />
+											</p:column>
+
+										</p:dataTable>
+
+
 
 
 									</p:panel>

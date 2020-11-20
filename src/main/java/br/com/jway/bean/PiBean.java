@@ -1,13 +1,13 @@
 package br.com.jway.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
@@ -20,12 +20,14 @@ import br.com.jway.geraesooh.model.BiSemana;
 import br.com.jway.geraesooh.model.Cidade;
 import br.com.jway.geraesooh.model.Pessoa;
 import br.com.jway.geraesooh.model.Pi;
+import br.com.jway.geraesooh.model.PiPonto;
 import br.com.jway.geraesooh.model.Ponto;
 import br.com.jway.geraesooh.model.Uf;
 import br.com.jway.geraesooh.service.AgenciaService;
 import br.com.jway.geraesooh.service.BiSemanaService;
 import br.com.jway.geraesooh.service.CidadeService;
 import br.com.jway.geraesooh.service.PessoaService;
+import br.com.jway.geraesooh.service.PiPontoService;
 import br.com.jway.geraesooh.service.PiService;
 import br.com.jway.geraesooh.service.PontoService;
 import br.com.jway.geraesooh.service.UfService;
@@ -37,14 +39,13 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 
 	private static final long serialVersionUID = 1L;
 
-	protected static final Log log = LogFactory.getLog(PontoBean.class);
+	protected static final Log log = LogFactory.getLog(PiBean.class);
 
 	@Inject
 	private PiService service;
-	
+
 	@Inject
 	private PontoService pontoService;
-
 
 	@Inject
 	private UfService ufService;
@@ -54,12 +55,16 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 
 	@Inject
 	private PessoaService pessoaService;
-	
+
 	@Inject
 	private BiSemanaService biSemanaService;
-	
+
 	@Inject
 	private AgenciaService agenciaService;
+	
+	@Inject
+	private PiPontoService piPontoService;
+
 
 	private String state;
 	private List<Pi> items;
@@ -67,14 +72,15 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 	private Pi item;
 	private Pi itemFilter;
 	private List<Pessoa> anunciantes;
-	
+
 	private String nomeExibidor;
 	private List<Cidade> cidades;
 	private List<Pessoa> exibidores;
 	private List<BiSemana> biSemanas;
-	
+
 	private List<Ponto> pontosDoExibidor;
-	
+	private List<PiPonto> piPontos;
+
 	private Agencia agenciaMaster;
 
 	public PiBean() {
@@ -107,14 +113,32 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 	public void create() {
 		item.setData(new Date());
 		incluiNumeroPi();
+		incluiDetalhes();
 		service.create(item);
 		limpaPesquisa();
 		items = service.list();
 		item = null;
 	}
 
+	private void incluiDetalhes() {
+		piPontos = new ArrayList<PiPonto>();
+		for (Ponto ponto : pontosDoExibidor) {
+			if (ponto.isCheckBox()) {
+				PiPonto piPonto = new PiPonto();
+				piPonto.setPi(item);
+				piPonto.setPonto(ponto);
+				piPonto.setValorLiquidoNegociado(0.00);
+				piPonto.setValorTabela(0.00);
+				piPontos.add(piPonto);
+			}
+		}
+		item.setDetalhes(piPontos);
+		
+	}
+
 	private void incluiNumeroPi() {
-		this.item.setNumeroPi(getAgenciaMaster().getProxNumeroPi().toString().trim() + "/" + this.item.getBiSemana().getAno());
+		this.item.setNumeroPi(
+				getAgenciaMaster().getProxNumeroPi().toString().trim() + "/" + this.item.getBiSemana().getAno());
 		agenciaMaster = agenciaService.atualizaProxNumeroPi(getAgenciaMaster());
 	}
 
@@ -168,6 +192,7 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 
 	public void setItem(Pi item) {
 		this.item = item;
+		this.item.setDetalhes(piPontoService.buscaDetalhesPorPi(item.getId()));
 	}
 
 	public Pi getItemFilter() {
@@ -239,12 +264,12 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 		this.exibidores = pessoaService.listExibidor();
 		return exibidores;
 	}
-	
+
 	public List<Pessoa> getAnunciantes() {
 		this.anunciantes = pessoaService.listAnunciante();
 		return anunciantes;
 	}
-	
+
 	public List<BiSemana> getBiSemanas() {
 		this.biSemanas = biSemanaService.list();
 		return biSemanas;
@@ -307,9 +332,11 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 	}
 
 	public List<Ponto> getPontosDoExibidor() {
-		if (pontosDoExibidor == null || pontosDoExibidor.isEmpty() && item.getPessoaExibidor() != null) {
+		// Só se for inclusão que traz os pontos
+		if (item != null && item.getId() == null && item.getPessoaExibidor() != null && item.getPessoaExibidor().getId() != null) {
 			pontosDoExibidor = pontoService.pesquisaPorExibidor(item.getPessoaExibidor().getId());
 		}
+
 		return pontosDoExibidor;
 	}
 
@@ -317,8 +344,25 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 		this.pontosDoExibidor = pontosDoExibidor;
 	}
 
-	public void refreshPontosDoExibidor() { 
-		pontosDoExibidor = pontoService.pesquisaPorExibidor(item.getPessoaExibidor().getId());
+	public void refreshPontosDoExibidor() {
+		// Só se for inclusão que traz os pontos
+		if (item != null && item.getId() == null && item.getPessoaExibidor() != null && item.getPessoaExibidor().getId() != null) {
+			pontosDoExibidor = pontoService.pesquisaPorExibidor(item.getPessoaExibidor().getId());
+		}
 	}
+
+	public List<PiPonto> getPiPontos() {
+		return piPontos;
+	}
+
+	public void setPiPontos(List<PiPonto> piPontos) {
+		this.piPontos = piPontos;
+	}
+
+	public void setAgenciaMaster(Agencia agenciaMaster) {
+		this.agenciaMaster = agenciaMaster;
+	}
+	
+	
 
 }
