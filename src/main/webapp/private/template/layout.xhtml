@@ -9,6 +9,8 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
+	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery.maskMoney.js"></script>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -18,13 +20,14 @@
 </h:head>
 
 <h:body>
-	<div id="geral"  >
-		<div id="headerHeaderMaster" style=" background-color : #009a00; color:white; text-align:center;"> 
+	<div id="geral">
+		<div id="headerHeaderMaster"
+			style="background-color: #009a00; color: white; text-align: center;">
 			<ui:insert name="headerHeaderMaster">
 				<ui:include src="headerMaster.xhtml" />
 			</ui:insert>
 		</div>
-		<div id="header" >
+		<div id="header">
 			<ui:insert name="header">
 				<ui:include src="header.xhtml" />
 			</ui:insert>

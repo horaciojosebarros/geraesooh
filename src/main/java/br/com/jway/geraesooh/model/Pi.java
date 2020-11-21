@@ -58,6 +58,21 @@ public class Pi implements Serializable {
 	@Column(name = "total_liquido")
 	private Double totalLiquido;
 	
+	@Column(name = "titulo_campanha")
+	private String tituloCampanha;
+	
+	@Column(name = "produto")
+	private String produto;
+	
+	@ManyToOne
+	@JoinColumn(name="cidade")
+	private Cidade cidade;
+	
+	@ManyToOne
+	@JoinColumn(name="uf")
+	private Uf uf;
+	
+	
 	@Transient
 	private List<PiPonto> detalhes; 
 	
@@ -245,6 +260,38 @@ public class Pi implements Serializable {
 
 	public void setDetalhes(List<PiPonto> detalhes) {
 		this.detalhes = detalhes;
+	}
+
+	public String getTituloCampanha() {
+		return tituloCampanha;
+	}
+
+	public void setTituloCampanha(String tituloCampanha) {
+		this.tituloCampanha = tituloCampanha;
+	}
+
+	public String getProduto() {
+		return produto;
+	}
+
+	public void setProduto(String produto) {
+		this.produto = produto;
+	}
+
+	public Cidade getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
+	}
+
+	public Uf getUf() {
+		return uf;
+	}
+
+	public void setUf(Uf uf) {
+		this.uf = uf;
 	}
 	
 	

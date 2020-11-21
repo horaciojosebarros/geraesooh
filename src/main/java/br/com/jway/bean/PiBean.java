@@ -1,18 +1,26 @@
 package br.com.jway.bean;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
 import javax.inject.Inject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import br.com.jway.geraesooh.model.Agencia;
@@ -61,10 +69,9 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 
 	@Inject
 	private AgenciaService agenciaService;
-	
+
 	@Inject
 	private PiPontoService piPontoService;
-
 
 	private String state;
 	private List<Pi> items;
@@ -86,6 +93,7 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 	public PiBean() {
 		log.info("Bean constructor called.");
 		itemFilter = new Pi();
+		itemFilter.setProduto("OUTDOOR");
 		limpaPesquisa();
 	}
 
@@ -105,23 +113,28 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 	public void clearItem() {
 		try {
 			item = Pi.class.newInstance();
+
 		} catch (InstantiationException | IllegalAccessException e) {
 			FacesUtils.addI18nError("generic.bean.unableToCleanViewData");
 		}
 	}
 
-	public void create() {
+	public void create() throws Exception {
 		item.setData(new Date());
+		itemFilter.setProduto("OUTDOOR");
 		incluiNumeroPi();
 		incluiDetalhes();
+		item.setTotalLiquido(item.getTotalBruto() - item.getComissao());
 		service.create(item);
 		limpaPesquisa();
 		items = service.list();
 		item = null;
+
 	}
 
-	private void incluiDetalhes() {
+	private void incluiDetalhes() throws Exception {
 		piPontos = new ArrayList<PiPonto>();
+
 		for (Ponto ponto : pontosDoExibidor) {
 			if (ponto.isCheckBox()) {
 				PiPonto piPonto = new PiPonto();
@@ -133,7 +146,10 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 			}
 		}
 		item.setDetalhes(piPontos);
-		
+		if (piPontos.isEmpty()) {
+			throw new Exception("Pontos devem ser escolhidos.");
+		}
+
 	}
 
 	private void incluiNumeroPi() {
@@ -296,10 +312,6 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 		return pontoService;
 	}
 
-	public List<Cidade> getCidades() {
-		return cidades;
-	}
-
 	public void setService(PiService service) {
 		this.service = service;
 	}
@@ -333,7 +345,8 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 
 	public List<Ponto> getPontosDoExibidor() {
 		// Só se for inclusão que traz os pontos
-		if (item != null && item.getId() == null && item.getPessoaExibidor() != null && item.getPessoaExibidor().getId() != null) {
+		if (item != null && item.getId() == null && item.getPessoaExibidor() != null
+				&& item.getPessoaExibidor().getId() != null) {
 			pontosDoExibidor = pontoService.pesquisaPorExibidor(item.getPessoaExibidor().getId());
 		}
 
@@ -346,7 +359,8 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 
 	public void refreshPontosDoExibidor() {
 		// Só se for inclusão que traz os pontos
-		if (item != null && item.getId() == null && item.getPessoaExibidor() != null && item.getPessoaExibidor().getId() != null) {
+		if (item != null && item.getId() == null && item.getPessoaExibidor() != null
+				&& item.getPessoaExibidor().getId() != null) {
 			pontosDoExibidor = pontoService.pesquisaPorExibidor(item.getPessoaExibidor().getId());
 		}
 	}
@@ -362,7 +376,35 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 	public void setAgenciaMaster(Agencia agenciaMaster) {
 		this.agenciaMaster = agenciaMaster;
 	}
-	
-	
 
+	public List<Cidade> getCidades() {
+		if (cidades == null && item != null) {
+			refreshUf();
+		}
+		return cidades;
+	}
+
+	public void refreshUf() {
+		cidades = cidadeService.findByUf(item.getUf());
+
+	}
+
+	public StreamedContent getImage() throws IOException {
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		
+		Map<String, String> map = context.getExternalContext().getRequestParameterMap();
+		
+		for (final String string : map.keySet()) {
+			System.out.println("chave = " + string + " valor = " + map.get(string));
+		}
+
+		String id = context.getExternalContext().getRequestParameterMap().get("pid");
+		Ponto pontoAux = pontoService.read(Long.valueOf(id));
+
+		byte[] imagem = pontoAux.getImagem();
+
+		return new DefaultStreamedContent(new ByteArrayInputStream(imagem));
+
+	}
 }

@@ -50,7 +50,7 @@
 							</p:column>
 
 
-							
+
 
 							<p:column headerText='Bi-Semana' width='30'
 								style='text-align: center;'>
@@ -93,8 +93,7 @@
 								<f:facet name='header'>
 									<h:outputLabel value="#{i18n['operations.create']} Pi"
 										rendered="#{piBean.state eq 'CREATE'}" />
-									<h:outputLabel
-										value="Dados do Pi #{piBean.item.numeroPi} "
+									<h:outputLabel value="Dados do Pi #{piBean.item.numeroPi} "
 										rendered="#{piBean.state eq 'UPDATE'}" />
 								</f:facet>
 
@@ -144,13 +143,77 @@
 													itemLabel="#{b.numero}  (#{b.periodo})" itemValue="#{b}" />
 											</h:selectOneMenu>
 
+											<h:outputLabel value="Produto:" />
+											<h:outputText id="produto" value="OUTDOOR" />
+
+											<h:outputLabel value='Título:' />
+											<h:inputText id="tituloCamapanha"
+												value="#{piBean.item.tituloCampanha}" size="30"
+												disabled="#{piBean.item.id ne null}" />
+
+
+										</p:panelGrid>
+										<br style='clear: left;' />
+										<h:outputLabel value='Praça:' />
+
+										<p:panelGrid columns="4">
+											<h:outputLabel value='Uf:' />
+											<h:selectOneMenu required="true"
+												disabled="#{piBean.item.id ne null}"
+												value="#{piBean.item.uf}" id="uf" converter='#{ufConverter}'>
+												<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+												<f:selectItems value="#{piBean.ufs}" var="uf"
+													itemLabel="#{uf.descricao}" itemValue="#{uf}" />
+												<p:ajax listener="#{piBean.refreshUf}" event="change"
+													update="cidade" process="uf" />
+											</h:selectOneMenu>
+
+											<h:outputLabel value='Cidade' required="true" />
+											<h:selectOneMenu required="true"
+												disabled="#{piBean.item.id ne null}"
+												value="#{piBean.item.cidade}" id="cidade"
+												converter='#{cidadeConverter}'>
+												<f:selectItem itemLabel='Escolha' itemValue='#{null}' />
+												<f:selectItems value="#{piBean.cidades}" var="cidade"
+													itemLabel="#{cidade.municipio}" itemValue="#{cidade}" />
+											</h:selectOneMenu>
+										</p:panelGrid>
+
+										<br style='clear: left;' />
+										<h:outputLabel value="Totais" />
+
+										<p:panelGrid columns="6">
+											<h:outputLabel value='Total bruto:' />
+											<p:inputNumber id="totalBruto"
+												value="#{piBean.item.totalBruto}" maxlength="15" size="20"
+												disabled="#{piBean.item.id ne null}" symbol="R$ "
+												decimalSeparator="." decimalPlaces="2" />
+
+											<h:outputLabel value='Comissão:' />
+											<p:inputNumber id="comissao" value="#{piBean.item.comissao}"
+												maxlength="15" size="20"
+												disabled="#{piBean.item.id ne null}" symbol="R$ "
+												decimalSeparator="." decimalPlaces="2" />
+
+
+											<h:outputLabel value='Total líquido:' />
+											<p:inputNumber id="totalLiquido"
+												value="#{piBean.item.totalLiquido}" maxlength="15" size="20"
+												disabled="true" symbol="R$ " decimalSeparator="."
+												decimalPlaces="2" />
+
+
+
 
 										</p:panelGrid>
 
 
 										<br style='clear: left;' />
 										<br style='clear: left;' />
-										<br style='clear: left;' />
+										<p:outputPanel id="testContainer">
+
+										<h:outputLabel value='Cartazes a serem exibidos:'
+											rendered="#{piBean.item.pessoaExibidor ne null}" />
 
 										<p:dataTable id="pontosDoExibidor"
 											rendered="#{piBean.item.pessoaExibidor ne null and piBean.item.id eq null}"
@@ -190,7 +253,14 @@
 												<h:outputLabel value='#{pontoView.uf.uf}' />
 											</p:column>
 
+											<!--  <p:column width="40" style='text-align: center;' >
+												<p:graphicImage value="#{piBean.image}" >
+													<f:param name="idPonto" value="#{pontoView.id}" />
+												</p:graphicImage>
+											</p:column> -->
+
 										</p:dataTable>
+
 
 										<p:dataTable id="detalhes"
 											rendered="#{piBean.item.detalhes ne null}"
@@ -225,6 +295,8 @@
 											</p:column>
 
 										</p:dataTable>
+										
+										</p:outputPanel>
 
 
 
