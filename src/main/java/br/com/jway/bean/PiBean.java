@@ -359,13 +359,15 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 		this.pontosDoExibidor = pontosDoExibidor;
 	}
 
+	/**
+	 * #DT -> Não consegui mostrar a imagem vindo do banco diretamente, tive que gravar o arquivo em disco
+	 * e depois exibi-lo com o <p:graphicImge 
+	 */
 	public void refreshPontosDoExibidor() {
 		FacesContext context = FacesContext.getCurrentInstance();
         ServletContext servletContext= (ServletContext) context.getCurrentInstance().getExternalContext().getContext();
         String path=servletContext.getRealPath("/");
         
-        
-		 
 		// Só se for inclusão que traz os pontos
 		if (item != null && item.getId() == null && item.getPessoaExibidor() != null
 				&& item.getPessoaExibidor().getId() != null) {
