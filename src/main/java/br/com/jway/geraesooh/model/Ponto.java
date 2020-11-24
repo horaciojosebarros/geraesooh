@@ -1,5 +1,7 @@
 package br.com.jway.geraesooh.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -13,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.primefaces.model.DefaultStreamedContent;
 
 @Entity
 @Table(name = "ponto")
@@ -60,6 +64,9 @@ public class Ponto implements Serializable {
 	
 	@Transient
 	private boolean checkBox;
+	
+	@Transient
+	private DefaultStreamedContent imageCriada;
 
 	public Long getId() {
 		return id;
@@ -114,6 +121,7 @@ public class Ponto implements Serializable {
 	}
 
 	public String getPathImagem() {
+		setPathImagem(getPessoa().getId() + "_"  + getId() + ".png");
 		return pathImagem;
 	}
 
@@ -256,7 +264,7 @@ public class Ponto implements Serializable {
 	public void setCheckBox(boolean checkBox) {
 		this.checkBox = checkBox;
 	}
-	
-	
 
+	
+	
 }

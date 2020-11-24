@@ -212,90 +212,101 @@
 										<br style='clear: left;' />
 										<p:outputPanel id="testContainer">
 
-										<h:outputLabel value='Cartazes a serem exibidos:'
-											rendered="#{piBean.item.pessoaExibidor ne null}" />
+											<h:outputLabel value='Cartazes a serem exibidos:'
+												rendered="#{piBean.item.pessoaExibidor ne null}" />
+											<h:form id="dynamicTable">
+												<p:dataTable id="pontosDoExibidor"
+													rendered="#{piBean.item.pessoaExibidor ne null and piBean.item.id eq null}"
+													value='#{piBean.pontosDoExibidor}' var='pontoView'
+													emptyMessage="#{i18n['operations.search.noRecordsFound']}">
 
-										<p:dataTable id="pontosDoExibidor"
-											rendered="#{piBean.item.pessoaExibidor ne null and piBean.item.id eq null}"
-											value='#{piBean.pontosDoExibidor}' var='pontoView'
-											emptyMessage="#{i18n['operations.search.noRecordsFound']}">
+													<p:column headerText='' width='10'
+														style='text-align: center;'>
+														<h:selectBooleanCheckbox value='#{pontoView.checkBox}'
+															disabled="#{piBean.item.id ne null}" />
+													</p:column>
 
-											<p:column headerText='' width='10'
-												style='text-align: center;'>
-												<h:selectBooleanCheckbox value='#{pontoView.checkBox}'
-													disabled="#{piBean.item.id ne null}" />
-											</p:column>
-
-											<p:column headerText='Código' width='10'
-												style='text-align: center;'>
-												<h:outputLabel value='#{pontoView.codigo}' />
-											</p:column>
-
-
-											<p:column headerText='Descricao' width='60'
-												style='text-align: center;'>
-												<h:outputLabel value='#{pontoView.descricao}' />
-											</p:column>
-
-											<p:column headerText='Referência' width='14'
-												style='text-align: center;'>
-												<h:outputLabel value='#{pontoView.referencia}' />
-											</p:column>
+													<p:column headerText='Código' width='10'
+														style='text-align: center;'>
+														<h:outputLabel value='#{pontoView.codigo}' />
+													</p:column>
 
 
-											<p:column headerText='Cidade' width='10'
-												style='text-align: center;'>
-												<h:outputLabel value='#{pontoView.cidade.municipio}' />
-											</p:column>
+													<p:column headerText='Descricao' width='60'
+														style='text-align: center;'>
+														<h:outputLabel value='#{pontoView.descricao}' />
+													</p:column>
 
-											<p:column headerText='Uf' width='10'
-												style='text-align: center;'>
-												<h:outputLabel value='#{pontoView.uf.uf}' />
-											</p:column>
-
-											<!--  <p:column width="40" style='text-align: center;' >
-												<p:graphicImage value="#{piBean.image}" >
-													<f:param name="idPonto" value="#{pontoView.id}" />
-												</p:graphicImage>
-											</p:column> -->
-
-										</p:dataTable>
+													<p:column headerText='Referência' width='14'
+														style='text-align: center;'>
+														<h:outputLabel value='#{pontoView.referencia}' />
+													</p:column>
 
 
-										<p:dataTable id="detalhes"
-											rendered="#{piBean.item.detalhes ne null}"
-											value='#{piBean.item.detalhes}' var='piPontoView'
-											emptyMessage="#{i18n['operations.search.noRecordsFound']}">
+													<p:column headerText='Cidade' width='10'
+														style='text-align: center;'>
+														<h:outputLabel value='#{pontoView.cidade.municipio}' />
+													</p:column>
 
-											<p:column headerText='Código' width='10'
-												style='text-align: center;'>
-												<h:outputLabel value='#{piPontoView.id}' />
-											</p:column>
+													<p:column headerText='Uf' width='5'
+														style='text-align: center;'>
+														<h:outputLabel value='#{pontoView.uf.uf}' />
+													</p:column>
+													
+													<p:column width="40" style='text-align: center;'>
+														<h:form enctype="multipart/form-data">
+															<p:graphicImage value="/public/#{pontoView.pathImagem}" id="image"
+																width="150" height="150">
+															</p:graphicImage>
+														</h:form>
+
+													</p:column>
+
+												</p:dataTable>
+											</h:form>
+											
+											<!--  <h:form enctype="multipart/form-data">
+															<p:graphicImage value="/public/3_1.png" id="image"
+																width="150" height="150">
+															</p:graphicImage>
+														</h:form>-->
+														
+
+											<p:dataTable id="detalhes"
+												rendered="#{piBean.item.detalhes ne null}"
+												value='#{piBean.item.detalhes}' var='piPontoView'
+												emptyMessage="#{i18n['operations.search.noRecordsFound']}">
+
+												<p:column headerText='Código' width='10'
+													style='text-align: center;'>
+													<h:outputLabel value='#{piPontoView.id}' />
+												</p:column>
 
 
-											<p:column headerText='Descricao' width='60'
-												style='text-align: center;'>
-												<h:outputLabel value='#{piPontoView.ponto.descricao}' />
-											</p:column>
+												<p:column headerText='Descricao' width='60'
+													style='text-align: center;'>
+													<h:outputLabel value='#{piPontoView.ponto.descricao}' />
+												</p:column>
 
-											<p:column headerText='Referência' width='14'
-												style='text-align: center;'>
-												<h:outputLabel value='#{piPontoView.ponto.referencia}' />
-											</p:column>
+												<p:column headerText='Referência' width='14'
+													style='text-align: center;'>
+													<h:outputLabel value='#{piPontoView.ponto.referencia}' />
+												</p:column>
 
 
-											<p:column headerText='Cidade' width='10'
-												style='text-align: center;'>
-												<h:outputLabel value='#{piPontoView.ponto.cidade.municipio}' />
-											</p:column>
+												<p:column headerText='Cidade' width='10'
+													style='text-align: center;'>
+													<h:outputLabel
+														value='#{piPontoView.ponto.cidade.municipio}' />
+												</p:column>
 
-											<p:column headerText='Uf' width='10'
-												style='text-align: center;'>
-												<h:outputLabel value='#{piPontoView.ponto.uf.uf}' />
-											</p:column>
+												<p:column headerText='Uf' width='10'
+													style='text-align: center;'>
+													<h:outputLabel value='#{piPontoView.ponto.uf.uf}' />
+												</p:column>
 
-										</p:dataTable>
-										
+											</p:dataTable>
+
 										</p:outputPanel>
 
 

@@ -1,26 +1,28 @@
 package br.com.jway.bean;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.PhaseId;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import br.com.jway.geraesooh.model.Agencia;
@@ -358,10 +360,29 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 	}
 
 	public void refreshPontosDoExibidor() {
+		FacesContext context = FacesContext.getCurrentInstance();
+        ServletContext servletContext= (ServletContext) context.getCurrentInstance().getExternalContext().getContext();
+        String path=servletContext.getRealPath("/");
+        
+        
+		 
 		// Só se for inclusão que traz os pontos
 		if (item != null && item.getId() == null && item.getPessoaExibidor() != null
 				&& item.getPessoaExibidor().getId() != null) {
 			pontosDoExibidor = pontoService.pesquisaPorExibidor(item.getPessoaExibidor().getId());
+			for (Ponto p : pontosDoExibidor) {
+				File file = new File(path + "/public/" + p.getPessoa().getId() + "_"  + p.getId() + ".png");
+				FileOutputStream in;
+				try {
+					in = new FileOutputStream(file);
+					in.write(p.getImagem());
+					in.close();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}  
+				
+			}
 		}
 	}
 
@@ -389,22 +410,4 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 
 	}
 
-	public StreamedContent getImage() throws IOException {
-
-		FacesContext context = FacesContext.getCurrentInstance();
-		
-		Map<String, String> map = context.getExternalContext().getRequestParameterMap();
-		
-		for (final String string : map.keySet()) {
-			System.out.println("chave = " + string + " valor = " + map.get(string));
-		}
-
-		String id = context.getExternalContext().getRequestParameterMap().get("pid");
-		Ponto pontoAux = pontoService.read(Long.valueOf(id));
-
-		byte[] imagem = pontoAux.getImagem();
-
-		return new DefaultStreamedContent(new ByteArrayInputStream(imagem));
-
-	}
 }

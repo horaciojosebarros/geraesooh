@@ -7,12 +7,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.apache.commons.io.IOUtils;
@@ -21,7 +17,6 @@ import org.apache.commons.logging.LogFactory;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
-import org.primefaces.model.UploadedFile;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import br.com.jway.geraesooh.model.Cidade;
