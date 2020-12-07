@@ -211,6 +211,31 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 	public void setItem(Pi item) {
 		this.item = item;
 		this.item.setDetalhes(piPontoService.buscaDetalhesPorPi(item.getId()));
+		
+		FacesContext context = FacesContext.getCurrentInstance();
+        ServletContext servletContext= (ServletContext) context.getCurrentInstance().getExternalContext().getContext();
+        String path=servletContext.getRealPath("/");
+        
+		// Na alteração traz os pontos
+        List<PiPonto> piPontoList = new ArrayList<PiPonto>();
+		if (item != null && item.getId() != null && item.getPessoaExibidor() != null
+				&& item.getPessoaExibidor().getId() != null) {
+			for (PiPonto p : this.item.getDetalhes()) {
+				File file = new File(path + "/public/" + p.getPonto().getPessoa().getId() + "_"  + p.getId() + ".png");
+				p.getPonto().setPathImagem(file.getAbsolutePath());
+				FileOutputStream in;
+				try {
+					in = new FileOutputStream(file);
+					in.write(p.getPonto().getImagem());
+					in.close();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}  
+				
+			}
+		}
+		
 	}
 
 	public Pi getItemFilter() {
@@ -374,6 +399,7 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 			pontosDoExibidor = pontoService.pesquisaPorExibidor(item.getPessoaExibidor().getId());
 			for (Ponto p : pontosDoExibidor) {
 				File file = new File(path + "/public/" + p.getPessoa().getId() + "_"  + p.getId() + ".png");
+				p.setPathImagem(file.getAbsolutePath());
 				FileOutputStream in;
 				try {
 					in = new FileOutputStream(file);

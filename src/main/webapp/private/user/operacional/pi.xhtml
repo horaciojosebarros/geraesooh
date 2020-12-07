@@ -304,6 +304,16 @@
 													style='text-align: center;'>
 													<h:outputLabel value='#{piPontoView.ponto.uf.uf}' />
 												</p:column>
+												
+												<p:column width="40" style='text-align: center;'>
+														<h:form enctype="multipart/form-data">
+															<p:graphicImage value="/public/#{piPontoView.ponto.pathImagem}" id="image"
+																width="150" height="150">
+															</p:graphicImage>
+														</h:form>
+
+													</p:column>
+												
 
 											</p:dataTable>
 

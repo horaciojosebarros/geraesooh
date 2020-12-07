@@ -91,6 +91,10 @@ public class GeneratorPI {
 			document.add(table);
 			
 			// --
+			table = new PdfPTable(3);
+			table.setTotalWidth(new float[] { 215, 215, 215, 200 });
+
+			
 			
 			
 
@@ -115,12 +119,12 @@ public class GeneratorPI {
 		Chunk chunk = new Chunk("", font);
 		chunk.append("Anunciante :" + exibidor.getNomeFantasia() + "\n");
 		chunk.append("Razão Social :" + exibidor.getRazaoSocial() + "\n");
-		chunk.append("Agência: \n");
 		chunk.append("Endereço: " + exibidor.getEndereco() + "." + exibidor.getNumero() + "- " + exibidor.getComplemento() + " " + exibidor.getBairro() + "\n");
 		chunk.append("Cidade/UF: " + exibidor.getCidade() + " - " + exibidor.getUf() + "\n");
 		chunk.append("Cidade/UF: " + exibidor.getCidade() + " - " + exibidor.getUf() + "\n");
 		chunk.append("CNPJ: " + exibidor.getCnpj() + "\n");
-		chunk.append("Insc.Estadual: " + exibidor.getInscricao() + "  Fone:" + exibidor.getFone1() + "\n");
+		chunk.append("Insc.Municipal: " + exibidor.getInscricao() + "  Fone:" + exibidor.getFone1() + "\n");
+		chunk.append("Contato: " + exibidor.getContato() + "  Fone:" + exibidor.getFone1() + "\n");
 
 		return chunk;
 	}
