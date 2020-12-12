@@ -1,5 +1,6 @@
 package br.com.jway.geraesooh.service;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.jway.geraesooh.dao.PiDao;
 import br.com.jway.geraesooh.model.Pi;
+import br.com.jway.util.GeneratorPI;
 
 @Named
 public class PiService implements Serializable{
@@ -19,6 +21,9 @@ public class PiService implements Serializable{
 
 	@Inject 
 	private PiDao dao;
+	
+	@Inject
+	private GeneratorPI gerador;
 
 	
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -44,6 +49,11 @@ public class PiService implements Serializable{
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void delete(long id) {
 		dao.delete(id);
+	}
+	
+	public void geraPdf(Pi pi) {
+		
+		gerador.geraPdf(pi);
 	}
 
 	

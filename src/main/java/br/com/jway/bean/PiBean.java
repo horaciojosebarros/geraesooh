@@ -1,10 +1,7 @@
 package br.com.jway.bean;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,8 +10,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -22,7 +17,6 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.primefaces.model.DefaultStreamedContent;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import br.com.jway.geraesooh.model.Agencia;
@@ -435,6 +429,12 @@ public class PiBean extends SpringBeanAutowiringSupport implements Serializable 
 
 	public void refreshUf() {
 		cidades = cidadeService.findByUf(item.getUf());
+
+	}
+	
+	public void pdf() throws Exception {
+		
+		service.geraPdf(item);
 
 	}
 

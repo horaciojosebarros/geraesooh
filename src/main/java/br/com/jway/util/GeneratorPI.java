@@ -26,26 +26,24 @@ import br.com.jway.geraesooh.service.PiService;
 @Named
 public class GeneratorPI {
 	
-	@Inject
-	private PiService piService;
-	
 	private Pi pi;
 
 	public static void main(String[] args) {
 		// criação do documento
 
-		GeneratorPI g = new GeneratorPI();
-		g.geraPdf(Long.valueOf(15));
+		//GeneratorPI g = new GeneratorPI();
+		//g.geraPdf(Long.valueOf(15));
 
 	}
 
-	private void geraPdf(Long idPi) {
-		pi = piService.read(idPi);
+	public void geraPdf(Pi pi) {
+		
+		this.pi = pi; 
 		
 		Pessoa exibidor = pi.getPessoaExibidor();
 		Pessoa anunciante = pi.getPessoaAnunciante();
 		
-		Document document = new Document(PageSize.A4.rotate(), 0f, 10f, 10f, 0f);
+		Document document = new Document(PageSize.A0, 0f, 0f, 0f, 0f);
 		try {
 
 			PdfWriter.getInstance(document, new FileOutputStream("C:\\tmp\\PDF_DevMedia.pdf"));
@@ -133,13 +131,13 @@ public class GeneratorPI {
 		Font font = new Font(FontFamily.TIMES_ROMAN, 11, Font.NORMAL, BaseColor.BLACK);
 		Chunk chunk = new Chunk("", font);
 		chunk.append("Anunciante :" + anunciante.getNomeFantasia() + "\n");
-		chunk.append("Razão Social :" + anunciante.getRazaoSocial() + "\n");
-		chunk.append("Agência: \n");
-		chunk.append("Endereço: " + anunciante.getEndereco() + "." + anunciante.getNumero() + "- " + anunciante.getComplemento() + " " + anunciante.getBairro() + "\n");
-		chunk.append("Cidade/UF: " + anunciante.getCidade() + " - " + anunciante.getUf() + "\n");
-		chunk.append("Cidade/UF: " + anunciante.getCidade() + " - " + anunciante.getUf() + "\n");
-		chunk.append("CNPJ: " + anunciante.getCnpj() + "\n");
-		chunk.append("Insc.Estadual: " + anunciante.getInscricao() + "  Fone:" + anunciante.getFone1() + "\n");
+		//chunk.append("Razão Social :" + anunciante.getRazaoSocial() + "\n");
+		//chunk.append("Agência: \n");
+		//chunk.append("Endereço: " + anunciante.getEndereco() + "." + anunciante.getNumero() + "- " + anunciante.getComplemento() + " " + anunciante.getBairro() + "\n");
+		//chunk.append("Cidade/UF: " + anunciante.getCidade() + " - " + anunciante.getUf() + "\n");
+		//chunk.append("Cidade/UF: " + anunciante.getCidade() + " - " + anunciante.getUf() + "\n");
+		//chunk.append("CNPJ: " + anunciante.getCnpj() + "\n");
+		//chunk.append("Insc.Estadual: " + anunciante.getInscricao() + "  Fone:" + anunciante.getFone1() + "\n");
 
 		return chunk;
 	}

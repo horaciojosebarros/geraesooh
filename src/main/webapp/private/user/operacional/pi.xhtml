@@ -63,7 +63,7 @@
 							</p:column>
 
 
-							<p:column headerText="#{i18n['operations']}" width='15'
+							<p:column headerText="#{i18n['operations']}" width='30'
 								style='text-align: center;'>
 								<p:commandButton id='buttonOperationEdit' icon='ui-icon-pencil'
 									process='@this' update='@form' resetValues='true'
@@ -72,6 +72,12 @@
 										value='#{itemView}' />
 									<f:setPropertyActionListener target='#{piBean.state}'
 										value='UPDATE' />
+								</p:commandButton>
+								<p:commandButton id='buttonOperationPdf' icon='ui-icon-document'
+									process='@this' update='@form' resetValues='true'
+									immediate='true' action='#{piBean.pdf}'>
+									<f:setPropertyActionListener target='#{piBean.item}'
+										value='#{itemView}' />
 								</p:commandButton>
 								<p:commandButton id='buttonOperationRemove' icon='ui-icon-trash'
 									process='@this' update='@form' immediate='true'>
