@@ -32,6 +32,18 @@ public class PiPontoDao implements Serializable {
 		return em.find(PiPonto.class, id);
 	}
 
+	public EntityManager getEm() {
+		return em;
+	}
+
+	public void setEm(EntityManager em) {
+		this.em = em;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Transactional(propagation = Propagation.MANDATORY)
 	public void create(final PiPonto piPonto) {
 		em.persist(piPonto);

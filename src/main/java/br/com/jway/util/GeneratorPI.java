@@ -1,10 +1,27 @@
 package br.com.jway.util;
 
 import java.io.FileOutputStream;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityGraph;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.FlushModeType;
+import javax.persistence.LockModeType;
+import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.metamodel.Metamodel;
 
+import com.google.common.collect.Table.Cell;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -18,6 +35,8 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import br.com.jway.geraesooh.dao.PiDao;
+import br.com.jway.geraesooh.dao.PiPontoDao;
 import br.com.jway.geraesooh.model.BiSemana;
 import br.com.jway.geraesooh.model.Pessoa;
 import br.com.jway.geraesooh.model.Pi;
@@ -31,9 +50,17 @@ public class GeneratorPI {
 	public static void main(String[] args) {
 		// criação do documento
 
-		//GeneratorPI g = new GeneratorPI();
-		//g.geraPdf(Long.valueOf(15));
+		GeneratorPI g = new GeneratorPI();
+		PiDao dao = new PiDao();
+		PiPontoDao pontoDao = new PiPontoDao();
 
+	}
+	public Pi getPi() {
+		return pi;
+	}
+
+	public void setPi(Pi pi) {
+		this.pi = pi;
 	}
 
 	public void geraPdf(Pi pi) {
@@ -43,7 +70,7 @@ public class GeneratorPI {
 		Pessoa exibidor = pi.getPessoaExibidor();
 		Pessoa anunciante = pi.getPessoaAnunciante();
 		
-		Document document = new Document(PageSize.A0, 0f, 0f, 0f, 0f);
+		Document document = new Document(PageSize.A4, 0f, 0f, 0f, 0f);
 		try {
 
 			PdfWriter.getInstance(document, new FileOutputStream("C:\\tmp\\PDF_DevMedia.pdf"));
@@ -73,7 +100,6 @@ public class GeneratorPI {
 
 			document.add(table);
 			
-			// Anunciante
 			table = new PdfPTable(3);
 			table.setTotalWidth(new float[] { 325, 325, 200 });
 
@@ -89,8 +115,48 @@ public class GeneratorPI {
 			document.add(table);
 			
 			// --
-			table = new PdfPTable(3);
-			table.setTotalWidth(new float[] { 215, 215, 215, 200 });
+			table = new PdfPTable(5);
+			table.setTotalWidth(new float[] { 150, 150, 150, 150, 200 });
+			Paragraph p = new Paragraph(getTituloNegrito("Peça/Produto"));
+			cell = new PdfPCell(p);
+			cell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(cell);
+			p = new Paragraph(getTituloNegrito("Título"));
+			cell = new PdfPCell(p);
+			cell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(cell);
+			p = new Paragraph(getTituloNegrito("Praça de veiculação"));
+			cell = new PdfPCell(p);
+			cell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(cell);
+			p = new Paragraph(getTituloNegrito("Mês"));
+			cell = new PdfPCell(p);
+			cell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(cell);
+			p = new Paragraph(getTituloNegrito("Condições Pagamento"));
+			cell = new PdfPCell(p);
+			cell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(cell);
+			
+			// -- 
+			p = new Paragraph(getTituloNegrito(pi.getProduto()));
+			cell = new PdfPCell(p);
+			table.addCell(cell);
+			p = new Paragraph(getTituloNegrito(pi.getTituloCampanha()));
+			cell = new PdfPCell(p);
+			table.addCell(cell);
+			p = new Paragraph(getTituloNegrito(pi.getCidade().getMunicipio()));
+			cell = new PdfPCell(p);
+			table.addCell(cell);
+			p = new Paragraph(getTituloNegrito(pi.getBiSemana().toString()));
+			cell = new PdfPCell(p);
+			table.addCell(cell);
+			p = new Paragraph(getTituloNegrito("Ver abaixo"));
+			cell = new PdfPCell(p);
+			table.addCell(cell);
+			
+			document.add(table);
+			
 
 			
 			
@@ -101,6 +167,12 @@ public class GeneratorPI {
 		}
 		document.close();
 
+	}
+
+	private Chunk getTituloNegrito(String titulo) {
+		Font font = new Font(FontFamily.TIMES_ROMAN, 11, Font.BOLD, BaseColor.BLACK);
+		Chunk chunk = new Chunk(titulo, font);
+		return chunk;
 	}
 
 	private Chunk getDadosBiSemana(BiSemana biSemana) {
