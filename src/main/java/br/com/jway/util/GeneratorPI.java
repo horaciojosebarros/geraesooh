@@ -1,6 +1,8 @@
 package br.com.jway.util;
 
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -38,8 +40,12 @@ import com.itextpdf.text.pdf.PdfWriter;
 import br.com.jway.geraesooh.dao.PiDao;
 import br.com.jway.geraesooh.dao.PiPontoDao;
 import br.com.jway.geraesooh.model.BiSemana;
+import br.com.jway.geraesooh.model.Cidade;
 import br.com.jway.geraesooh.model.Pessoa;
 import br.com.jway.geraesooh.model.Pi;
+import br.com.jway.geraesooh.model.PiPonto;
+import br.com.jway.geraesooh.model.Ponto;
+import br.com.jway.geraesooh.model.Uf;
 import br.com.jway.geraesooh.service.PiService;
 
 @Named
@@ -48,11 +54,62 @@ public class GeneratorPI {
 	private Pi pi;
 
 	public static void main(String[] args) {
-		// criação do documento
+		// criação do mock pra teste/validação
 
 		GeneratorPI g = new GeneratorPI();
-		PiDao dao = new PiDao();
-		PiPontoDao pontoDao = new PiPontoDao();
+		Pi pi = new Pi();
+		
+		BiSemana bi = new BiSemana();
+		bi.setAno(Long.valueOf(2021));
+		bi.setNumero("02/21");
+		bi.setPeriodo("18/01  a 31/01");
+		pi.setBiSemana(bi);
+		
+		pi.setCidade(new Cidade("11225", "ARAXÁ", "MG"));
+		
+		pi.setComissao(100.25);
+		pi.setData(new Date());
+		pi.setNumeroPi("1010/2021");
+		
+		Pessoa p = new Pessoa();
+		p.setCnpj("20995718000172");
+		p.setNomeFantasia("Supermercados BH");
+		pi.setPessoaAnunciante(p);
+		
+		p = new Pessoa();
+		p.setCnpj("20994548000190");
+		p.setNomeFantasia("Visual Sistemas Ltda");
+		pi.setPessoaExibidor(p);
+		
+		pi.setProduto("OUTDOOR");
+		pi.setTituloCampanha("Supermercado BH é o maior");
+		pi.setTotalBruto(20000.11);
+		pi.setTotalValorLiquidoNegociado(19000.00);
+		
+		Uf uf = new Uf();
+		uf.setDescricao("Minas Gerais");
+		uf.setUf("MG");
+		pi.setUf(uf);
+		
+		List<PiPonto> pontos = new ArrayList<PiPonto>();
+		PiPonto pip= new PiPonto();
+		pip.setPi(pi);
+		pip.setPonto(new Ponto(Long.valueOf(22),"Próximo à Br 040 - km 32", "Ceasa", p, new Cidade() , uf, "", "KCIKDE01", "454544.4545", "652525.00", null, false, null));
+		pontos.add(pip);
+		
+		pip= new PiPonto();
+		pip.setPi(pi);
+		pip.setPonto(new Ponto(Long.valueOf(22),"Próximo à Br 381 - km 14", "Ceasa", p, new Cidade() , uf, "", "KCLKDE01", "454468.4545", "65277895.00", null, false, null));
+		pontos.add(pip);
+		
+		pip= new PiPonto();
+		pip.setPi(pi);
+		pip.setPonto(new Ponto(Long.valueOf(22),"Próximo à Br 381 - km 14", "Ceasa", p, new Cidade() , uf, "", "KCLKDE01", "454468.4545", "65277895.00", null, false, null));
+		pontos.add(pip);
+		
+		pi.setDetalhes(pontos);
+		
+		g.geraPdf(pi);
 
 	}
 	public Pi getPi() {
@@ -119,23 +176,23 @@ public class GeneratorPI {
 			table.setTotalWidth(new float[] { 150, 150, 150, 150, 200 });
 			Paragraph p = new Paragraph(getTituloNegrito("Peça/Produto"));
 			cell = new PdfPCell(p);
-			cell.setBackgroundColor(BaseColor.DARK_GRAY);
+			cell.setBackgroundColor(BaseColor.GRAY);
 			table.addCell(cell);
 			p = new Paragraph(getTituloNegrito("Título"));
 			cell = new PdfPCell(p);
-			cell.setBackgroundColor(BaseColor.DARK_GRAY);
+			cell.setBackgroundColor(BaseColor.GRAY);
 			table.addCell(cell);
 			p = new Paragraph(getTituloNegrito("Praça de veiculação"));
 			cell = new PdfPCell(p);
-			cell.setBackgroundColor(BaseColor.DARK_GRAY);
+			cell.setBackgroundColor(BaseColor.GRAY);
 			table.addCell(cell);
 			p = new Paragraph(getTituloNegrito("Mês"));
 			cell = new PdfPCell(p);
-			cell.setBackgroundColor(BaseColor.DARK_GRAY);
+			cell.setBackgroundColor(BaseColor.GRAY);
 			table.addCell(cell);
 			p = new Paragraph(getTituloNegrito("Condições Pagamento"));
 			cell = new PdfPCell(p);
-			cell.setBackgroundColor(BaseColor.DARK_GRAY);
+			cell.setBackgroundColor(BaseColor.GRAY);
 			table.addCell(cell);
 			
 			// -- 

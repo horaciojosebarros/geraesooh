@@ -67,6 +67,33 @@ public class Ponto implements Serializable {
 	
 	@Transient
 	private DefaultStreamedContent imageCriada;
+	
+	public Ponto() {
+		
+	}
+	
+	
+
+	public Ponto(Long id, String descricao, String referencia, Pessoa pessoa, Cidade cidade, Uf uf, String pathImagem,
+			String codigo, String latitude, String longitude, byte[] imagem, boolean checkBox,
+			DefaultStreamedContent imageCriada) {
+		super();
+		this.id = id;
+		this.descricao = descricao;
+		this.referencia = referencia;
+		this.pessoa = pessoa;
+		this.cidade = cidade;
+		this.uf = uf;
+		this.pathImagem = pathImagem;
+		this.codigo = codigo;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.imagem = imagem;
+		this.checkBox = checkBox;
+		this.imageCriada = imageCriada;
+	}
+
+
 
 	public Long getId() {
 		return id;

@@ -25,6 +25,19 @@ public class Cidade implements Serializable{
 	public String getCodigo() {
 		return codigo;
 	}
+	
+	public Cidade() { 
+		
+	}
+
+	public Cidade(String codigo, String municipio, String uf) {
+		super();
+		this.codigo = codigo;
+		this.municipio = municipio;
+		this.uf = uf;
+	}
+
+
 
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
