@@ -2,11 +2,11 @@ package br.com.jway.geraesooh.service;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.inject.Inject;
-import javax.inject.Named;
 
 import br.com.jway.geraesooh.dao.UfDao;
 import br.com.jway.geraesooh.model.Uf;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 @Named
 public class UfServiceImpl implements UfService, Serializable {

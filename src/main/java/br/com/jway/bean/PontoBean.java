@@ -5,12 +5,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.inject.Inject;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,6 +22,11 @@ import br.com.jway.geraesooh.service.PessoaService;
 import br.com.jway.geraesooh.service.PontoService;
 import br.com.jway.geraesooh.service.UfService;
 import br.com.jway.util.FacesUtils;
+import jakarta.annotation.ManagedBean;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
 
 @ManagedBean
 @SessionScoped

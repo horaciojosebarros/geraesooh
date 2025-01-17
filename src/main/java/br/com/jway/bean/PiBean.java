@@ -7,13 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,6 +31,11 @@ import br.com.jway.geraesooh.service.PiService;
 import br.com.jway.geraesooh.service.PontoService;
 import br.com.jway.geraesooh.service.UfService;
 import br.com.jway.util.FacesUtils;
+import jakarta.annotation.ManagedBean;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import jakarta.inject.Inject;
+import jakarta.servlet.ServletContext;
 
 @ManagedBean
 @ViewScoped

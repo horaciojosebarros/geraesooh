@@ -2,13 +2,13 @@ package br.com.jway.geraesooh.service;
 
 import java.util.List;
 
-import javax.inject.Inject;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.jway.geraesooh.dao.ImagemDao;
 import br.com.jway.geraesooh.model.Imagem;
+import jakarta.inject.Inject;
 
 public class ImagemServiceImpl implements ImagemService{
 

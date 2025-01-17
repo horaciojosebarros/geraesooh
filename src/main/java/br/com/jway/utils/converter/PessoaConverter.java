@@ -2,17 +2,17 @@ package br.com.jway.utils.converter;
 
 import java.io.Serializable;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.ConverterException;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.annotation.ManagedBean;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.Converter;
+import jakarta.faces.convert.ConverterException;
 
 import br.com.jway.geraesooh.model.Pessoa;
 import br.com.jway.geraesooh.service.PessoaService;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 @ManagedBean
 @RequestScoped

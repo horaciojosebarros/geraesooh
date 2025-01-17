@@ -3,14 +3,15 @@ package br.com.jway.geraesooh.service;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.jway.geraesooh.dao.BiSemanaDao;
 import br.com.jway.geraesooh.model.BiSemana;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 @Named
 public class BiSemanaService implements Serializable{

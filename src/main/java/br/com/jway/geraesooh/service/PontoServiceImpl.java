@@ -2,14 +2,13 @@ package br.com.jway.geraesooh.service;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.jway.geraesooh.dao.PontoDao;
 import br.com.jway.geraesooh.model.Ponto;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 @Named
 public class PontoServiceImpl implements PontoService{

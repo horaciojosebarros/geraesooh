@@ -3,11 +3,7 @@ package br.com.jway.bean;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
+import jakarta.annotation.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,6 +12,10 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import br.com.jway.geraesooh.model.BiSemana;
 import br.com.jway.geraesooh.service.BiSemanaService;
 import br.com.jway.util.FacesUtils;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 
 @ManagedBean
 @ViewScoped

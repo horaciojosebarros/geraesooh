@@ -4,14 +4,14 @@ package br.com.jway.util;
 //import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.Map;
-import javax.faces.FacesException;
-import javax.faces.application.FacesMessage;
-import javax.faces.application.NavigationHandler;
-import javax.faces.context.ExceptionHandler;
-import javax.faces.context.ExceptionHandlerWrapper;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ExceptionQueuedEvent;
-import javax.faces.event.ExceptionQueuedEventContext;
+import jakarta.faces.FacesException;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.application.NavigationHandler;
+import jakarta.faces.context.ExceptionHandler;
+import jakarta.faces.context.ExceptionHandlerWrapper;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.ExceptionQueuedEvent;
+import jakarta.faces.event.ExceptionQueuedEventContext;
  
 //Inicialmente devemos implementar a classe CustomExceptionHandler que extende a classe ExceptionHandlerWrapper
 public class CustomExceptionHandler extends ExceptionHandlerWrapper {

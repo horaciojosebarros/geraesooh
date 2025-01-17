@@ -3,14 +3,14 @@ package br.com.jway.geraesooh.dao;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.jway.geraesooh.model.BiSemana;
+import jakarta.inject.Named;
 
 @Named
 public class BiSemanaDao implements Serializable {

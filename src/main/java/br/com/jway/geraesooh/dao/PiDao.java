@@ -3,16 +3,16 @@ package br.com.jway.geraesooh.dao;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.jway.geraesooh.model.Pi;
 import br.com.jway.geraesooh.model.PiPonto;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 @Named
 public class PiDao implements Serializable {

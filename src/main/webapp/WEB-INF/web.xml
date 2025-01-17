@@ -12,10 +12,10 @@
 
 	<!-- JSF FACES SERVLET -->
 	<servlet>
-		<servlet-name>Faces Servlet</servlet-name>
-		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-		<load-on-startup>2</load-on-startup>
-	</servlet>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+</servlet>
 
 	<!-- JSF FACES SERVLET MAPPING -->
 	<servlet-mapping>
@@ -88,11 +88,7 @@
         <session-timeout>90</session-timeout>
 </session-config>
 
-<context-param>
-            <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
-            <param-value>true</param-value>
-        </context-param>
-        
+
 
 
 </web-app>

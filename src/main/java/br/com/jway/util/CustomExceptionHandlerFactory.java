@@ -1,7 +1,7 @@
 package br.com.jway.util;
  
-import javax.faces.context.ExceptionHandler;
-import javax.faces.context.ExceptionHandlerFactory;
+import jakarta.faces.context.ExceptionHandler;
+import jakarta.faces.context.ExceptionHandlerFactory;
  
 public class CustomExceptionHandlerFactory extends ExceptionHandlerFactory {
     private ExceptionHandlerFactory parent;

@@ -7,10 +7,9 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
+import jakarta.annotation.ManagedBean;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.FacesContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,10 +20,12 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import br.com.jway.geraesooh.model.Usuario;
 import br.com.jway.geraesooh.service.UsuarioService;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 
 @SessionScoped
-@ManagedBean(name = "loginBean")
+@Named(value = "loginBean")
 public class LoginBean extends SpringBeanAutowiringSupport implements Serializable {
 	/**
 	 * 

@@ -1,7 +1,7 @@
 package br.com.jway.multitenancy;
 
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.FacesContext;
 
 import br.com.jway.geraesooh.model.Tenant;
 

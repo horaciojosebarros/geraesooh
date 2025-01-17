@@ -3,14 +3,14 @@ package br.com.jway.geraesooh.service;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.jway.geraesooh.dao.PessoaDao;
 import br.com.jway.geraesooh.model.Pessoa;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 @Named
 public class PessoaServiceImpl implements PessoaService, Serializable{

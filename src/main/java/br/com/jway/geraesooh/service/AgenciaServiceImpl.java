@@ -2,14 +2,14 @@ package br.com.jway.geraesooh.service;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.jway.geraesooh.dao.AgenciaDao;
 import br.com.jway.geraesooh.model.Agencia;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 @Named
 public class AgenciaServiceImpl  implements AgenciaService{

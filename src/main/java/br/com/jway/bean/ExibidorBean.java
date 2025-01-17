@@ -3,11 +3,6 @@ package br.com.jway.bean;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,6 +15,11 @@ import br.com.jway.geraesooh.service.PessoaService;
 import br.com.jway.geraesooh.service.CidadeService;
 import br.com.jway.geraesooh.service.UfService;
 import br.com.jway.util.FacesUtils;
+import jakarta.annotation.ManagedBean;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 
 @ManagedBean
 @ViewScoped

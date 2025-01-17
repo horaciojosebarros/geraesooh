@@ -2,12 +2,12 @@ package br.com.jway.geraesooh.service;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 
 import br.com.jway.geraesooh.dao.CidadeDao;
 import br.com.jway.geraesooh.model.Cidade;
 import br.com.jway.geraesooh.model.Uf;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 @Named
 public class CidadeServiceImpl implements CidadeService{
