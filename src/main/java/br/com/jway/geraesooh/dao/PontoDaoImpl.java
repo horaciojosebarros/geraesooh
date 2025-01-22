@@ -9,9 +9,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.jway.geraesooh.model.Ponto;
-import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@Named
+@ApplicationScoped
 public class PontoDaoImpl implements PontoDao {
 
 	private static final long serialVersionUID = 1L;

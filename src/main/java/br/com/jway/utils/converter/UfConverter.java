@@ -11,11 +11,10 @@ import jakarta.faces.view.ViewScoped;
 import br.com.jway.geraesooh.model.Uf;
 import br.com.jway.geraesooh.service.UfService;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@ManagedBean
 @ViewScoped
-@Named
+
 public class UfConverter implements Converter, Serializable{
 	
 	private static final long serialVersionUID = 1L;

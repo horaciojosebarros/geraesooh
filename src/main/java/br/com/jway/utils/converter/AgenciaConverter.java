@@ -11,11 +11,10 @@ import jakarta.faces.view.ViewScoped;
 import br.com.jway.geraesooh.model.Agencia;
 import br.com.jway.geraesooh.service.AgenciaService;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@ManagedBean
+
 @ViewScoped
-@Named
 public class AgenciaConverter implements Converter, Serializable{
 	
 	private static final long serialVersionUID = 1L;

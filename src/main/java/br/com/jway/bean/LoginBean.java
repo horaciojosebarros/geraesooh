@@ -8,12 +8,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import jakarta.annotation.ManagedBean;
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.context.FacesContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.Session;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -21,11 +20,10 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import br.com.jway.geraesooh.model.Usuario;
 import br.com.jway.geraesooh.service.UsuarioService;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
 
-@SessionScoped
-@Named(value = "loginBean")
+@ApplicationScoped
 public class LoginBean extends SpringBeanAutowiringSupport implements Serializable {
 	/**
 	 * 
@@ -41,7 +39,6 @@ public class LoginBean extends SpringBeanAutowiringSupport implements Serializab
 	private String msg;
 	private String senha1;
 	private String senha2;
-	private Session session;
 	private Boolean erro;
 
 
@@ -53,9 +50,6 @@ public class LoginBean extends SpringBeanAutowiringSupport implements Serializab
 		this.usuarioLogado = usuarioLogado;
 	}
 
-	public void setSession(Session session) {
-		this.session = session;
-	}
 
 	public LoginBean() {
 		log.info("Bean @PostConstruct called.");
@@ -113,9 +107,6 @@ public class LoginBean extends SpringBeanAutowiringSupport implements Serializab
 		this.senha2 = senha2;
 	}
 
-	public Session getSession() {
-		return session;
-	}
 
 	public UsuarioService getUsuarioService() {
 		return usuarioService;

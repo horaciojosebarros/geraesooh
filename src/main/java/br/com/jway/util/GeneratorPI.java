@@ -4,24 +4,6 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
-import jakarta.persistence.EntityGraph;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.FlushModeType;
-import jakarta.persistence.LockModeType;
-import jakarta.persistence.Query;
-import jakarta.persistence.StoredProcedureQuery;
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaDelete;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.CriteriaUpdate;
-import jakarta.persistence.metamodel.Metamodel;
-
-import com.google.common.collect.Table.Cell;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -35,8 +17,6 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import br.com.jway.geraesooh.dao.PiDao;
-import br.com.jway.geraesooh.dao.PiPontoDao;
 import br.com.jway.geraesooh.model.BiSemana;
 import br.com.jway.geraesooh.model.Cidade;
 import br.com.jway.geraesooh.model.Pessoa;
@@ -44,10 +24,9 @@ import br.com.jway.geraesooh.model.Pi;
 import br.com.jway.geraesooh.model.PiPonto;
 import br.com.jway.geraesooh.model.Ponto;
 import br.com.jway.geraesooh.model.Uf;
-import br.com.jway.geraesooh.service.PiService;
-import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@Named
+@ApplicationScoped
 public class GeneratorPI {
 	
 	private Pi pi;

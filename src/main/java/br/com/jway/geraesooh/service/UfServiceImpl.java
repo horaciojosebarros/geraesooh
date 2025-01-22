@@ -5,10 +5,11 @@ import java.util.List;
 
 import br.com.jway.geraesooh.dao.UfDao;
 import br.com.jway.geraesooh.model.Uf;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@Named
+@ApplicationScoped
 public class UfServiceImpl implements UfService, Serializable {
 
 	private static final long serialVersionUID = 1L;

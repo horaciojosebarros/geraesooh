@@ -12,11 +12,9 @@ import jakarta.faces.convert.ConverterException;
 import br.com.jway.geraesooh.model.Pessoa;
 import br.com.jway.geraesooh.service.PessoaService;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@ManagedBean
 @RequestScoped
-@Named
 public class PessoaConverter implements Converter, Serializable{
 	
 	private static final long serialVersionUID = 1L;

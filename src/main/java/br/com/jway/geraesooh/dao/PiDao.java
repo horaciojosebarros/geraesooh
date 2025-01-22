@@ -12,9 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.jway.geraesooh.model.Pi;
 import br.com.jway.geraesooh.model.PiPonto;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@Named
+@ApplicationScoped
 public class PiDao implements Serializable {
 
 	private static final long serialVersionUID = 1L;

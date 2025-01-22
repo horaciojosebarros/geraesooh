@@ -1,30 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
-	version="2.2">
-	<application>
-		<!-- SPRING FACES EL RESOLVER OVERRIDES JSF DEFAULT FACES EL RESOLVER -->
-		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
-
-		<locale-config>
-			<default-locale>pt</default-locale>
-			<supported-locale>en</supported-locale>
-			<supported-locale>es</supported-locale>
-		</locale-config>
-
-		<resource-bundle>
-			<base-name>br.com.jway.i18n</base-name>
-			<var>i18n</var>
-		</resource-bundle>
-
-	</application>
-	
-	<factory>
-		<exception-handler-factory>
-			br.com.jway.util.CustomExceptionHandlerFactory
-		</exception-handler-factory>
-	</factory>
-	
-
+<faces-config xmlns="https://jakarta.ee/xml/ns/jakartaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee 
+                                 https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_4_0.xsd"
+	version="4.0">
 </faces-config>

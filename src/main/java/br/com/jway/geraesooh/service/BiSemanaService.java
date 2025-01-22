@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.jway.geraesooh.dao.BiSemanaDao;
 import br.com.jway.geraesooh.model.BiSemana;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@Named
+@ApplicationScoped
 public class BiSemanaService implements Serializable{
 
 	private static final long serialVersionUID = 1L;

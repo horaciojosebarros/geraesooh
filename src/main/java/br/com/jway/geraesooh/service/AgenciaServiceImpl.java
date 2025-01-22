@@ -8,10 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.jway.geraesooh.dao.AgenciaDao;
 import br.com.jway.geraesooh.model.Agencia;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 
-@Named
+@ApplicationScoped
 public class AgenciaServiceImpl  implements AgenciaService{
 
 	private static final long serialVersionUID = 1L;

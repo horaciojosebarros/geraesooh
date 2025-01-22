@@ -7,9 +7,9 @@ import jakarta.persistence.PersistenceContext;
 
 import br.com.jway.geraesooh.model.Cidade;
 import br.com.jway.geraesooh.model.Uf;
-import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@Named
+@ApplicationScoped
 public class CidadeDaoImpl implements CidadeDao {
 
 	@PersistenceContext

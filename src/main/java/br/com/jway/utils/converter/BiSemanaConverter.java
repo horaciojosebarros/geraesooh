@@ -11,11 +11,10 @@ import jakarta.faces.view.ViewScoped;
 import br.com.jway.geraesooh.model.BiSemana;
 import br.com.jway.geraesooh.service.BiSemanaService;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@ManagedBean
+
 @ViewScoped
-@Named
 public class BiSemanaConverter implements Converter, Serializable{
 	
 	private static final long serialVersionUID = 1L;

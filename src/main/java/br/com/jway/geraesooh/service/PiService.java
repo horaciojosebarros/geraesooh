@@ -12,9 +12,9 @@ import br.com.jway.geraesooh.dao.PiDao;
 import br.com.jway.geraesooh.model.Pi;
 import br.com.jway.util.GeneratorPI;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@Named
+@ApplicationScoped
 public class PiService implements Serializable{
 
 	private static final long serialVersionUID = 1L;

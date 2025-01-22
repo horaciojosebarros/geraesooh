@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.jway.geraesooh.dao.UsuarioDao;
 import br.com.jway.geraesooh.model.Usuario;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
 
-@Named
+@ApplicationScoped
 public class UsuarioServiceImpl implements UsuarioService, Serializable{
 
 	private static final long serialVersionUID = 1L;

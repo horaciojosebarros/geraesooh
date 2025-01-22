@@ -8,9 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.jway.geraesooh.dao.PontoDao;
 import br.com.jway.geraesooh.model.Ponto;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@Named
+@ApplicationScoped
 public class PontoServiceImpl implements PontoService{
 
 	private static final long serialVersionUID = 1L;

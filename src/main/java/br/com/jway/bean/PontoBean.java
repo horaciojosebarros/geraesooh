@@ -2,10 +2,10 @@ package br.com.jway.bean;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.primefaces.event.FileUploadEvent;
@@ -245,22 +245,27 @@ public class PontoBean extends SpringBeanAutowiringSupport implements Serializab
 
 		this.exibidores = exibidores;
 	}
+	
 
 	public StreamedContent getImagem() {
 		if (item != null && item.getImagem() != null) {
-			return new DefaultStreamedContent(new ByteArrayInputStream(item.getImagem()), "image/png");
+			return DefaultStreamedContent.builder()
+			        .stream(() -> new ByteArrayInputStream(item.getImagem())) // Fornece o InputStream corretamente
+			        .contentType("image/png") // Tipo do conteúdo
+			        .name(item.getCodigo()) // Nome correto para a imagem
+			        .build();
 		} else {
 			return new DefaultStreamedContent();
 		}
 	}
 
 	public void handleFileUpload(FileUploadEvent event) {
-		try {
-			byte[] foto = IOUtils.toByteArray(event.getFile().getInputstream());
+		/*try {
+			byte[] foto = IOUtils.toByteArray(event.getFile().getInputStream());
 			this.item.setImagem(foto);
 		} catch (IOException ex) {
 			System.out.println("Erro em evento de upload");
-		}
+		}*/
 	}
 
 }

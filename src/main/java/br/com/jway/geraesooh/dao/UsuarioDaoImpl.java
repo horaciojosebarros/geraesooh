@@ -9,20 +9,16 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import com.uaihebert.uaicriteria.UaiCriteria;
-
 import br.com.jway.geraesooh.model.Usuario;
-import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@Named
+@ApplicationScoped
 public class UsuarioDaoImpl implements UsuarioDao {
 
 	private static final long serialVersionUID = 1L;
 
 	@PersistenceContext
 	protected EntityManager em;
-
-	UaiCriteria<Usuario> uaiCriteria;
 
 	@Override
 	public List<Usuario> list() {

@@ -9,13 +9,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import com.uaihebert.uaicriteria.UaiCriteria;
-
 import br.com.jway.geraesooh.model.Agencia;
-import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
 
-@Named
+@ApplicationScoped
 public class AgenciaDaoImpl implements AgenciaDao {
 
 	private static final long serialVersionUID = 1L;
@@ -23,7 +21,6 @@ public class AgenciaDaoImpl implements AgenciaDao {
 	@PersistenceContext
 	protected EntityManager em;
 
-	UaiCriteria<Agencia> uaiCriteria;
 
 	@Override
 	public List<Agencia> list() {

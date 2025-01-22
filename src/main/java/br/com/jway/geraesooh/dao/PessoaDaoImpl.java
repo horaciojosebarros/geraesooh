@@ -8,20 +8,16 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.uaihebert.uaicriteria.UaiCriteria;
-
 import br.com.jway.geraesooh.model.Pessoa;
-import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@Named
+@ApplicationScoped
 public class PessoaDaoImpl implements PessoaDao {
 
 	private static final long serialVersionUID = 1L;
 
 	@PersistenceContext
 	protected EntityManager em;
-
-	UaiCriteria<Pessoa> uaiCriteria;
 
 	@Override
 	public List<Pessoa> list() {

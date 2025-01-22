@@ -4,14 +4,13 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.apache.commons.lang3.LocaleUtils;
-
 import jakarta.faces.application.Application;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -118,8 +117,8 @@ public class FacesUtils {
     }
 
     public static void updateUserLocale(String locale) {
-        Locale resolvedLocale = LocaleUtils.toLocale(locale);
-        setUserLocale(resolvedLocale);
+       /* Locale resolvedLocale = LocaleUtils.toLocale(locale);
+        setUserLocale(resolvedLocale);*/
     }
 
     public static void setUserLocale(Locale locale) {
@@ -162,7 +161,7 @@ public class FacesUtils {
     }
 
     private static String resolveManagedBeanName(Class<?> beanClass) {
-        // Tenta buscar a anotação @Named
+        // Tenta buscar a anotação @ApplicationScoped
         Named named = beanClass.getAnnotation(Named.class);
 
         if (named != null) {

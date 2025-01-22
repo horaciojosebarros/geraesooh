@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.jway.geraesooh.dao.PessoaDao;
 import br.com.jway.geraesooh.model.Pessoa;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 
-@Named
+@ApplicationScoped
 public class PessoaServiceImpl implements PessoaService, Serializable{
 
 	private static final long serialVersionUID = 1L;

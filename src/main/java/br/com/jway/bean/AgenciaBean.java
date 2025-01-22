@@ -14,13 +14,14 @@ import br.com.jway.geraesooh.service.AgenciaService;
 import br.com.jway.geraesooh.service.CidadeService;
 import br.com.jway.geraesooh.service.UfService;
 import br.com.jway.util.FacesUtils;
-import jakarta.annotation.ManagedBean;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@ManagedBean
+
+@ApplicationScoped
 @ViewScoped
 public class AgenciaBean extends SpringBeanAutowiringSupport implements Serializable {
 

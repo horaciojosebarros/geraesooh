@@ -3,11 +3,13 @@ package br.com.jway.multitenancy;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.FacesContext;
 
+import java.io.Serializable;
+
 import br.com.jway.geraesooh.model.Tenant;
 
 
 @SessionScoped
-public class TenantHolder {
+public class TenantHolder implements Serializable {
 
 	public static Tenant getCurrentTenant() {
 		final FacesContext context = FacesContext.getCurrentInstance();

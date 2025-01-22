@@ -11,11 +11,10 @@ import jakarta.faces.view.ViewScoped;
 import br.com.jway.geraesooh.model.Cidade;
 import br.com.jway.geraesooh.service.CidadeService;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@ManagedBean
+
 @ViewScoped
-@Named
 public class CidadeConverter implements Converter, Serializable{
 	
 	private static final long serialVersionUID = 1L;
