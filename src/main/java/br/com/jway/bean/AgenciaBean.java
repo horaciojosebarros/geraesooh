@@ -18,12 +18,12 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.enterprise.context.ApplicationScoped;
 
-
-@ApplicationScoped
+@Named
 @ViewScoped
-public class AgenciaBean extends SpringBeanAutowiringSupport implements Serializable {
+public class AgenciaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

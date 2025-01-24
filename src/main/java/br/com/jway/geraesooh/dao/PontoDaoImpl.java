@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.jway.geraesooh.model.Ponto;
+import br.com.jway.util.JPAUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
@@ -17,7 +18,7 @@ public class PontoDaoImpl implements PontoDao {
 	private static final long serialVersionUID = 1L;
 
 	@PersistenceContext
-	protected EntityManager em;
+	protected EntityManager em = JPAUtil.getEntityManager();
 
 	@Override
 	public List<Ponto> list() {

@@ -1,53 +1,90 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:pe="http://primefaces.org/ui/extensions"
-	xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
-	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-	<script type="text/javascript" src="js/jquery.maskMoney.js"></script>
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery.maskMoney.js"></script>
 
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-	<title>Geraes OOH</title>
-	<h:outputStylesheet library="css" name="index.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <title>Geraes OOH</title>
+    <h:outputStylesheet library="css" name="index.css" />
 
+    <!-- Estilos adicionais para o layout -->
+    <style>
+        /* Configurações gerais */
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #geral {
+            flex: 1; /* Faz o conteúdo principal ocupar o espaço restante */
+            display: flex;
+            flex-direction: column;
+        }
+
+        #headerHeaderMaster {
+            background-color: #009a00;
+            color: white;
+            text-align: center;
+        }
+
+        #content {
+            flex: 1; /* Faz o conteúdo expandir para ocupar o espaço restante */
+            width: 1100px;
+            position: relative;
+            left: 10%;
+        }
+
+        #footer {
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 10px 0;
+            border-top: 1px solid #ccc;
+        }
+    </style>
 </h:head>
 
 <h:body>
-	<div id="geral">
-		<div id="headerHeaderMaster"
-			style="background-color: #009a00; color: white; text-align: center;">
-			<ui:insert name="headerHeaderMaster">
-				<ui:include src="headerMaster.xhtml" />
-			</ui:insert>
-		</div>
-		<div id="header">
-			<ui:insert name="header">
-				<ui:include src="header.xhtml" />
-			</ui:insert>
-		</div>
+    <div id="geral">
+        <!-- Cabeçalho Mestre -->
+        <div id="headerHeaderMaster">
+            <ui:insert name="headerHeaderMaster">
+                <ui:include src="headerMaster.xhtml" />
+            </ui:insert>
+        </div>
 
-		<div id="content"
-			style="width: 1100px; position: relative; left: 10%;">
-			<ui:insert name="content">
-				<ui:include src="content.xhtml" />
-			</ui:insert>
-		</div>
+        <!-- Cabeçalho -->
+        <div id="header">
+            <ui:insert name="header">
+                <ui:include src="header.xhtml" />
+            </ui:insert>
+        </div>
 
-		<div id="footer">
-			<ui:insert name="footer">
-				<ui:include src="footer.xhtml" />
-			</ui:insert>
-		</div>
+        <!-- Conteúdo Principal -->
+        <div id="content">
+            <ui:insert name="content">
+                <ui:include src="content.xhtml" />
+            </ui:insert>
+        </div>
 
-	</div>
-
+        <!-- Rodapé -->
+        <div id="footer">
+            <ui:insert name="footer">
+                <ui:include src="footer.xhtml" />
+            </ui:insert>
+        </div>
+    </div>
 </h:body>
 
 </html>

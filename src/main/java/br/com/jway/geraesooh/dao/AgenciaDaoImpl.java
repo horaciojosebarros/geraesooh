@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import br.com.jway.geraesooh.model.Agencia;
+import br.com.jway.util.JPAUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 
 
@@ -19,7 +20,7 @@ public class AgenciaDaoImpl implements AgenciaDao {
 	private static final long serialVersionUID = 1L;
 
 	@PersistenceContext
-	protected EntityManager em;
+	protected EntityManager em = JPAUtil.getEntityManager();
 
 
 	@Override

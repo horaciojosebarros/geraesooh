@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bootsfaces xmlns="http://www.bootsfaces.net/configuration">
+    <defaults>
+        <!-- Define o tema padrão do BootsFaces -->
+        <theme>default</theme>
+    </defaults>
+</bootsfaces>

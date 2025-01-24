@@ -12,12 +12,12 @@
 		<servlet-name>FacesServlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>FacesServlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
 
-	<!-- Welcome File -->
-	<welcome-file-list>
-		<welcome-file>login.xhtml</welcome-file>
-	</welcome-file-list>
-
+	
 	<listener>
 		<listener-class>com.sun.faces.config.ConfigureListener
 		</listener-class>
@@ -51,5 +51,23 @@
 		<listener-class>org.jboss.weld.environment.servlet.Listener
 		</listener-class>
 	</listener>
+
+	<!-- WELCOME FILES -->
+	<welcome-file-list>
+		<welcome-file>login.xhtml</welcome-file>
+		<welcome-file>private/index.xhtml</welcome-file>
+
+	</welcome-file-list>
+
+	<!-- JSF FACES SERVLET -->
+
+	
+
+
+
+	
+
+	
+
 
 </web-app>

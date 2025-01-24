@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.jway.geraesooh.model.BiSemana;
+import br.com.jway.util.JPAUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
@@ -18,7 +19,7 @@ public class BiSemanaDao implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@PersistenceContext
-	protected EntityManager em;
+	protected EntityManager em = JPAUtil.getEntityManager();
 
 	public List<BiSemana> list() {
 		final StringBuilder jpql = new StringBuilder().append("SELECT x ")

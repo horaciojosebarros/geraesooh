@@ -7,13 +7,14 @@ import jakarta.persistence.PersistenceContext;
 
 import br.com.jway.geraesooh.model.Cidade;
 import br.com.jway.geraesooh.model.Uf;
+import br.com.jway.util.JPAUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class CidadeDaoImpl implements CidadeDao {
 
 	@PersistenceContext
-	protected EntityManager em;
+	protected EntityManager em = JPAUtil.getEntityManager();
 
 	@Override
 	public List<Cidade> list() {

@@ -20,10 +20,11 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class AnuncianteBean extends SpringBeanAutowiringSupport implements Serializable {
+public class AnuncianteBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

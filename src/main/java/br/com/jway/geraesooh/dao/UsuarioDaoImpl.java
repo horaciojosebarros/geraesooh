@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import br.com.jway.geraesooh.model.Usuario;
+import br.com.jway.util.JPAUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
@@ -17,8 +18,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
 	private static final long serialVersionUID = 1L;
 
-	@PersistenceContext
-	protected EntityManager em;
+	
+	EntityManager em = JPAUtil.getEntityManager();
 
 	@Override
 	public List<Usuario> list() {
@@ -74,7 +75,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		try {
 			return em.createQuery(jpql.toString(), Usuario.class)
 					.getSingleResult();
+			
 		} catch (final Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

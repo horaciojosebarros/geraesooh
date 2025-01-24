@@ -12,17 +12,17 @@
 </h:head>
 <h:body
 	style=" background-image:url(#{request.contextPath}/resources/images/geraes_site.jpg);">
-		<h:form id="formLogin2">
-		<h:panelGroup style="width: 400px; position: absolute; left: 35%; bottom:40%;" >
-			<h:messages id="exceptionMessage" showDetail="true" autoUpdate="true"
-				closable="true" />
+	<h:form id="formLogin2">
+		<h:panelGroup
+			style="width: 400px; position: absolute; left: 35%; bottom:40%;">
+
+
 			<h:outputText value="#{loginBean.msg}" />
-			<h:panelGrid id="panelLogin" columns="2"
-				bgcolor="white">
+			<h:panelGrid id="panelLogin" columns="2" bgcolor="white">
 				<f:facet name="header">
 					<p:panelGrid columns="1">
 						<h:outputLabel value="Geraes OOH - Sistema de Gestão " />
-						
+
 					</p:panelGrid>
 				</f:facet>
 				<h:outputLabel value="Login:" for="usuarioLogadoLogin" />
@@ -36,8 +36,10 @@
 						id="botaoLogin" ajax="false" />
 				</f:facet>
 			</h:panelGrid>
-			</h:panelGroup>
-		</h:form>
+			<h:messages id="exceptionMessage" showDetail="true" autoUpdate="true"
+				closable="true" style="color: white; font-weight: bold;" />
+		</h:panelGroup>
+	</h:form>
 </h:body>
 
 

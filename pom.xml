@@ -64,6 +64,13 @@
 			<version>8.0.0.Final</version>
 		</dependency>
 
+		<!-- Hibernate Core (implementação do JPA) -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>6.2.7.Final</version>
+		</dependency>
+
 
 		<!-- CDI API -->
 		<dependency>
@@ -131,12 +138,13 @@
 			<artifactId>jakarta.transaction-api</artifactId>
 			<version>2.0.1</version>
 		</dependency>
-
+		
+	
 
 	</dependencies>
 
 	<build>
-		
+
 		<plugins>
 			<!-- Maven Compiler Plugin -->
 			<plugin>

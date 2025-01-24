@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.jway.geraesooh.model.Pessoa;
+import br.com.jway.util.JPAUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
@@ -17,7 +18,7 @@ public class PessoaDaoImpl implements PessoaDao {
 	private static final long serialVersionUID = 1L;
 
 	@PersistenceContext
-	protected EntityManager em;
+	protected EntityManager em = JPAUtil.getEntityManager();
 
 	@Override
 	public List<Pessoa> list() {

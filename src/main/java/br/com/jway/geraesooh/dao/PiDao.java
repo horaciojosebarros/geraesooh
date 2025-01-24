@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.jway.geraesooh.model.Pi;
 import br.com.jway.geraesooh.model.PiPonto;
+import br.com.jway.util.JPAUtil;
 import jakarta.inject.Inject;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -20,7 +21,7 @@ public class PiDao implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@PersistenceContext
-	protected EntityManager em;
+	protected EntityManager em = JPAUtil.getEntityManager();
 	
 	@Inject
 	PiPontoDao piPontoDao;

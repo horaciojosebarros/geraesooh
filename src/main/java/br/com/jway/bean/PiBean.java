@@ -35,11 +35,12 @@ import jakarta.annotation.ManagedBean;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.servlet.ServletContext;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class PiBean extends SpringBeanAutowiringSupport implements Serializable {
+public class PiBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

@@ -27,10 +27,11 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
-@ManagedBean
+@Named
 @SessionScoped
-public class PontoBean extends SpringBeanAutowiringSupport implements Serializable {
+public class PontoBean  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

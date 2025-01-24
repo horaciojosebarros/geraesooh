@@ -1,33 +1,31 @@
 package br.com.jway.bean;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import jakarta.annotation.ManagedBean;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import br.com.jway.geraesooh.model.Usuario;
 import br.com.jway.geraesooh.service.UsuarioService;
 import jakarta.inject.Inject;
-import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
 
-
-@ApplicationScoped
-public class LoginBean extends SpringBeanAutowiringSupport implements Serializable {
+@Named("loginBean")
+@SessionScoped
+public class LoginBean implements Serializable {
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID1 = 1L;
 	protected static final Log log = LogFactory.getLog(LoginBean.class);
 
 	@Inject
@@ -43,7 +41,7 @@ public class LoginBean extends SpringBeanAutowiringSupport implements Serializab
 
 
 	public static long getSerialversionuid() {
-		return serialVersionUID;
+		return serialVersionUID1;
 	}
 
 	public void setUsuarioLogado(Usuario usuarioLogado) {
@@ -73,7 +71,12 @@ public class LoginBean extends SpringBeanAutowiringSupport implements Serializab
 				return "/private/index";
 			}
 			
-			return "/public/login.faces";
+			// Add error message to FacesContext
+		    FacesContext.getCurrentInstance().addMessage(null, 
+		        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login Incorreto:", "Credenciais inválidas!"));
+
+			
+			return "/login.faces";
 
 	}
 

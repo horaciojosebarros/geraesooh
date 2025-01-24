@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import br.com.jway.geraesooh.model.Usuario;
 import br.com.jway.geraesooh.service.UsuarioService;
@@ -14,10 +13,12 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
-@ManagedBean
+@Named
+
 @ViewScoped
-public  class UsuarioBean extends SpringBeanAutowiringSupport implements Serializable {
+public  class UsuarioBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
