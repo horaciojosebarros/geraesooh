@@ -22,7 +22,7 @@
 
 						<h:panelGroup layout='block' style='margin: 0 0 0.5em 0;'>
 							<p:commandButton id="buttonNew" value="#{i18n['button.new']}"
-								action="#{piBean.clearItem}" icon="ui-icon-plus" update="@form"
+								action="#{piBean.clearItem}" icon="pi pi-plus" update="@form"
 								resetValues="true">
 								<f:setPropertyActionListener target="#{piBean.state}"
 									value="CREATE" />
@@ -65,7 +65,7 @@
 
 							<p:column headerText="#{i18n['operations']}" width='30'
 								style='text-align: center;'>
-								<p:commandButton id='buttonOperationEdit' icon='ui-icon-pencil'
+								<p:commandButton id='buttonOperationEdit' icon='pi pi-pencil'
 									process='@this' update='@form' resetValues='true'
 									immediate='true'>
 									<f:setPropertyActionListener target='#{piBean.item}'
@@ -73,13 +73,13 @@
 									<f:setPropertyActionListener target='#{piBean.state}'
 										value='UPDATE' />
 								</p:commandButton>
-								<p:commandButton id='buttonOperationPdf' icon='ui-icon-document'
+								<p:commandButton id='buttonOperationPdf' icon='pi pi-file'
 									process='@this' update='@form' resetValues='true'
 									immediate='true' action='#{piBean.pdf}'>
 									<f:setPropertyActionListener target='#{piBean.item}'
 										value='#{itemView}' />
 								</p:commandButton>
-								<p:commandButton id='buttonOperationRemove' icon='ui-icon-trash'
+								<p:commandButton id='buttonOperationRemove' icon='pi pi-trash'
 									process='@this' update='@form' immediate='true'>
 									<f:setPropertyActionListener target='#{piBean.item}'
 										value='#{itemView}' />
@@ -335,7 +335,7 @@
 
 								<f:facet name='footer'>
 									<p:commandButton value="#{i18n['button.cancel']}"
-										icon='ui-icon-close' process='@this' update='@form'
+										icon='pi pi-times' process='@this' update='@form'
 										immediate='true' styleClass='buttonCancel'
 										style='float: left;'>
 										<f:setPropertyActionListener target='#{piBean.state}'
@@ -343,14 +343,14 @@
 									</p:commandButton>
 									<p:commandButton id='buttonCreate'
 										value="#{i18n['button.save']}" action='#{piBean.create}'
-										icon='ui-icon-check' rendered="#{piBean.state eq 'CREATE'}"
+										icon='pi pi-save' rendered="#{piBean.state eq 'CREATE'}"
 										process='@form' update='@form' style='float: right;'>
 										<f:setPropertyActionListener target='#{piBean.state}'
 											value='READ' />
 									</p:commandButton>
 									<p:commandButton id='buttonUpdate'
 										value="#{i18n['button.edit']}" action='#{piBean.update}'
-										icon='ui-icon-check' rendered="#{piBean.state eq 'UPDATE'}"
+										icon='pi pi-save' rendered="#{piBean.state eq 'UPDATE'}"
 										process='@form' update='@form' style='float: right;'>
 										<f:setPropertyActionListener target='#{piBean.state}'
 											value='READ' />
@@ -384,7 +384,7 @@
 								</div>
 								<f:facet name='footer'>
 									<p:commandButton value="#{i18n['button.cancel']}"
-										icon='ui-icon-close' process='@this' update='@form'
+										icon='pi pi-times' process='@this' update='@form'
 										immediate='true' styleClass='buttonCancel'
 										style='float: left;'>
 										<f:setPropertyActionListener target="#{piBean.state}"
@@ -392,7 +392,7 @@
 									</p:commandButton>
 									<p:commandButton id='buttonRemove'
 										value="#{i18n['button.remove']}" action='#{piBean.delete}'
-										icon='ui-icon-trash' process='@this' update='@form'
+										icon='pi pi-trash' process='@this' update='@form'
 										style='float: right;'>
 										<f:setPropertyActionListener target="#{piBean.state}"
 											value='READ' />

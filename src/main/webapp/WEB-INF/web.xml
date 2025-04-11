@@ -17,7 +17,7 @@
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
 
-	
+
 	<listener>
 		<listener-class>com.sun.faces.config.ConfigureListener
 		</listener-class>
@@ -61,13 +61,18 @@
 
 	<!-- JSF FACES SERVLET -->
 
-	
+	<context-param>
+		<param-name>primefaces.THEME</param-name>
+		<param-value>bootstrap</param-value> 
+	</context-param>
 
 
 
-	
 
-	
+
+
+
+
 
 
 </web-app>

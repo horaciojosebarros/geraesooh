@@ -6,20 +6,22 @@ import java.util.List;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.jway.geraesooh.model.Pi;
 import br.com.jway.geraesooh.model.PiPonto;
+import br.com.jway.util.JPAUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
+@Component
 public class PiPontoDao implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@PersistenceContext
-	protected EntityManager em;
+	EntityManager em = JPAUtil.getEntityManager();
 
 	public List<PiPonto> list() {
 		final StringBuilder jpql = new StringBuilder().append("SELECT x ")

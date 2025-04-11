@@ -122,7 +122,7 @@ xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
 			
 			<h:panelGroup layout='block' style='margin: 0 0 0.5em 0;'>
 				<p:commandButton id="buttonNew" value="#{i18n['button.new']}"
-					 action="#{pessoaBean.clearItem}" icon="ui-icon-plus"
+					 action="#{pessoaBean.clearItem}" icon="pi pi-plus"
 					 update="@form" resetValues="true">
 					<f:setPropertyActionListener target="#{pessoaBean.state}"
 						 value="CREATE" />
@@ -205,7 +205,7 @@ xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
 				<p:column headerText="#{i18n['operations']}" width='70'
 						style='text-align: center;'>
 						<p:commandButton id='buttonOperationEdit'
-							icon='ui-icon-pencil' process='@this' update='@form'
+							icon='pi pi-pencil' process='@this' update='@form'
 							resetValues='true' immediate='true'>
 							<f:setPropertyActionListener target='#{pessoaBean.item}'
 							value='#{itemView}' />
@@ -213,7 +213,7 @@ xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
 							value='UPDATE' />
 						</p:commandButton>
 						<p:commandButton id='buttonOperationRemove'
-							icon='ui-icon-trash' process='@this' update='@form'
+							icon='pi pi-trash' process='@this' update='@form'
 							immediate='true'>
 							<f:setPropertyActionListener target='#{pessoaBean.item}'
 							value='#{itemView}' />
@@ -351,7 +351,7 @@ xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
 		</div>
 		<f:facet name='footer'>
 			<p:commandButton value="#{i18n['button.cancel']}"
-				icon='ui-icon-close' process='@this' update='@form'
+				icon='pi pi-times' process='@this' update='@form'
 				immediate='true' styleClass='buttonCancel'
 				style='float: left;'>
 				<f:setPropertyActionListener target='#{pessoaBean.state}'
@@ -359,7 +359,7 @@ xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
 			</p:commandButton>
 			<p:commandButton id='buttonCreate'
 				value="#{i18n['button.save']}" action='#{pessoaBean.create}'
-				icon='ui-icon-check'
+				icon='pi pi-save'
 				rendered="#{pessoaBean.state eq 'CREATE'}" process='@form'
 				update='@form' style='float: right;'>
 				<f:setPropertyActionListener target='#{pessoaBean.state}'
@@ -367,7 +367,7 @@ xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
 			</p:commandButton>
 			<p:commandButton id='buttonUpdate'
 				value="#{i18n['button.edit']}" action='#{pessoaBean.update}'
-				icon='ui-icon-check'
+				icon='pi pi-save'
 				rendered="#{pessoaBean.state eq 'UPDATE'}" process='@form'
 				update='@form' style='float: right;'>
 				<f:setPropertyActionListener target='#{pessoaBean.state}'
@@ -399,13 +399,13 @@ xmlns:fn='http://java.sun.com/jsp/jstl/functions'>
 	</div>
 	</div>
 	<f:facet name='footer'>	<p:commandButton value="#{i18n['button.cancel']}"
-		icon='ui-icon-close' process='@this' update='@form'		immediate='true' styleClass='buttonCancel'
+		icon='pi pi-times' process='@this' update='@form'		immediate='true' styleClass='buttonCancel'
 		style='float: left;'>
 		<f:setPropertyActionListener target="#{pessoaBean.state}"
 			value='READ' />
 	</p:commandButton>	<p:commandButton id='buttonRemove'
 		value="#{i18n['button.remove']}"
-		action='#{pessoaBean.delete}' icon='ui-icon-trash'
+		action='#{pessoaBean.delete}' icon='pi pi-trash'
 		process='@this' update='@form' style='float: right;'>
 		<f:setPropertyActionListener target="#{pessoaBean.state}"			value='READ' />
 	</p:commandButton>	<div style='clear: both;'>

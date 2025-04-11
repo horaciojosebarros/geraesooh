@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
+import org.primefaces.util.IOUtils;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import br.com.jway.geraesooh.model.Cidade;
@@ -261,12 +262,12 @@ public class PontoBean  implements Serializable {
 	}
 
 	public void handleFileUpload(FileUploadEvent event) {
-		/*try {
+		try {
 			byte[] foto = IOUtils.toByteArray(event.getFile().getInputStream());
 			this.item.setImagem(foto);
 		} catch (IOException ex) {
 			System.out.println("Erro em evento de upload");
-		}*/
+		}
 	}
 
 }

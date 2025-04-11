@@ -22,7 +22,7 @@
 
 						<h:panelGroup layout='block' style='margin: 0 0 0.5em 0;'>
 							<p:commandButton id="buttonNew" value="#{i18n['button.new']}"
-								action="#{biSemanaBean.clearItem}" icon="ui-icon-plus"
+								action="#{biSemanaBean.clearItem}" icon="pi pi-plus"
 								update="@form" resetValues="true">
 								<f:setPropertyActionListener target="#{biSemanaBean.state}"
 									value="CREATE" />
@@ -55,7 +55,7 @@
 
 							<p:column headerText="#{i18n['operations']}" width='15'
 								style='text-align: center;'>
-								<p:commandButton id='buttonOperationEdit' icon='ui-icon-pencil'
+								<p:commandButton id='buttonOperationEdit' icon='pi pi-pencil'
 									process='@this' update='@form' resetValues='true'
 									immediate='true'>
 									<f:setPropertyActionListener target='#{biSemanaBean.item}'
@@ -63,7 +63,7 @@
 									<f:setPropertyActionListener target='#{biSemanaBean.state}'
 										value='UPDATE' />
 								</p:commandButton>
-								<p:commandButton id='buttonOperationRemove' icon='ui-icon-trash'
+								<p:commandButton id='buttonOperationRemove' icon='pi pi-trash'
 									process='@this' update='@form' immediate='true'>
 									<f:setPropertyActionListener target='#{biSemanaBean.item}'
 										value='#{itemView}' />
@@ -128,7 +128,7 @@
 
 								<f:facet name='footer'>
 									<p:commandButton value="#{i18n['button.cancel']}"
-										icon='ui-icon-close' process='@this' update='@form'
+										icon='pi pi-times' process='@this' update='@form'
 										immediate='true' styleClass='buttonCancel'
 										style='float: left;'>
 										<f:setPropertyActionListener target='#{biSemanaBean.state}'
@@ -136,7 +136,7 @@
 									</p:commandButton>
 									<p:commandButton id='buttonCreate'
 										value="#{i18n['button.save']}" action='#{biSemanaBean.create}'
-										icon='ui-icon-check'
+										icon='pi pi-save'
 										rendered="#{biSemanaBean.state eq 'CREATE'}" process='@form'
 										update='@form' style='float: right;'>
 										<f:setPropertyActionListener target='#{biSemanaBean.state}'
@@ -144,7 +144,7 @@
 									</p:commandButton>
 									<p:commandButton id='buttonUpdate'
 										value="#{i18n['button.edit']}" action='#{biSemanaBean.update}'
-										icon='ui-icon-check'
+										icon='pi pi-save'
 										rendered="#{biSemanaBean.state eq 'UPDATE'}" process='@form'
 										update='@form' style='float: right;'>
 										<f:setPropertyActionListener target='#{biSemanaBean.state}'
@@ -179,7 +179,7 @@
 								</div>
 								<f:facet name='footer'>
 									<p:commandButton value="#{i18n['button.cancel']}"
-										icon='ui-icon-close' process='@this' update='@form'
+										icon='pi pi-times' process='@this' update='@form'
 										immediate='true' styleClass='buttonCancel'
 										style='float: left;'>
 										<f:setPropertyActionListener target="#{biSemanaBean.state}"
@@ -187,7 +187,7 @@
 									</p:commandButton>
 									<p:commandButton id='buttonRemove'
 										value="#{i18n['button.remove']}"
-										action='#{biSemanaBean.delete}' icon='ui-icon-trash'
+										action='#{biSemanaBean.delete}' icon='pi pi-trash'
 										process='@this' update='@form' style='float: right;'>
 										<f:setPropertyActionListener target="#{biSemanaBean.state}"
 											value='READ' />
