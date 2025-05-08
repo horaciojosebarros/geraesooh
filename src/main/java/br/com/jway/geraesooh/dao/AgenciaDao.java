@@ -1,11 +1,10 @@
 package br.com.jway.geraesooh.dao;
 
-import java.io.Serializable;
 import java.util.List;
 
 import br.com.jway.geraesooh.model.Agencia;
 
-public interface AgenciaDao  extends Serializable{
+public interface AgenciaDao{
 	
 	List<Agencia> list();
 

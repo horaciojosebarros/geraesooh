@@ -3,8 +3,6 @@ package br.com.jway.geraesooh.service;
 import java.io.Serializable;
 import java.util.List;
 
-
-
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -3,8 +3,9 @@ package br.com.jway.geraesooh.dao;
 import java.util.*;
 
 import br.com.jway.geraesooh.model.Usuario;
+import jakarta.enterprise.context.ApplicationScoped;
 
-
+@ApplicationScoped
 public interface UsuarioDao  {
 
 	List<Usuario> list();
